@@ -6,8 +6,15 @@ app = express.createServer()
 
 # configuration
 app.configure ->
+  stylus = require 'stylus'
+
+  app.use stylus.middleware
+    src: env.paths.public
+    dest: env.paths.public
+    compress: true
   app.use express.static(env.paths.public)
   app.use express.logger()
+
   app.set 'view engine', 'jade'
 
 # routes
