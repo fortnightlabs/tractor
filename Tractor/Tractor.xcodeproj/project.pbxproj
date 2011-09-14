@@ -1,0 +1,470 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F2A0B49C14207CA000F07F32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A0B49B14207CA000F07F32 /* Cocoa.framework */; };
+		F2A0B4A614207CA000F07F32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4A414207CA000F07F32 /* InfoPlist.strings */; };
+		F2A0B4A814207CA000F07F32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0B4A714207CA000F07F32 /* main.m */; };
+		F2A0B4AC14207CA000F07F32 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4AA14207CA000F07F32 /* Credits.rtf */; };
+		F2A0B4AF14207CA000F07F32 /* TractorAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0B4AE14207CA000F07F32 /* TractorAppDelegate.m */; };
+		F2A0B4B214207CA000F07F32 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4B014207CA000F07F32 /* MainMenu.xib */; };
+		F2A0B4B514207CA000F07F32 /* Tractor.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F2A0B4B314207CA000F07F32 /* Tractor.xcdatamodeld */; };
+		F2A0B4BD14207CA000F07F32 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A0B4BC14207CA000F07F32 /* SenTestingKit.framework */; };
+		F2A0B4BE14207CA000F07F32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A0B49B14207CA000F07F32 /* Cocoa.framework */; };
+		F2A0B4C614207CA000F07F32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4C414207CA000F07F32 /* InfoPlist.strings */; };
+		F2A0B4C814207CA000F07F32 /* TractorTests.h in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4C714207CA000F07F32 /* TractorTests.h */; };
+		F2A0B4CA14207CA000F07F32 /* TractorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0B4C914207CA000F07F32 /* TractorTests.m */; };
+		F2A0B4D41420845200F07F32 /* tractor.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4D31420845200F07F32 /* tractor.tiff */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		F2A0B4BF14207CA000F07F32 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2A0B48E14207CA000F07F32 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2A0B49614207CA000F07F32;
+			remoteInfo = Tractor;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		F2A0B49714207CA000F07F32 /* Tractor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tractor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2A0B49B14207CA000F07F32 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		F2A0B49E14207CA000F07F32 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		F2A0B49F14207CA000F07F32 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		F2A0B4A014207CA000F07F32 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		F2A0B4A314207CA000F07F32 /* Tractor-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tractor-Info.plist"; sourceTree = "<group>"; };
+		F2A0B4A514207CA000F07F32 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F2A0B4A714207CA000F07F32 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F2A0B4A914207CA000F07F32 /* Tractor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tractor-Prefix.pch"; sourceTree = "<group>"; };
+		F2A0B4AB14207CA000F07F32 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		F2A0B4AD14207CA000F07F32 /* TractorAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TractorAppDelegate.h; sourceTree = "<group>"; };
+		F2A0B4AE14207CA000F07F32 /* TractorAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TractorAppDelegate.m; sourceTree = "<group>"; };
+		F2A0B4B114207CA000F07F32 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		F2A0B4B414207CA000F07F32 /* Tractor.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tractor.xcdatamodel; sourceTree = "<group>"; };
+		F2A0B4BB14207CA000F07F32 /* TractorTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TractorTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2A0B4BC14207CA000F07F32 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		F2A0B4C314207CA000F07F32 /* TractorTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TractorTests-Info.plist"; sourceTree = "<group>"; };
+		F2A0B4C514207CA000F07F32 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F2A0B4C714207CA000F07F32 /* TractorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TractorTests.h; sourceTree = "<group>"; };
+		F2A0B4C914207CA000F07F32 /* TractorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TractorTests.m; sourceTree = "<group>"; };
+		F2A0B4D31420845200F07F32 /* tractor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = tractor.tiff; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F2A0B49414207CA000F07F32 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2A0B49C14207CA000F07F32 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2A0B4B714207CA000F07F32 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2A0B4BD14207CA000F07F32 /* SenTestingKit.framework in Frameworks */,
+				F2A0B4BE14207CA000F07F32 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F2A0B48C14207CA000F07F32 = {
+			isa = PBXGroup;
+			children = (
+				F2A0B4A114207CA000F07F32 /* Tractor */,
+				F2A0B4C114207CA000F07F32 /* TractorTests */,
+				F2A0B49A14207CA000F07F32 /* Frameworks */,
+				F2A0B49814207CA000F07F32 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F2A0B49814207CA000F07F32 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F2A0B49714207CA000F07F32 /* Tractor.app */,
+				F2A0B4BB14207CA000F07F32 /* TractorTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F2A0B49A14207CA000F07F32 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F2A0B49B14207CA000F07F32 /* Cocoa.framework */,
+				F2A0B4BC14207CA000F07F32 /* SenTestingKit.framework */,
+				F2A0B49D14207CA000F07F32 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F2A0B49D14207CA000F07F32 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F2A0B49E14207CA000F07F32 /* AppKit.framework */,
+				F2A0B49F14207CA000F07F32 /* CoreData.framework */,
+				F2A0B4A014207CA000F07F32 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		F2A0B4A114207CA000F07F32 /* Tractor */ = {
+			isa = PBXGroup;
+			children = (
+				F2A0B4AD14207CA000F07F32 /* TractorAppDelegate.h */,
+				F2A0B4AE14207CA000F07F32 /* TractorAppDelegate.m */,
+				F2A0B4D31420845200F07F32 /* tractor.tiff */,
+				F2A0B4B014207CA000F07F32 /* MainMenu.xib */,
+				F2A0B4B314207CA000F07F32 /* Tractor.xcdatamodeld */,
+				F2A0B4A214207CA000F07F32 /* Supporting Files */,
+			);
+			path = Tractor;
+			sourceTree = "<group>";
+		};
+		F2A0B4A214207CA000F07F32 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F2A0B4A314207CA000F07F32 /* Tractor-Info.plist */,
+				F2A0B4A414207CA000F07F32 /* InfoPlist.strings */,
+				F2A0B4A714207CA000F07F32 /* main.m */,
+				F2A0B4A914207CA000F07F32 /* Tractor-Prefix.pch */,
+				F2A0B4AA14207CA000F07F32 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F2A0B4C114207CA000F07F32 /* TractorTests */ = {
+			isa = PBXGroup;
+			children = (
+				F2A0B4C714207CA000F07F32 /* TractorTests.h */,
+				F2A0B4C914207CA000F07F32 /* TractorTests.m */,
+				F2A0B4C214207CA000F07F32 /* Supporting Files */,
+			);
+			path = TractorTests;
+			sourceTree = "<group>";
+		};
+		F2A0B4C214207CA000F07F32 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F2A0B4C314207CA000F07F32 /* TractorTests-Info.plist */,
+				F2A0B4C414207CA000F07F32 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F2A0B49614207CA000F07F32 /* Tractor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2A0B4CD14207CA000F07F32 /* Build configuration list for PBXNativeTarget "Tractor" */;
+			buildPhases = (
+				F2A0B49314207CA000F07F32 /* Sources */,
+				F2A0B49414207CA000F07F32 /* Frameworks */,
+				F2A0B49514207CA000F07F32 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tractor;
+			productName = Tractor;
+			productReference = F2A0B49714207CA000F07F32 /* Tractor.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F2A0B4BA14207CA000F07F32 /* TractorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2A0B4D014207CA000F07F32 /* Build configuration list for PBXNativeTarget "TractorTests" */;
+			buildPhases = (
+				F2A0B4B614207CA000F07F32 /* Sources */,
+				F2A0B4B714207CA000F07F32 /* Frameworks */,
+				F2A0B4B814207CA000F07F32 /* Resources */,
+				F2A0B4B914207CA000F07F32 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F2A0B4C014207CA000F07F32 /* PBXTargetDependency */,
+			);
+			name = TractorTests;
+			productName = TractorTests;
+			productReference = F2A0B4BB14207CA000F07F32 /* TractorTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F2A0B48E14207CA000F07F32 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = F2A0B49114207CA000F07F32 /* Build configuration list for PBXProject "Tractor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = F2A0B48C14207CA000F07F32;
+			productRefGroup = F2A0B49814207CA000F07F32 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F2A0B49614207CA000F07F32 /* Tractor */,
+				F2A0B4BA14207CA000F07F32 /* TractorTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F2A0B49514207CA000F07F32 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2A0B4A614207CA000F07F32 /* InfoPlist.strings in Resources */,
+				F2A0B4AC14207CA000F07F32 /* Credits.rtf in Resources */,
+				F2A0B4B214207CA000F07F32 /* MainMenu.xib in Resources */,
+				F2A0B4D41420845200F07F32 /* tractor.tiff in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2A0B4B814207CA000F07F32 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2A0B4C614207CA000F07F32 /* InfoPlist.strings in Resources */,
+				F2A0B4C814207CA000F07F32 /* TractorTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F2A0B4B914207CA000F07F32 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F2A0B49314207CA000F07F32 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2A0B4A814207CA000F07F32 /* main.m in Sources */,
+				F2A0B4AF14207CA000F07F32 /* TractorAppDelegate.m in Sources */,
+				F2A0B4B514207CA000F07F32 /* Tractor.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2A0B4B614207CA000F07F32 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2A0B4CA14207CA000F07F32 /* TractorTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F2A0B4C014207CA000F07F32 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F2A0B49614207CA000F07F32 /* Tractor */;
+			targetProxy = F2A0B4BF14207CA000F07F32 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		F2A0B4A414207CA000F07F32 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2A0B4A514207CA000F07F32 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		F2A0B4AA14207CA000F07F32 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2A0B4AB14207CA000F07F32 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		F2A0B4B014207CA000F07F32 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2A0B4B114207CA000F07F32 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		F2A0B4C414207CA000F07F32 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2A0B4C514207CA000F07F32 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F2A0B4CB14207CA000F07F32 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		F2A0B4CC14207CA000F07F32 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		F2A0B4CE14207CA000F07F32 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Tractor/Tractor-Prefix.pch";
+				INFOPLIST_FILE = "Tractor/Tractor-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		F2A0B4CF14207CA000F07F32 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Tractor/Tractor-Prefix.pch";
+				INFOPLIST_FILE = "Tractor/Tractor-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		F2A0B4D114207CA000F07F32 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Tractor.app/Contents/MacOS/Tractor";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Tractor/Tractor-Prefix.pch";
+				INFOPLIST_FILE = "TractorTests/TractorTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		F2A0B4D214207CA000F07F32 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Tractor.app/Contents/MacOS/Tractor";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Tractor/Tractor-Prefix.pch";
+				INFOPLIST_FILE = "TractorTests/TractorTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F2A0B49114207CA000F07F32 /* Build configuration list for PBXProject "Tractor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2A0B4CB14207CA000F07F32 /* Debug */,
+				F2A0B4CC14207CA000F07F32 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2A0B4CD14207CA000F07F32 /* Build configuration list for PBXNativeTarget "Tractor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2A0B4CE14207CA000F07F32 /* Debug */,
+				F2A0B4CF14207CA000F07F32 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		F2A0B4D014207CA000F07F32 /* Build configuration list for PBXNativeTarget "TractorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2A0B4D114207CA000F07F32 /* Debug */,
+				F2A0B4D214207CA000F07F32 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		F2A0B4B314207CA000F07F32 /* Tractor.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				F2A0B4B414207CA000F07F32 /* Tractor.xcdatamodel */,
+			);
+			currentVersion = F2A0B4B414207CA000F07F32 /* Tractor.xcdatamodel */;
+			path = Tractor.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = F2A0B48E14207CA000F07F32 /* Project object */;
+}
