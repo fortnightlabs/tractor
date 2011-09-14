@@ -1,0 +1,4 @@
+.DS_Store
+.bundle
+.monitor
+node_modules

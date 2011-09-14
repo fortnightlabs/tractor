@@ -1,0 +1,25 @@
+{
+  "author": "Fortnight Labs <all@fortnightlabs.com> (http://fortnightlabs.com/)",
+  "name": "tractor",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fortnightlabs/tractor.git"
+  },
+  "main": "server.js",
+  "scripts": { "start": "nodemon" },
+  "engines": {
+    "node": "~v0.4.11"
+  },
+  "dependencies": {
+    "coffee-script": "1.1.2",
+    "express": "2.4.6",
+    "jade": "0.15.4",
+    "mongoose": "2.1.2",
+    "stylus": "0.15.2"
+  },
+  "devDependencies": {
+    "nodemon": "0.5.5",
+    "vows": "0.5.11"
+  }
+}
