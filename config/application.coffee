@@ -2,7 +2,14 @@ util = require 'util'
 express = require 'express'
 env = require './environment'
 
-app = express.createServer()
+app = module.exports = express.createServer()
+
+# db
+app.db = require("#{env.paths.root}/models")(env.mongo_url)
+
+# hacks and utils
+require("#{env.paths.lib}/mongo-log")(app.db.mongo)
+require("#{env.paths.lib}/strftime")
 
 # configuration
 app.configure ->
@@ -18,10 +25,8 @@ app.configure ->
   app.set 'view engine', 'jade'
 
 # routes
-require('../controllers')(app)
+require("#{env.paths.root}/controllers")(app)
 
-app.listen env.port
-util.log "Listening on 0.0.0.0:#{env.port}"
-
-# db
-app.db = require('../models')(env.mongo_url)
+app.start = ->
+  app.listen env.port
+  util.log "Listening on 0.0.0.0:#{env.port}"

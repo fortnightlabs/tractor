@@ -1,0 +1,20 @@
+h1= items[0].start.toDateString()
+- each items, hour in byHour
+  - if (items)
+    table.hour
+      tr
+        th.hour= items[0].start.toLocaleFormat('%H:%M')
+        th.duration duration
+        th.app app
+        th.title title
+      - each item in items
+        tr
+          td= item.start.toLocaleTimeString()
+          td.duration
+            - if (item.duration > 60)
+              = (item.duration / 60).toFixed(0) + ' m'
+            - else
+              = item.duration.toFixed(0) + ' s'
+          td= item.app
+          td
+            .title= item.info.title

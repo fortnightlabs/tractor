@@ -1,3 +1,5 @@
 require('coffee-script');
 require('colors');
-require('./config/application');
+
+var app = require('./config/application');
+app.start();

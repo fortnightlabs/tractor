@@ -2,6 +2,8 @@
 .bundle
 .monitor
 node_modules
+public/stylesheets/all.css
+tmp
 
 Tractor/build/*
 *.pbxuser

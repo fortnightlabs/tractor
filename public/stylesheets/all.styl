@@ -1,2 +1,33 @@
 body
-  font-family georgia, serif
+  font-family helvetica neue, helvetica, arial, sans-serif
+
+h1, h2, h3
+  font-weight 300
+
+table.hour
+  font-size small
+  border-collapse collapse
+  margin-bottom 1em
+  tr:nth-child(odd)
+    background-color hsl(0, 0%, 95%)
+  th
+    text-align left
+    background-color hsl(0, 0%, 50%)
+    color white
+    text-shadow 0 -1px 0 hsla(0, 0%, 0%, 0.5)
+    padding 5px
+    &.hour
+      width 5em
+    &.duration
+      width 3em
+    &.app
+      width 10em
+  td
+    padding 3px 5px
+  .duration
+    text-align right
+  .title
+    width 40em
+    white-space nowrap
+    overflow hidden
+    text-overflow ellipsis

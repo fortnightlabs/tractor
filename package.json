@@ -17,9 +17,11 @@
     "express": "2.4.6",
     "jade": "0.15.4",
     "mongoose": "2.1.2",
+    "strftime": "0.4.6",
     "stylus": "0.15.2"
   },
   "devDependencies": {
+    "node-inspector": "0.1.10",
     "nodemon": "0.5.5",
     "vows": "0.5.11"
   }

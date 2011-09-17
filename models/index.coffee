@@ -1,7 +1,7 @@
 util = require 'util'
 mongoose = require 'mongoose'
 
-require "./#{lib}" for lib in ['project']
+require "./#{lib}" for lib in ['project', 'item']
 
 module.exports = (url) ->
   util.log 'connecting to ' + url.cyan
