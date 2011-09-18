@@ -42,35 +42,46 @@ HourView = Backbone.View.extend
     this
 
 ItemList = Backbone.View.extend
-  el: 'ul.items'
+  el: 'body'
 
   initialize: ->
     @collection.bind 'reset', @reset, this
+    @collection.bind 'all', @render, this
+    @cursor = -1
+
+  events:
+    'keylisten': 'keylisten'
+    'change input[type=date]': 'changeDate'
 
   reset: ->
-    $el = $ @el
-    $el.html null
+    list = @$ 'ul.items'
+    list.html null
     @hours = _.map @collection.hours, (hour) ->
       view = new HourView collection: hour
-      $el.append view.reset().el
+      list.append view.reset().el
       view
 
+  keylisten: (e) ->
+    items = @collection
+    switch e.keyName
+      when 'j'
+        items.at(@cursor)?.set cursor: false
+        items.at(++@cursor).set cursor: true
+      when 'k'
+        items.at(@cursor).set cursor: false
+        items.at(--@cursor).set cursor: true
+      when 'x'
+        items.at(@cursor).set selected: !items.at(@cursor).get('selected')
+
+  changeDate: (e) ->
+    @collection.fetch data: date: $(e.target).val()
+
   render: ->
+    @$('input[type=date]').val strftime('%Y-%m-%d', @collection.first()?.get('start'))
     this
 
 $ ->
   Items = new Tractor.Items
-  Items.fetch data: { date: '2011-09-14' }
-  new ItemList collection: Items
+  Items.fetch()
 
-  cursor = -1
-  $(document).keylisten (e) ->
-    switch e.keyName
-      when 'j'
-        Items.at(cursor)?.set cursor: false
-        Items.at(++cursor).set cursor: true
-      when 'k'
-        Items.at(cursor).set cursor: false
-        Items.at(--cursor).set cursor: true
-      when 'x'
-        Items.at(cursor).set selected: !Items.at(cursor).get('selected')
+  new ItemList collection: Items
