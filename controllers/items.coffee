@@ -5,10 +5,14 @@ module.exports = (app) ->
     if req.accepts 'html'
       res.render 'items'
     else if req.accepts 'json'
-      day = Date.parse req.param('date')
-      day = Date.now() if isNaN(day)
+      day = Date.parse(req.param('date') || '2011-09-18')
       nextDay = day + 86400000
       conditions = { start: { $gt: day }, end: { $lt: nextDay } }
       Item.find conditions, {}, { sort: 'start' }, (err, items) ->
         return next err if err
         res.json items
+
+  app.delete '/items/:id', (req, res) ->
+    Item.remove _id: req.params.id, (err) ->
+      return next err if err
+      res.json err, 200

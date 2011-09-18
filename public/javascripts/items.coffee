@@ -8,19 +8,27 @@ HourView = Backbone.View.extend
 
   events:
     'click input[type=checkbox]': 'select'
+    'click tr': 'cursor'
 
   reset: ->
     $(@el).html @template(items: @collection.models, toDurationString: @toDurationString)
     this
 
+  itemFor: (e) ->
+    if id = $(e.target).closest('tr').prop('id')
+      @collection.get id
+
   select: (e) ->
     target = $ e.target
     checked = target.prop 'checked'
-    if id = target.closest('tr').data('id')
-      item = @collection.get id
+    if item = @itemFor(e)
       item.set selected: checked
     else
       @collection.each (item) -> item.set selected: checked
+
+  cursor: (e) ->
+    if item = @itemFor(e)
+      item.set cursor: true
 
   toDurationString: (duration) ->
     if duration == 0
@@ -34,11 +42,13 @@ HourView = Backbone.View.extend
     switch e
       when 'change:selected'
         @$('th.project').html @toDurationString(@collection.duration()) || 'project'
-        @$("tr[data-id=\"#{item.id}\"]")
+        @$("tr##{item.id}")
           .toggleClass('selected', item.get('selected'))
           .find('input[type=checkbox]').prop('checked', item.get('selected'))
       when 'change:cursor'
-        @$("tr[data-id=\"#{item.id}\"]").toggleClass('cursor', item.get('cursor'))
+        @$("tr##{item.id}").toggleClass('cursor', item.get('cursor'))
+      when 'remove'
+        @$("tr##{item.id}").remove()
     this
 
 ItemList = Backbone.View.extend
@@ -47,11 +57,10 @@ ItemList = Backbone.View.extend
   initialize: ->
     @collection.bind 'reset', @reset, this
     @collection.bind 'all', @render, this
-    @cursor = -1
 
   events:
     'keylisten': 'keylisten'
-    'input input[type=date]': 'changeDate'
+    'change input[type=date]': 'fetchDate'
 
   reset: ->
     list = @$ 'ul.items'
@@ -65,15 +74,15 @@ ItemList = Backbone.View.extend
     items = @collection
     switch e.keyName
       when 'j'
-        items.at(@cursor)?.set cursor: false
-        items.at(++@cursor).set cursor: true
+        items.next().set cursor: true
       when 'k'
-        items.at(@cursor).set cursor: false
-        items.at(--@cursor).set cursor: true
+        items.prev().set cursor: true
       when 'x'
-        items.at(@cursor).set selected: !items.at(@cursor).get('selected')
+        items.atCursor().toggle()
+      when 'y'
+        items.selected().invoke 'destroy'
 
-  changeDate: (e) ->
+  fetchDate: (e) ->
     @collection.fetch data: date: $(e.target).val()
 
   render: ->

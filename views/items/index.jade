@@ -1,4 +1,8 @@
 h1: input( type='date' )
+select
+  option nko2
+  option syn
+  option dscout
 ul.items Loading
 
 template( id='hour-view' ):
@@ -12,7 +16,7 @@ template( id='hour-view' ):
       th.title title
     - each item in items
       - item = item.attributes
-      tr( data-id=item._id )
+      tr( id=item._id )
         td= item.project
         td: input( type='checkbox' )
         td!= strftime('%l:<b>%M:%S</b>', item.start)
