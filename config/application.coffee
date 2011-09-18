@@ -14,15 +14,41 @@ require("#{env.paths.lib}/strftime")
 # configuration
 app.configure ->
   stylus = require 'stylus'
+  coffee = require 'coffee-script'
+  assetManager = require('connect-assetmanager')
+    js:
+      route: /\/javascripts\/[a-z0-9]+\/all\.js/
+      path: env.paths.public + '/javascripts/'
+      dataType: 'javascript'
+      debug: true
+      preManipulate:
+        '^': [
+          (file, path, index, isLast, callback) ->
+            if /\.coffee$/.test path
+              callback coffee.compile(file)
+            else
+              callback file
+        ]
+      files: [ # order matters
+        'polyfills.js'
+        'vendor/json2.js'
+        'vendor/underscore.js'
+        'application.coffee'
+        '*'
+      ]
 
   app.use stylus.middleware
     src: env.paths.public
     dest: env.paths.public
     compress: true
+  app.use assetManager
   app.use express.static(env.paths.public)
   app.use express.logger()
 
   app.set 'view engine', 'jade'
+
+  app.locals
+    assetManager: assetManager
 
 # routes
 require("#{env.paths.root}/controllers")(app)

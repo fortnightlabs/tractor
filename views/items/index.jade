@@ -3,14 +3,14 @@ h1= items[0].start.toDateString()
   - if (items)
     table.hour
       tr
-        th: input( type="checkbox" )
+        th: input( type='checkbox' )
         th.hour= items[0].start.toLocaleFormat('%l %p')
         th.duration duration
         th.app app
         th.title title
       - each item in items
         tr
-          td: input( type="checkbox" )
+          td: input( type='checkbox' )
           td!= item.start.toLocaleFormat('%l:<b>%M:%S</b>')
           td.duration
             - if (item.duration > 60)
@@ -18,5 +18,4 @@ h1= items[0].start.toDateString()
             - else
               = item.duration.toFixed(0) + ' s'
           td= item.app
-          td
-            .title= item.info.title
+          td: div.title= item.info.title
