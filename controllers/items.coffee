@@ -1,7 +1,7 @@
 module.exports = (app) ->
   Item = app.db.model 'Item'
 
-  app.get '/items(/:date)?', (req, res) ->
+  app.get '/items/:date?', (req, res) ->
     if req.accepts 'html'
       res.render 'items'
     else if req.accepts 'json'

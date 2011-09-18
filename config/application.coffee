@@ -35,6 +35,7 @@ app.configure ->
         'vendor/json2.js'
         'vendor/underscore.js'
         'vendor/backbone.js'
+        'vendor/jquery.keylisten.js'
         '../../node_modules/strftime/lib/index.js'
         'application.coffee'
         '*'

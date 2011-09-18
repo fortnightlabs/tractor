@@ -4,7 +4,7 @@ HourView = Backbone.View.extend
 
   initialize: ->
     @collection.bind 'reset', @reset, this
-    @collection.bind 'change:selected', @render, this
+    @collection.bind 'all', @render, this
 
   events:
     'click input[type=checkbox]': 'select'
@@ -20,7 +20,6 @@ HourView = Backbone.View.extend
       item = @collection.get id
       item.set selected: checked
     else
-      @$('input[type=checkbox]').prop('checked', checked)
       @collection.each (item) -> item.set selected: checked
 
   toDurationString: (duration) ->
@@ -31,8 +30,15 @@ HourView = Backbone.View.extend
     else
       duration.toFixed(0) + ' s'
 
-  render: ->
-    @$('th.project').html @toDurationString(@collection.duration()) || 'project'
+  render: (e, item) ->
+    switch e
+      when 'change:selected'
+        @$('th.project').html @toDurationString(@collection.duration()) || 'project'
+        @$("tr[data-id=\"#{item.id}\"]")
+          .toggleClass('selected', item.get('selected'))
+          .find('input[type=checkbox]').prop('checked', item.get('selected'))
+      when 'change:cursor'
+        @$("tr[data-id=\"#{item.id}\"]").toggleClass('cursor', item.get('cursor'))
     this
 
 ItemList = Backbone.View.extend
@@ -56,3 +62,15 @@ $ ->
   Items = new Tractor.Items
   Items.fetch data: { date: '2011-09-14' }
   new ItemList collection: Items
+
+  cursor = -1
+  $(document).keylisten (e) ->
+    switch e.keyName
+      when 'j'
+        Items.at(cursor)?.set cursor: false
+        Items.at(++cursor).set cursor: true
+      when 'k'
+        Items.at(cursor).set cursor: false
+        Items.at(--cursor).set cursor: true
+      when 'x'
+        Items.at(cursor).set selected: !Items.at(cursor).get('selected')

@@ -5,6 +5,7 @@ Tractor = window.Tractor = {}
 Tractor.Item = Backbone.Model.extend
   defaults: ->
     selected: false
+    cursor: false
   parse: (r) ->
     r.start = new Date r.start
     r.end = new Date r.end
@@ -22,15 +23,16 @@ Tractor.Items = Backbone.Collection.extend
   model: Tractor.Item
   url: '/items'
 
+  initialize: ->
+    @bind 'reset', @resetHours, this
+
   parse: (response) ->
     _.map response, Tractor.Item.prototype.parse
 
-  reset: (models, options) ->
+  resetHours: ->
     @hours = []
-    _(models).chain()
+    @chain()
       .groupBy (item) ->
-        item.hour
+        item.get 'hour'
       .each (items, h) =>
         @hours[h] = new Tractor.Hour items
-
-    Backbone.Collection.prototype.reset.apply this, arguments
