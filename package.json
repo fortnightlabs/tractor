@@ -17,6 +17,7 @@
     "connect-assetmanager": "0.0.23",
     "express": "2.4.6",
     "jade": "0.15.4",
+    "jadevu": "0.0.6",
     "mongoose": "2.1.2",
     "strftime": "0.4.6",
     "stylus": "0.15.2"

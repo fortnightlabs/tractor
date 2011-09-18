@@ -9,6 +9,11 @@ body
 h1, h2, h3
   font-weight 300
 
+ul.items
+  padding 0
+  > li
+    display inline
+
 table.hour
   font-size small
   border-collapse collapse
@@ -21,6 +26,8 @@ table.hour
     color white
     text-shadow 0 -1px 0 hsla(0, 0%, 0%, 0.5)
     padding 5px
+    &.project
+      width 5em
     &.hour, &.duration
       width 3em
     &.app

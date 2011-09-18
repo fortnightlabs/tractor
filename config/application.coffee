@@ -9,7 +9,8 @@ app.db = require("#{env.paths.root}/models")(env.mongo_url)
 
 # hacks and utils
 require("#{env.paths.lib}/mongo-log")(app.db.mongo)
-require("#{env.paths.lib}/strftime")
+#require("#{env.paths.lib}/strftime")
+require 'jadevu'
 
 # configuration
 app.configure ->
@@ -33,6 +34,8 @@ app.configure ->
         'polyfills.js'
         'vendor/json2.js'
         'vendor/underscore.js'
+        'vendor/backbone.js'
+        '../../node_modules/strftime/lib/index.js'
         'application.coffee'
         '*'
       ]
@@ -49,6 +52,8 @@ app.configure ->
 
   app.locals
     assetManager: assetManager
+  app.dynamicHelpers
+    req: (req, res) -> req
 
 # routes
 require("#{env.paths.root}/controllers")(app)
