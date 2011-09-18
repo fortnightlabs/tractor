@@ -1,3 +1,5 @@
+yellow = hsla(60, 80%, 80%, 0.9)
+
 border-radius()
   -webkit-border-radius arguments
   -moz-border-radius arguments
@@ -23,7 +25,11 @@ table.hour
   tr.selected
     background-color yellow
   tr.cursor
-    background-color red
+    background-color hsl(0, 0%, 20%)
+    color white
+    text-shadow 0 -1px 0 hsla(0, 0%, 0%, 0.5)
+    &.selected
+      background-color hsl(60, 50%, 20%)
   th
     text-align left
     background-color hsl(0, 0%, 50%)
