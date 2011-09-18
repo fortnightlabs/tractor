@@ -51,7 +51,7 @@ ItemList = Backbone.View.extend
 
   events:
     'keylisten': 'keylisten'
-    'change input[type=date]': 'changeDate'
+    'input input[type=date]': 'changeDate'
 
   reset: ->
     list = @$ 'ul.items'
