@@ -83,7 +83,7 @@ ItemList = Backbone.View.extend
         items.prev().set cursor: true
       when 'x'
         items.atCursor().toggle()
-      when '#'
+      when 'y'
         items.selected().invoke 'destroy'
       when '/'
         e.preventDefault()
