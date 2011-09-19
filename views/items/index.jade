@@ -12,19 +12,21 @@ ul.items Loading
 
 template( id='hour-view' ):
   table.hour
-    tr
-      th.project project
-      th: input( type='checkbox' )
-      th.hour= strftime('%l %p', items[0].get('start'))
-      th.duration duration
-      th.app app
-      th.title title
-    - each item in items
-      - item = item.attributes
-      tr( id=item._id )
-        td= item.project
-        td: input( type='checkbox' )
-        td!= strftime('%l:<b>%M:%S</b>', item.start)
-        td.duration= toDurationString(item.duration)
-        td= item.app
-        td: div.title= item.info.title
+    thead
+      tr
+        th.project project
+        th: input( type='checkbox' )
+        th.hour= strftime('%l %p', items[0].get('start'))
+        th.duration duration
+        th.app app
+        th.title title
+    tbody
+      - each item in items
+        - item = item.attributes
+        tr( id=item._id )
+          td.label= item.label
+          td: input( type='checkbox' )
+          td!= strftime('%l:<b>%M:%S</b>', item.start)
+          td= toDurationString(item.duration)
+          td= item.app
+          td: div.title= item.info.title
