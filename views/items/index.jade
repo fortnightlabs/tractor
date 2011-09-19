@@ -1,5 +1,10 @@
-h1: input( type='date' )
+form#filter
+  input( type='date', name='date' )
+  input( type='search', name='query' )
+  input( type='submit', value='go' )
+
 select
+  option( disabled=true ) project
   option nko2
   option syn
   option dscout

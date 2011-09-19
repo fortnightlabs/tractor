@@ -59,8 +59,8 @@ ItemList = Backbone.View.extend
     @collection.bind 'all', @render, this
 
   events:
+    'submit form#filter': 'filter'
     'keylisten': 'keylisten'
-    'change input[type=date]': 'fetchDate'
 
   reset: ->
     list = @$ 'ul.items'
@@ -69,6 +69,10 @@ ItemList = Backbone.View.extend
       view = new HourView collection: hour
       list.append view.reset().el
       view
+
+  filter: (e) ->
+    e.preventDefault()
+    @collection.fetch data: $(e.target).serialize()
 
   keylisten: (e) ->
     items = @collection
@@ -81,12 +85,13 @@ ItemList = Backbone.View.extend
         items.atCursor().toggle()
       when 'y'
         items.selected().invoke 'destroy'
-
-  fetchDate: (e) ->
-    @collection.fetch data: date: $(e.target).val()
+      when '/'
+        e.preventDefault()
+        @$('input[type=search]').focus()
 
   render: ->
-    @$('input[type=date]').val strftime('%Y-%m-%d', @collection.first()?.get('start'))
+    @$('input[type=date]').val (i, old) =>
+      old || strftime('%Y-%m-%d', @collection.first()?.get('start'))
     this
 
 $ ->
