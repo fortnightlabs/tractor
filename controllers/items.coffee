@@ -1,3 +1,5 @@
+_ = require 'underscore'
+
 module.exports = (app) ->
   Item = app.db.model 'Item'
   Project = app.db.model 'Project'
@@ -19,6 +21,14 @@ module.exports = (app) ->
         Item.find conditions, {}, { sort: 'start' }, (err, items) ->
           return next err if err
           res.json items
+
+    update:
+      json: (req, res) ->
+        item = req.item
+        _.extend item, req.body
+        item.save (err, item) ->
+          return next err if err
+          res.json item
 
     destroy: (req, res) ->
       req.item.remove (err) ->

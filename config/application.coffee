@@ -56,7 +56,6 @@ app.configure ->
     req.format =
       if req.accepts('json') then 'json'
       else if req.accepts('html') then 'html'
-    console.log req
     next()
   app.use app.router
 

@@ -6,7 +6,8 @@ form#filter
 select#projects
   option( disabled=true ) project
   - each project in projects
-    option( id=project.id )= project.name
+    option( value=project.id )= project.name
+
 ul.items Loading
 
 template( id='hour-view' ):
@@ -23,7 +24,9 @@ template( id='hour-view' ):
       - each item in items
         - item = item.attributes
         tr( id=item._id )
-          td.label= item.label
+          td.project
+            - if (item.projectId)
+              = projects.get(item.projectId).get('name')
           td: input( type='checkbox' )
           td!= strftime('%l:<b>%M:%S</b>', item.start)
           td= toDurationString(item.duration)

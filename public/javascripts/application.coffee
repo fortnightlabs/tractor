@@ -2,6 +2,12 @@ Backbone.Model.prototype.idAttribute = '_id'
 
 Tractor = window.Tractor = {}
 
+Tractor.Project = Backbone.Model.extend()
+
+Tractor.Projects = Backbone.Collection.extend
+  model: Tractor.Project
+  url: '/projects'
+
 Tractor.Item = Backbone.Model.extend
   defaults: ->
     selected: false

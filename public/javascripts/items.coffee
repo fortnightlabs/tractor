@@ -3,6 +3,7 @@ HourView = Backbone.View.extend
   template: template._['hour-view']
 
   initialize: ->
+    @projects = @options.projects
     @collection.bind 'reset', @reset, this
     @collection.bind 'all', @render, this
 
@@ -11,7 +12,10 @@ HourView = Backbone.View.extend
     'click tr': 'cursor'
 
   reset: ->
-    $(@el).html @template(items: @collection.models, toDurationString: @toDurationString)
+    $(@el).html @template
+      projects: @projects
+      items: @collection.models
+      toDurationString: @toDurationString
     this
 
   itemFor: (e) ->
@@ -38,17 +42,19 @@ HourView = Backbone.View.extend
     else
       duration.toFixed(0) + ' s'
 
-  render: (e, item) ->
+  render: (e, item, val) ->
+    @$('thead input[type=checkbox]').prop 'checked', false
     switch e
       when 'change:selected'
         @$('th.project').html @toDurationString(@collection.duration()) || 'project'
         @$("tr##{item.id}")
-          .toggleClass('selected', item.get('selected'))
-          .find('input[type=checkbox]').prop('checked', item.get('selected'))
+          .toggleClass('selected', val)
+          .find('input[type=checkbox]').prop('checked', val)
       when 'change:cursor'
-        @$("tr##{item.id}").toggleClass('cursor', item.get('cursor'))
-      when 'change:label'
-        @$("tr##{item.id} td.label").text item.get('label')
+        @$("tr##{item.id}").toggleClass('cursor', val)
+      when 'change:projectId'
+        project = @projects.get val
+        @$("tr##{item.id} td.project").text project.get('name')
       when 'remove'
         @$("tr##{item.id}").remove()
     this
@@ -68,8 +74,8 @@ ItemList = Backbone.View.extend
   reset: ->
     list = @$ 'ul.items'
     list.html null
-    @hours = _.map @collection.hours, (hour) ->
-      view = new HourView collection: hour
+    @hours = _.map @collection.hours, (hour) =>
+      view = new HourView collection: hour, projects: @options.projects
       list.append view.reset().el
       view
 
@@ -78,9 +84,10 @@ ItemList = Backbone.View.extend
     @collection.fetch data: $(e.target).serialize()
 
   label: (e) ->
-    @collection.selected().invoke 'set',
-      label: $(e.target).val()
+    @collection.selected().invoke 'save',
+      projectId: $(e.target).val()
       selected: false
+    $(e.target).prop 'selectedIndex', 0
 
   keylisten: (e) ->
     items = @collection
@@ -106,7 +113,10 @@ ItemList = Backbone.View.extend
     this
 
 $ ->
+  Projects = new Tractor.Projects
+  Projects.fetch()
+
   Items = new Tractor.Items
   Items.fetch()
 
-  new ItemList collection: Items
+  new ItemList collection: Items, projects: Projects

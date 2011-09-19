@@ -7,7 +7,11 @@ module.exports = (app) ->
     index: (req, res, next) ->
       Project.find {}, {}, { sort: 'name' }, (err, projects) ->
         return next err if err
-        res.render 'projects', projects: projects
+        switch req.format
+          when 'html'
+            res.render 'projects', projects: projects
+          when 'json'
+            res.json projects
 
     new: (req, res) ->
       res.render 'projects/new', project: new Project
@@ -32,5 +36,4 @@ module.exports = (app) ->
         res.redirect '/projects/' + project.id
 
     load: (id, fn) ->
-      console.log id
       Project.findById id, fn

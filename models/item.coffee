@@ -1,5 +1,7 @@
 mongoose = require 'mongoose'
 
+Project = mongoose.model 'Project'
+
 ItemSchema = module.exports = new mongoose.Schema
   start:
     type: Date
