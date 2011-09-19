@@ -87,7 +87,7 @@ ItemList = Backbone.View.extend
         items.selected().invoke 'destroy'
       when '/'
         e.preventDefault()
-        @$('input[type=search]').focus()
+        @$('input[type=search]').select()
 
   render: ->
     @$('input[type=date]').val (i, old) =>
