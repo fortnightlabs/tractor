@@ -10,6 +10,7 @@ app.db = require("#{env.paths.root}/models")(env.mongo_url)
 # hacks and utils
 require("#{env.paths.lib}/mongo-log")(app.db.mongo)
 #require("#{env.paths.lib}/strftime")
+require 'express-resource'
 require 'jadevu'
 
 # configuration
@@ -48,12 +49,22 @@ app.configure ->
     compress: true
   app.use assetManager
   app.use express.static(env.paths.public)
+  app.use express.bodyParser()
+  app.use express.methodOverride()
   app.use express.logger()
+  app.use (req, res, next) ->
+    req.format =
+      if req.accepts('json') then 'json'
+      else if req.accepts('html') then 'html'
+    console.log req
+    next()
+  app.use app.router
 
   app.set 'view engine', 'jade'
 
   app.locals
     assetManager: assetManager
+    inspect: util.inspect
   app.dynamicHelpers
     req: (req, res) -> req
 

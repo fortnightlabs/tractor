@@ -47,6 +47,8 @@ HourView = Backbone.View.extend
           .find('input[type=checkbox]').prop('checked', item.get('selected'))
       when 'change:cursor'
         @$("tr##{item.id}").toggleClass('cursor', item.get('cursor'))
+      when 'change:label'
+        @$("tr##{item.id} td.label").text item.get('label')
       when 'remove'
         @$("tr##{item.id}").remove()
     this
@@ -60,6 +62,7 @@ ItemList = Backbone.View.extend
 
   events:
     'submit form#filter': 'filter'
+    'change select#projects': 'label'
     'keylisten': 'keylisten'
 
   reset: ->
@@ -74,6 +77,11 @@ ItemList = Backbone.View.extend
     e.preventDefault()
     @collection.fetch data: $(e.target).serialize()
 
+  label: (e) ->
+    @collection.selected().invoke 'set',
+      label: $(e.target).val()
+      selected: false
+
   keylisten: (e) ->
     items = @collection
     switch e.keyName
@@ -81,6 +89,8 @@ ItemList = Backbone.View.extend
         items.next().set cursor: true
       when 'k'
         items.prev().set cursor: true
+      when 'l'
+        @$('select#projects').focus()
       when 'x'
         items.atCursor().toggle()
       when 'y'
@@ -92,6 +102,7 @@ ItemList = Backbone.View.extend
   render: ->
     @$('input[type=date]').val (i, old) =>
       old || strftime('%Y-%m-%d', @collection.first()?.get('start'))
+    @$(':focus').blur()
     this
 
 $ ->

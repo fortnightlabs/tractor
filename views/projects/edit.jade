@@ -1,0 +1,6 @@
+h1 edit project
+
+form( action='/projects/' + project.id, method='POST' )
+  input( type='hidden', name='_method', value='PUT' )
+  != partial('form')
+  input( type='submit', value='save' )

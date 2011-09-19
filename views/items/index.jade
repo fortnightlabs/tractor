@@ -1,13 +1,12 @@
 form#filter
   input( type='date', name='date' )
-  input( type='search', name='query' )
+  input( type='search', name='query', placeholder='search' )
   input( type='submit', value='go' )
 
-select
+select#projects
   option( disabled=true ) project
-  option nko2
-  option syn
-  option dscout
+  - each project in projects
+    option( id=project.id )= project.name
 ul.items Loading
 
 template( id='hour-view' ):
