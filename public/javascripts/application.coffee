@@ -43,9 +43,10 @@ Tractor.Items = Backbone.Collection.extend
       when 'change:cursor'
         return unless changed
         @atCursor()?.set cursor: false
+        # TODO binary search is still too slow for keyboard nav
         @cursor = @sortedIndex model, (i) -> i.get 'start'
       when 'remove'
-        @cursor-- if model.get('start') <= @atCursor().get('start')
+        @cursor-- if model.get('start') <= @atCursor()?.get('start')
 
   resetHours: ->
     @cursor = -1
