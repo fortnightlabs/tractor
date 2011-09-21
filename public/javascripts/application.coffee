@@ -19,20 +19,17 @@ Tractor.Item = Backbone.Model.extend
     r.hour = r.start.getHours()
     r
 
-Tractor.Hour = Backbone.Collection.extend
-  model: Tractor.Item
-  duration: ->
-    @reduce (sum, item) ->
-      if item.get('selected') then sum + item.get 'duration' else sum
-    , 0
-
-Tractor.Items = Backbone.Collection.extend
+class Tractor.Hour extends Backbone.Collection
   model: Tractor.Item
   url: '/items'
 
   initialize: ->
-    @bind 'all', @updateCursor, this
-    @bind 'reset', @resetHours, this
+    @bind 'reset',            @updateTotals
+    @bind 'add',              @updateTotals
+    @bind 'remove',           @updateTotals
+    @bind 'change:projectId', @updateTotals
+
+    @updateTotals()
 
   parse: (response) ->
     _.map response, Tractor.Item.prototype.parse
@@ -40,25 +37,38 @@ Tractor.Items = Backbone.Collection.extend
   selected: ->
     @chain().filter (i) -> i.get 'selected'
 
-  atCursor: -> @at @cursor
-  next: -> @at @cursor + 1
-  prev: -> @at @cursor - 1
+  updateTotals: =>
+    @totals = @reduce (totals, item) ->
+      totals.count++
+      if project = item.get 'projectId'
+        totals[project] = (totals[project] || 0) + item.get 'duration'
+      totals
+    ,
+      count: 0
 
-  updateCursor: (type, model, changed) ->
-    switch type
-      when 'change:cursor'
-        return unless changed
-        @atCursor()?.set cursor: false
-        # TODO binary search is still too slow for keyboard nav
-        @cursor = @sortedIndex model, (i) -> i.get 'start'
-      when 'remove'
-        @cursor-- if model.get('start') <= @atCursor()?.get('start')
+class Tractor.Items extends Tractor.Hour
+  initialize: ->
+    super *arguments
+    @bind 'change:cursor', @updateCursorChange
+    @bind 'remove',        @updateCursorRemove
+    @bind 'reset',         @resetHours
 
-  resetHours: ->
+  resetHours: =>
     @cursor = -1
     @hours = []
     @chain()
-      .groupBy (item) ->
-        item.get 'hour'
-      .each (items, h) =>
-        @hours[h] = new Tractor.Hour items
+      .groupBy((item) -> item.get 'hour')
+      .each((items, h) => @hours[h] = new Tractor.Hour items)
+
+  atCursor: -> @at @cursor
+  next: -> @at Math.min(@cursor + 1, @length - 1)
+  prev: -> @at Math.max(@cursor - 1, 0)
+
+  updateCursorChange: (model, val) =>
+    return unless val
+    @atCursor()?.set cursor: false unless model == @atCursor()
+    @cursor = @indexOf model # TODO slow
+
+  updateCursorRemove: (model) =>
+    @cursor-- if model.get('start') <= @atCursor()?.get('start')
+    @atCursor().set cursor: true

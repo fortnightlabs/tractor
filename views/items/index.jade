@@ -3,10 +3,12 @@ form#filter
   input( type='search', name='query', placeholder='search' )
   input( type='submit', value='go' )
 
-select#projects
-  option( disabled=true ) project
-  - each project in projects
-    option( value=project.id )= project.name
+.toolbar
+  select#projects
+    option( disabled=true ) project
+    - each project in projects
+      option( value=project.id )= project.name
+  .totals
 
 ul.items Loading
 
@@ -32,3 +34,5 @@ template( id='hour-view' ):
           td= toDurationString(item.duration)
           td= item.app
           td: div.title= item.info.title
+      tr
+        th.totals( colspan=6 )
