@@ -72,9 +72,7 @@ class Tractor.Items extends Tractor.Hour
   updateCursorChange: (model, val) =>
     return unless val
     @atCursor()?.set cursor: false unless model == @atCursor()
-    console.time('indexOf')
     @cursor = @indexOf model # TODO slow
-    console.timeEnd('indexOf')
 
   updateCursorRemove: (model) =>
     @cursor-- if model.get('start') <= @atCursor()?.get('start')

@@ -120,7 +120,7 @@ $ ->
   Projects = new Tractor.Projects
   Projects.fetch()
 
-  window.Items = new Tractor.Items
+  Items = new Tractor.Items
   Items.fetch()
 
   new ItemList collection: Items, projects: Projects
