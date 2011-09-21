@@ -1,6 +1,5 @@
 HourView = Backbone.View.extend
   tagName: 'li'
-  template: template._['hour-view']
 
   initialize: ->
     @projects = @options.projects
@@ -12,10 +11,7 @@ HourView = Backbone.View.extend
     'click tr': 'cursor'
 
   reset: ->
-    $(@el).html @template
-      projects: @projects
-      items: @collection.models
-      toDurationString: @toDurationString
+    $(@el).html @template('hour-view', items: @collection.models)
     @render()
 
   itemFor: (e) ->
@@ -42,8 +38,13 @@ HourView = Backbone.View.extend
     else
       duration.toFixed(0) + ' s'
 
+  template: (tmpl, locals) ->
+    _.extend locals,
+      projects: @projects
+      toDurationString: @toDurationString
+    template._[tmpl](locals)
+
   render: (e, item, val) ->
-    @$('th.totals').text JSON.stringify(@collection.totals)
     switch e
       when 'change:selected'
         duration = @collection.selected().reduce(((sum, i) -> sum + i.get('duration')), 0).value()
@@ -59,6 +60,7 @@ HourView = Backbone.View.extend
         @$("tr##{item.id} td.project").text project.get('name')
       when 'remove'
         @$("tr##{item.id}").remove()
+    @$('tr.footer').html @template('totals-view', totals: @collection.totals)
     this
 
 ItemList = Backbone.View.extend

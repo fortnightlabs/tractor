@@ -34,5 +34,16 @@ template( id='hour-view' ):
           td= toDurationString(item.duration)
           td= item.app
           td: div.title= item.info.title
-      tr
-        th.totals( colspan=6 )
+      tr.footer
+
+template( id='totals-view' ):
+  th.totals( colspan=6 )
+    = totals.count
+    |  items: 
+    dl.projects
+      - each duration, projectId in totals.projects
+        dt= projects.get(projectId).get('name')
+        dd= toDurationString(duration)
+      - if (totals.unassigned)
+        dt unassigned
+        dd= toDurationString(totals.unassigned)

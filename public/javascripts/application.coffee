@@ -38,13 +38,18 @@ class Tractor.Hour extends Backbone.Collection
     @chain().filter (i) -> i.get 'selected'
 
   updateTotals: =>
-    @totals = @reduce (totals, item) ->
+    projects = {}
+    totals =
+      count: 0
+      unassigned: 0
+      projects: projects
+    @each (item) ->
       totals.count++
       if project = item.get 'projectId'
-        totals[project] = (totals[project] || 0) + item.get 'duration'
-      totals
-    ,
-      count: 0
+        projects[project] = (projects[project] || 0) + item.get 'duration'
+      else
+        totals.unassigned += item.get 'duration'
+    @totals = totals
 
 class Tractor.Items extends Tractor.Hour
   initialize: ->
@@ -67,7 +72,9 @@ class Tractor.Items extends Tractor.Hour
   updateCursorChange: (model, val) =>
     return unless val
     @atCursor()?.set cursor: false unless model == @atCursor()
+    console.time('indexOf')
     @cursor = @indexOf model # TODO slow
+    console.timeEnd('indexOf')
 
   updateCursorRemove: (model) =>
     @cursor-- if model.get('start') <= @atCursor()?.get('start')
