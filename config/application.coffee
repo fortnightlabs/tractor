@@ -33,7 +33,6 @@ app.configure ->
         ]
       files: [ # order matters
         'polyfills.js'
-        'vendor/json2.js'
         'vendor/jquery-1.6.4.js'
         'vendor/underscore.js'
         'vendor/backbone.js'
