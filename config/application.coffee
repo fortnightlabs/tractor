@@ -37,6 +37,7 @@ app.configure ->
         'vendor/underscore.js'
         'vendor/backbone.js'
         'vendor/jquery.keylisten.js'
+        'vendor/jquery.uncover.js'
         '../../node_modules/strftime/lib/index.js'
         'application.coffee'
         '*'

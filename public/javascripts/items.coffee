@@ -39,7 +39,7 @@ ItemView = Backbone.View.extend
     @model.set selected: $(e.target).prop('checked')
 
   changeCursor: (model, val) ->
-    $(@el).toggleClass 'cursor', val
+    $.uncover $(@el).toggleClass('cursor', val)
 
   changeSelected: (model, val) ->
     $(@el)
