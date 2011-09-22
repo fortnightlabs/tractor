@@ -85,9 +85,10 @@ HourView = Backbone.View.extend
     @collection.invoke 'set', selected: e.target.checked
 
   changeSelected: (model, val) ->
-    duration = @collection.selected().reduce(((sum, i) -> sum + i.get('duration')), 0).value()
+    selected = @collection.selected()
+    duration = selected.reduce(((sum, i) -> sum + i.get('duration')), 0).value()
     @$('th.project').text Locals.toDurationString(duration) || 'project'
-    @$('thead input[type=checkbox]').prop 'checked', false unless val
+    @$('thead input[type=checkbox]').prop 'checked', @collection.length == selected.value().length
 
 ItemList = Backbone.View.extend
   el: 'body'
