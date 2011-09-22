@@ -112,8 +112,6 @@ ItemList = Backbone.View.extend
       view
     , this
     console.timeEnd 'ItemList.reset'
-
-  fetch: ->
     @$('input[type=date]').val (i, old) =>
       old || strftime('%Y-%m-%d', @collection.first()?.get('start'))
     @$(':focus').blur()
