@@ -10,10 +10,12 @@ ItemSchema = module.exports = new mongoose.Schema
     type: Date
     required: true
   duration: Number
-  app:
-    type: String
-    required: true
+  app: String
   info: {}
   projectId: mongoose.Schema.ObjectId
+
+ItemSchema.pre 'save', (next) ->
+  @duration = @end - @start
+  next()
 
 Item = mongoose.model 'Item', ItemSchema

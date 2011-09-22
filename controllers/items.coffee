@@ -23,6 +23,16 @@ module.exports = (app) ->
           return next err if err
           res.json items
 
+    create:
+      json: (req, res, next) ->
+        items = req.body
+        items = [ items ] unless Array.isArray items
+        n = items.length
+        for item in items
+          Item.create item, (err, item) ->
+            return next err if err
+            res.json(inserted: items.length) if --n == 0
+
     update:
       json: (req, res) ->
         item = req.item
