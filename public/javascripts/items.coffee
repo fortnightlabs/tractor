@@ -36,7 +36,7 @@ ItemView = Backbone.View.extend
     @model.set selected: $(e.target).prop('checked')
 
   changeCursor: (model, val) ->
-    $(@el).toggleClass('cursor', val)
+    $(@el).toggleClass 'cursor', val
 
   changeSelected: (model, val) ->
     $(@el)
@@ -44,8 +44,7 @@ ItemView = Backbone.View.extend
       .find('input[type=checkbox]').prop('checked', val)
 
   changeProjectId: (model, val) ->
-    project = Projects.get val
-    @$('td.project').text project.get('name')
+    @$('td.project').text Projects.get(val).get('name')
 
   remove: ->
     $(@el).remove()
