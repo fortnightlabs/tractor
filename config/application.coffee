@@ -49,6 +49,7 @@ app.configure ->
     compress: true
   app.use assetManager
   app.use express.static(env.paths.public)
+  app.use express.profiler()
   app.use express.bodyParser()
   app.use express.methodOverride()
   app.use express.logger()
