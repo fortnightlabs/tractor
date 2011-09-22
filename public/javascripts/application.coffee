@@ -19,37 +19,30 @@ Tractor.Item = Backbone.Model.extend
     r.hour = r.start.getHours()
     r
 
-class Tractor.Hour extends Backbone.Collection
+class Tractor.Group extends Backbone.Collection
   model: Tractor.Item
-  url: '/items'
 
   initialize: ->
-    @bind 'reset',            @updateHour
-    @bind 'reset',            @updateTotals
-    @bind 'add',              @updateTotals
-    @bind 'remove',           @updateTotals
-    @bind 'change:projectId', @updateTotals
-
-    @updateHour()
+    @bind 'add',              @updateTotals, this
+    @bind 'remove',           @updateTotals, this
+    @bind 'reset',            @updateTotals, this
+    @bind 'change:projectId', @updateTotals, this
     @updateTotals()
 
   parse: (response) ->
     _.map response, Tractor.Item.prototype.parse
 
-  selected: ->
-    @chain().filter (i) -> i.get 'selected'
-
-  updateHour: =>
-    @hour = @first()?.get('start')
-
-  updateTotals: =>
+  updateTotals: ->
     projects = {}
+    apps = {}
     totals =
       count: 0
       unassigned: 0
+      apps: apps
       projects: projects
     @each (item) ->
       totals.count++
+      apps[item.get('app')] = true
       if project = item.get 'projectId'
         projects[project] = (projects[project] || 0) + item.get 'duration'
       else
@@ -57,14 +50,28 @@ class Tractor.Hour extends Backbone.Collection
     @totals = totals
     @trigger 'change:totals', this, @totals
 
-class Tractor.Items extends Tractor.Hour
+  selected: ->
+    @chain().filter (i) -> i.get 'selected'
+
+class Tractor.Hour extends Tractor.Group
   initialize: ->
     super *arguments
-    @bind 'change:cursor', @updateCursorChange
-    @bind 'remove',        @updateCursorRemove
-    @bind 'reset',         @resetHours
+    @bind 'reset',            @updateHour, this
+    @updateHour()
 
-  resetHours: =>
+  updateHour: ->
+    @hour = @first()?.get('start')
+
+class Tractor.Items extends Tractor.Hour
+  url: '/items'
+
+  initialize: ->
+    super *arguments
+    @bind 'reset',         @resetHours, this
+    @bind 'change:cursor', @updateCursorChange, this
+    @bind 'remove',        @updateCursorRemove, this
+
+  resetHours: ->
     @cursor = -1
     @hours = []
     @chain()
@@ -75,11 +82,11 @@ class Tractor.Items extends Tractor.Hour
   next: -> @at Math.min(@cursor + 1, @length - 1)
   prev: -> @at Math.max(@cursor - 1, 0)
 
-  updateCursorChange: (model, val) =>
+  updateCursorChange: (model, val) ->
     return unless val
     @atCursor()?.set cursor: false unless model == @atCursor()
     @cursor = @indexOf model # TODO slow
 
-  updateCursorRemove: (model) =>
+  updateCursorRemove: (model) ->
     @cursor-- if model.get('start') <= @atCursor()?.get('start')
     @atCursor().set cursor: true

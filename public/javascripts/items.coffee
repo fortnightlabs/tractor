@@ -5,6 +5,8 @@ Locals =
   toDurationString: (duration) ->
     if duration == 0
       ''
+    else if duration > 3600
+      (duration / 3600).toFixed(1) + ' h'
     else if duration > 60
       (duration / 60).toFixed(0) + ' m'
     else
@@ -26,7 +28,7 @@ ItemView = Backbone.View.extend
 
   render: ->
     tmpl = @template _.extend(Object.create(Locals), item: @model.attributes)
-    @el.innerHTML = $(tmpl).html()
+    @el.innerHTML = tmpl.substring 4, tmpl.length-5  # get rid of <tr>
     this
 
   setCursor: (e) ->
@@ -49,6 +51,15 @@ ItemView = Backbone.View.extend
   remove: ->
     $(@el).remove()
 
+GroupView = Backbone.View.extend
+  tagName: 'tr'
+  className: 'group'
+  template: template._['group-view']
+
+  render: ->
+    @el.innerHTML = @template _.extend(Object.create(Locals), group: @collection)
+    this
+
 TotalsView = Backbone.View.extend
   tagName: 'tr'
   template: template._['totals-view']
@@ -67,8 +78,9 @@ HourView = Backbone.View.extend
     'click thead input[type=checkbox]': 'selectAll'
 
   initialize: ->
-    @collection.bind 'reset',           @reset, this
-    @collection.bind 'change:selected', @changeSelected, this
+    @collection.bind 'reset',            @reset, this
+    @collection.bind 'change:projectId', @reset, this
+    @collection.bind 'change:selected',  @changeSelected, this
 
   render: ->
     @el.innerHTML = @template _.extend(Object.create(Locals), hour: @collection)
@@ -76,8 +88,30 @@ HourView = Backbone.View.extend
 
   reset: ->
     @render()
+
     tbody = @$('tbody')
-    @collection.each (i) -> tbody.append new ItemView(model: i).render().el
+    lastGroup = lastProject = null
+    @collection.each (i) ->
+      project = i.get 'projectId'
+      if project
+        if project == lastProject
+          lastGroup.add i, silent: true
+        else
+          if lastProject
+            lastGroup.trigger 'reset'
+            tbody.append new GroupView(collection: lastGroup).render().el
+          lastGroup = new Tractor.Group [ i ]
+          lastProject = project
+      else
+        if lastProject
+          lastGroup.trigger 'reset'
+          tbody.append new GroupView(collection: lastGroup).render().el
+          lastGroup = lastProject = null
+        tbody.append new ItemView(model: i).render().el
+    if lastProject
+      lastGroup.trigger 'reset'
+      tbody.append new GroupView(collection: lastGroup).render().el
+
     @$('tfoot').append new TotalsView(collection: @collection).render().el
     this
 
@@ -95,7 +129,7 @@ ItemList = Backbone.View.extend
 
   initialize: ->
     @collection.bind 'reset', @reset, this
-    @collection.bind 'fetch', @fetch, this
+    @collection.bind 'change:totals', @updateTotals, this
 
   events:
     'keylisten':              'keylisten'
@@ -105,16 +139,20 @@ ItemList = Backbone.View.extend
   reset: ->
     list = @$ 'ul.items'
     list.html null
-    console.time 'ItemList.reset'
+    console.profile 'ItemList.reset'
     @hours = _.map @collection.hours, (hour) ->
       view = new HourView collection: hour
       list.append view.reset().el
       view
     , this
-    console.timeEnd 'ItemList.reset'
+    console.profileEnd 'ItemList.reset'
     @$('input[type=date]').val (i, old) =>
       old || strftime('%Y-%m-%d', @collection.first()?.get('start'))
     @$(':focus').blur()
+
+  updateTotals: ->
+    tmpl = template._['totals-view'](_.extend(Object.create(Locals), totals: @collection.totals))
+    @$('.toolbar .totals').html $(tmpl).html()
 
   keylisten: (e) ->
     items = @collection

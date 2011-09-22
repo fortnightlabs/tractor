@@ -8,7 +8,7 @@ form#filter
     option( disabled=true ) project
     - each project in projects
       option( value=project.id )= project.name
-  .totals
+  span.totals
 
 ul.items Loading
   //- hour-view (li)
@@ -18,7 +18,7 @@ template( id='hour-view' ):
     thead
       tr
         th.project project
-        th: input( type='checkbox' )
+        th.checkbox: input( type='checkbox' )
         th.hour= strftime('%l %p', hour.hour)
         th.duration duration
         th.app app
@@ -35,12 +35,27 @@ template( id='item-view' ):
         = projects.get(item.projectId).get('name')
     td: input( type='checkbox' )
     td!= strftime('%l:<b>%M:%S</b>', item.start)
-    td= toDurationString(item.duration)
+    td.duration= toDurationString(item.duration)
     td= item.app
     td: div.title= item.info.title
 
+template( id='group-view' ):
+  tr
+    td.project
+      = projects.get(group.first().get('projectId')).get('name')
+      = ' (' + group.length + ')'
+    td: input( type='checkbox' )
+    td
+      != strftime('%l:<b>%M:%S</b>', group.first().get('start'))
+      - if (group.length > 1)
+        != '-' + strftime('%l:<b>%M:%S</b>', group.last().get('end'))
+    td.duration
+      - each duration in group.totals.projects
+        = toDurationString(duration)
+    td( colspan=2 )= _.keys(group.totals.apps).join(', ')
+
 template( id='totals-view' ):
-  th.totals( colspan=6 )
+  td.totals( colspan=6 )
     = totals.count
     |  items: 
     dl.projects

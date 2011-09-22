@@ -21,11 +21,15 @@ body.-items
       display inline
 
   table.hour
+    table-layout fixed
     font-size small
     border-collapse collapse
     margin-bottom 1em
+    width 800px
     tr:nth-child(odd)
       background-color hsl(0, 0%, 95%)
+    tr.group
+      color #999
     tr.selected
       background-color yellow
     tr.cursor
@@ -40,25 +44,31 @@ body.-items
       color white
       text-shadow 0 -1px 0 hsla(0, 0%, 0%, 0.5)
       padding 5px
-      &.project, &.hour
-        width 5em
+      &.project
+        width 8em
+      &.checkbox
+        width 2em
+      &.hour
+        width 9em
       &.duration
-        width 3em
+        width 5em
       &.app
         width 10em
     td
       padding 3px 5px
     .duration
       text-align right
-    .title
-      width 30em
+      white-space nowrap
+    div.title
+      width 100%
       white-space nowrap
       overflow hidden
       text-overflow ellipsis
-    .totals
-      dl, dt, dd
-        display inline
-      dt
-        margin-left 1em
-      dd
-        margin-left 1ex
+  .totals
+    font-size small
+    dl, dt, dd
+      display inline
+    dt
+      margin-left 1em
+    dd
+      margin-left 1ex
