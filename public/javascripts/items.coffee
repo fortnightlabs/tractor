@@ -1,35 +1,7 @@
-HourView = Backbone.View.extend
-  tagName: 'li'
+Projects = new Tractor.Projects
 
-  initialize: ->
-    @projects = @options.projects
-    @collection.bind 'reset', @reset, this
-    @collection.bind 'all', @render, this
-
-  events:
-    'click input[type=checkbox]': 'select'
-    'click tr': 'cursor'
-
-  reset: ->
-    $(@el).html @template('hour-view', items: @collection.models)
-    @render()
-
-  itemFor: (e) ->
-    if id = $(e.target).closest('tr').prop('id')
-      @collection.get id
-
-  select: (e) ->
-    target = $ e.target
-    checked = target.prop 'checked'
-    if item = @itemFor(e)
-      item.set selected: checked
-    else
-      @collection.each (item) -> item.set selected: checked
-
-  cursor: (e) ->
-    if item = @itemFor(e)
-      item.set cursor: true
-
+Locals =
+  projects: Projects
   toDurationString: (duration) ->
     if duration == 0
       ''
@@ -38,60 +10,113 @@ HourView = Backbone.View.extend
     else
       duration.toFixed(0) + ' s'
 
-  template: (tmpl, locals) ->
-    _.extend locals,
-      projects: @projects
-      toDurationString: @toDurationString
-    template._[tmpl](locals)
+ItemView = Backbone.View.extend
+  tagName: 'tr'
+  template: template._['item-view']
 
-  render: (e, item, val) ->
-    switch e
-      when 'change:selected'
-        duration = @collection.selected().reduce(((sum, i) -> sum + i.get('duration')), 0).value()
-        @$('th.project').text @toDurationString(duration) || 'project'
-        @$('thead input[type=checkbox]').prop 'checked', false unless val
-        @$("tr##{item.id}")
-          .toggleClass('selected', val)
-          .find('input[type=checkbox]').prop('checked', val)
-      when 'change:cursor'
-        @$("tr##{item.id}").toggleClass('cursor', val)
-      when 'change:projectId'
-        project = @projects.get val
-        @$("tr##{item.id} td.project").text project.get('name')
-      when 'remove'
-        @$("tr##{item.id}").remove()
-    @$('tr.footer').html @template('totals-view', totals: @collection.totals)
+  events:
+    'click':                      'setCursor'
+    'click input[type=checkbox]': 'select'
+
+  initialize: ->
+    @model.bind 'change:cursor',    @changeCursor, this
+    @model.bind 'change:selected',  @changeSelected, this
+    @model.bind 'change:projectId', @changeProjectId, this
+    @model.bind 'destroy',          @remove, this
+
+  render: ->
+    tmpl = @template _.extend(Object.create(Locals), item: @model.attributes)
+    @el.innerHTML = $(tmpl).html()
     this
+
+  setCursor: (e) ->
+    @model.set cursor: true
+
+  select: (e) ->
+    @model.set selected: $(e.target).prop('checked')
+
+  changeCursor: (model, val) ->
+    $(@el).toggleClass('cursor', val)
+
+  changeSelected: (model, val) ->
+    $(@el)
+      .toggleClass('selected', val)
+      .find('input[type=checkbox]').prop('checked', val)
+
+  changeProjectId: (model, val) ->
+    project = Projects.get val
+    @$('td.project').text project.get('name')
+
+  remove: ->
+    $(@el).remove()
+
+TotalsView = Backbone.View.extend
+  tagName: 'tr'
+  template: template._['totals-view']
+
+  initialize: ->
+    @collection.bind 'change:totals', @render, this
+
+  render: ->
+    @el.innerHTML = @template _.extend(Object.create(Locals), totals: @collection.totals)
+    this
+
+HourView = Backbone.View.extend
+  tagName: 'li'
+  template: template._['hour-view']
+  events:
+    'click thead input[type=checkbox]': 'selectAll'
+
+  initialize: ->
+    @collection.bind 'reset',           @reset, this
+    @collection.bind 'change:selected', @changeSelected, this
+
+  render: ->
+    @el.innerHTML = @template _.extend(Object.create(Locals), hour: @collection)
+    this
+
+  reset: ->
+    @render()
+    tbody = @$('tbody')
+    @collection.each (i) -> tbody.append new ItemView(model: i).render().el
+    @$('tfoot').append new TotalsView(collection: @collection).render().el
+    this
+
+  selectAll: (e) ->
+    @collection.invoke 'set', selected: e.target.checked
+
+  changeSelected: (model, val) ->
+    duration = @collection.selected().reduce(((sum, i) -> sum + i.get('duration')), 0).value()
+    @$('th.project').text Locals.toDurationString(duration) || 'project'
+    @$('thead input[type=checkbox]').prop 'checked', false unless val
 
 ItemList = Backbone.View.extend
   el: 'body'
 
   initialize: ->
     @collection.bind 'reset', @reset, this
-    @collection.bind 'all', @render, this
+    @collection.bind 'fetch', @fetch, this
 
   events:
-    'submit form#filter': 'filter'
+    'keylisten':              'keylisten'
+    'submit form#filter':     'filter'
     'change select#projects': 'label'
-    'keylisten': 'keylisten'
 
   reset: ->
     list = @$ 'ul.items'
     list.html null
-    @hours = _.map @collection.hours, (hour) =>
-      view = new HourView collection: hour, projects: @options.projects
+    console.time 'ItemList.reset'
+    @hours = _.map @collection.hours, (hour) ->
+      view = new HourView collection: hour
       list.append view.reset().el
       view
+    , this
+    console.timeEnd 'ItemList.reset'
 
-  filter: (e) ->
-    e.preventDefault()
-    @collection.fetch data: $(e.target).serialize()
-
-  label: (e) ->
-    @collection.selected().invoke 'save',
-      projectId: $(e.target).val()
-      selected: false
-    $(e.target).prop 'selectedIndex', 0
+  fetch: ->
+    @$('input[type=date]').val (i, old) =>
+      old || strftime('%Y-%m-%d', @collection.first()?.get('start'))
+    @$(':focus').blur()
 
   keylisten: (e) ->
     items = @collection
@@ -110,17 +135,20 @@ ItemList = Backbone.View.extend
         e.preventDefault()
         @$('input[type=search]').select()
 
-  render: ->
-    @$('input[type=date]').val (i, old) =>
-      old || strftime('%Y-%m-%d', @collection.first()?.get('start'))
-    @$(':focus').blur()
-    this
+  filter: (e) ->
+    e.preventDefault()
+    @collection.fetch data: $(e.target).serialize()
+
+  label: (e) ->
+    @collection.selected().invoke 'save',
+      projectId: $(e.target).val()
+      selected: false
+    $(e.target).prop 'selectedIndex', 0
 
 $ ->
-  Projects = new Tractor.Projects
   Projects.fetch()
 
   Items = new Tractor.Items
   Items.fetch()
 
-  new ItemList collection: Items, projects: Projects
+  new ItemList collection: Items

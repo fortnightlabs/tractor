@@ -24,11 +24,13 @@ class Tractor.Hour extends Backbone.Collection
   url: '/items'
 
   initialize: ->
+    @bind 'reset',            @updateHour
     @bind 'reset',            @updateTotals
     @bind 'add',              @updateTotals
     @bind 'remove',           @updateTotals
     @bind 'change:projectId', @updateTotals
 
+    @updateHour()
     @updateTotals()
 
   parse: (response) ->
@@ -36,6 +38,9 @@ class Tractor.Hour extends Backbone.Collection
 
   selected: ->
     @chain().filter (i) -> i.get 'selected'
+
+  updateHour: =>
+    @hour = @first()?.get('start')
 
   updateTotals: =>
     projects = {}
@@ -50,6 +55,7 @@ class Tractor.Hour extends Backbone.Collection
       else
         totals.unassigned += item.get 'duration'
     @totals = totals
+    @trigger 'change:totals', this, @totals
 
 class Tractor.Items extends Tractor.Hour
   initialize: ->

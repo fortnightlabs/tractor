@@ -11,6 +11,7 @@ form#filter
   .totals
 
 ul.items Loading
+  //- hour-view (li)
 
 template( id='hour-view' ):
   table.hour
@@ -18,23 +19,25 @@ template( id='hour-view' ):
       tr
         th.project project
         th: input( type='checkbox' )
-        th.hour= strftime('%l %p', items[0].get('start'))
+        th.hour= strftime('%l %p', hour.hour)
         th.duration duration
         th.app app
         th.title title
     tbody
-      - each item in items
-        - item = item.attributes
-        tr( id=item._id )
-          td.project
-            - if (item.projectId)
-              = projects.get(item.projectId).get('name')
-          td: input( type='checkbox' )
-          td!= strftime('%l:<b>%M:%S</b>', item.start)
-          td= toDurationString(item.duration)
-          td= item.app
-          td: div.title= item.info.title
-      tr.footer
+      //- item-view (tr)
+    tfoot
+      //- totals-view (tr)
+
+template( id='item-view' ):
+  tr
+    td.project
+      - if (item.projectId)
+        = projects.get(item.projectId).get('name')
+    td: input( type='checkbox' )
+    td!= strftime('%l:<b>%M:%S</b>', item.start)
+    td= toDurationString(item.duration)
+    td= item.app
+    td: div.title= item.info.title
 
 template( id='totals-view' ):
   th.totals( colspan=6 )
@@ -42,8 +45,12 @@ template( id='totals-view' ):
     |  items: 
     dl.projects
       - each duration, projectId in totals.projects
-        dt= projects.get(projectId).get('name')
-        dd= toDurationString(duration)
+        - project = projects.get(projectId)
+        dt= project.get('name')
+        dd
+          = toDurationString(duration)
+          - if (project.get('rate'))
+            = ' ($' + (project.get('rate')*duration/3600).toFixed(2) + ')'
       - if (totals.unassigned)
         dt unassigned
         dd= toDurationString(totals.unassigned)
