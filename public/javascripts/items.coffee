@@ -180,20 +180,24 @@ ItemList = Backbone.View.extend
 
   keylisten: (e) ->
     items = @collection
-    switch e.keyName
-      when 'j'
+    handled = switch e.keyName
+      when 'h', 'left'
+        items.atCursor().trigger 'group:close'
+      when 'j', 'down'
         items.next().set cursor: true
-      when 'k'
+      when 'k', 'up'
         items.prev().set cursor: true
-      when 'l'
+      when 'l', 'right'
+        items.atCursor().trigger 'group:open'
+      when 'p'
         @$('select#projects').focus()
       when 'x'
         items.atCursor().toggle()
       when 'y'
         items.selected().invoke 'destroy'
       when '/'
-        e.preventDefault()
         @$('input[type=search]').select()
+    e.preventDefault() if handled
 
   filter: (e) ->
     e.preventDefault()
