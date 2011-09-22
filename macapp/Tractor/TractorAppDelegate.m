@@ -1,5 +1,4 @@
 #import "TractorAppDelegate.h"
-#import "Item.h"
 
 @interface TractorAppDelegate (PRIVATE)
 
@@ -9,17 +8,15 @@
 
 @implementation TractorAppDelegate
 
-@synthesize window;
-
-- (void)dumpItemsToJSON:(id)sender
-{
-  [Item dumpJSONfromManagedObjectContext:[self managedObjectContext]];
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
   [self createStatusItem];
-  checker = [[CurrentApplicationChecker alloc] initWithManagedObjectContext:[self managedObjectContext]];
+  controller = [[TractorController alloc] initWithManagedObjectContext:[self managedObjectContext]];
+}
+
+- (IBAction)dumpItemsToJSON:(id)sender
+{
+  [controller dumpJSON];
 }
 
 - (void)createStatusItem
@@ -182,6 +179,7 @@
 
 - (void)dealloc
 {
+    [controller release];
     [__managedObjectContext release];
     [__persistentStoreCoordinator release];
     [__managedObjectModel release];

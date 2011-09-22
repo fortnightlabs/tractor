@@ -13,12 +13,4 @@
 - (BOOL)matchesApp:(NSString *)app andInfoData:(NSData *)infoData;
 - (NSDictionary *)JSONDictionary;
 
-+ (Item *)insertOrUpdateWithApp:(NSString *)app
-                        andInfo:(NSDictionary *)info
-        andManagedObjectContext:(NSManagedObjectContext *)context;
-+ (Item *)latestFromManagedObjectContext:(NSManagedObjectContext *)context;
-
-+ (void)dumpJSONfromManagedObjectContext:(NSManagedObjectContext *)context;
-
-
 @end
