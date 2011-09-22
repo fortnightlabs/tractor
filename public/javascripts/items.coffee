@@ -23,12 +23,13 @@ ItemView = Backbone.View.extend
   initialize: ->
     @model.bind 'change:cursor',    @changeCursor, this
     @model.bind 'change:selected',  @changeSelected, this
-    @model.bind 'change:projectId', @changeProjectId, this
+    #@model.bind 'change:projectId', @changeProjectId, this
     @model.bind 'destroy',          @remove, this
 
   render: ->
     tmpl = @template _.extend(Object.create(Locals), item: @model.attributes)
     @el.innerHTML = tmpl.substring 4, tmpl.length-5  # get rid of <tr>
+    @el.className = 'cursor' if @model.get('cursor')
     this
 
   setCursor: (e) ->
@@ -48,20 +49,44 @@ ItemView = Backbone.View.extend
   changeProjectId: (model, val) ->
     @$('td.project').text Projects.get(val).get('name')
 
-  remove: ->
-    $(@el).remove()
-
 GroupView = Backbone.View.extend
-  tagName: 'tr'
+  tagName: 'tbody'
   className: 'group'
   template: template._['group-view']
 
+  events:
+    'click tr.summary': 'toggle'
+
+  initialize: ->
+    @collection.bind 'change:cursor', @changeCursor, this
+    @open = false
+
   render: ->
-    @el.innerHTML = @template _.extend(Object.create(Locals), group: @collection)
+    unless @open
+      @el.innerHTML = @template _.extend(Object.create(Locals), group: @collection)
+    else
+      @collection.each (i) ->
+        @el.appendChild new ItemView(model: i).render().el
+      , this
     this
 
+  toggle: ->
+    @open = !@open
+    @render()
+
+  changeCursor: (model, val) ->
+    # open the group based on cursor presence
+    if val && !@open
+      @open = true
+      @render()
+    ### and close it when the cursor leaves
+    else if !val && @collection.all((i) -> !i.get('cursor'))
+      @open = false
+      @render()
+    ###
+
 TotalsView = Backbone.View.extend
-  tagName: 'tr'
+  tagName: 'tfoot'
   template: template._['totals-view']
 
   initialize: ->
@@ -87,9 +112,8 @@ HourView = Backbone.View.extend
     this
 
   reset: ->
-    @render()
+    table = @render().$('table')
 
-    tbody = @$('tbody')
     lastGroup = lastProject = null
     @collection.each (i) ->
       project = i.get 'projectId'
@@ -99,20 +123,20 @@ HourView = Backbone.View.extend
         else
           if lastProject
             lastGroup.trigger 'reset'
-            tbody.append new GroupView(collection: lastGroup).render().el
+            table.append new GroupView(collection: lastGroup).render().el
           lastGroup = new Tractor.Group [ i ]
           lastProject = project
       else
         if lastProject
           lastGroup.trigger 'reset'
-          tbody.append new GroupView(collection: lastGroup).render().el
+          table.append new GroupView(collection: lastGroup).render().el
           lastGroup = lastProject = null
-        tbody.append new ItemView(model: i).render().el
+        table.append new ItemView(model: i).render().el
     if lastProject
       lastGroup.trigger 'reset'
-      tbody.append new GroupView(collection: lastGroup).render().el
+      table.append new GroupView(collection: lastGroup).render().el
 
-    @$('tfoot').append new TotalsView(collection: @collection).render().el
+    table.append new TotalsView(collection: @collection).render().el
     this
 
   selectAll: (e) ->

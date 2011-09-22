@@ -23,10 +23,9 @@ template( id='hour-view' ):
         th.duration duration
         th.app app
         th.title title
-    tbody
+    //- group-view (tbody)
       //- item-view (tr)
-    tfoot
-      //- totals-view (tr)
+    //- totals-view (tfoot)
 
 template( id='item-view' ):
   tr
@@ -40,7 +39,7 @@ template( id='item-view' ):
     td: div.title= item.info.title
 
 template( id='group-view' ):
-  tr
+  tr.summary
     td.project
       = projects.get(group.first().get('projectId')).get('name')
       = ' (' + group.length + ')'
@@ -55,7 +54,7 @@ template( id='group-view' ):
     td( colspan=2 )= _.keys(group.totals.apps).join(', ')
 
 template( id='totals-view' ):
-  td.totals( colspan=6 )
+  tr: td.totals( colspan=6 )
     = totals.count
     |  items: 
     dl.projects
