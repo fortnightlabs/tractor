@@ -1,10 +1,28 @@
 #import "TractorAppDelegate.h"
+#import "Item.h"
+
+@interface TractorAppDelegate (PRIVATE)
+
+- (void)createStatusItem;
+
+@end
 
 @implementation TractorAppDelegate
 
 @synthesize window;
 
+- (void)dumpItemsToJSON:(id)sender
+{
+  [Item dumpJSONfromManagedObjectContext:[self managedObjectContext]];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+  [self createStatusItem];
+  checker = [[CurrentApplicationChecker alloc] initWithManagedObjectContext:[self managedObjectContext]];
+}
+
+- (void)createStatusItem
 {
   statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength] retain];
   [statusItem setImage:[NSImage imageNamed:@"tractor.tiff"]];
@@ -81,7 +99,7 @@
     
     NSURL *url = [applicationFilesDirectory URLByAppendingPathComponent:@"Tractor.storedata"];
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]) {
+    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:url options:nil error:&error]) {
         [[NSApplication sharedApplication] presentError:error];
         [__persistentStoreCoordinator release], __persistentStoreCoordinator = nil;
         return nil;
@@ -112,28 +130,6 @@
     [__managedObjectContext setPersistentStoreCoordinator:coordinator];
 
     return __managedObjectContext;
-}
-
-/**
-    Returns the NSUndoManager for the application. In this case, the manager returned is that of the managed object context for the application.
- */
-- (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
-    return [[self managedObjectContext] undoManager];
-}
-
-/**
-    Performs the save action for the application, which is to send the save: message to the application's managed object context. Any encountered errors are presented to the user.
- */
-- (IBAction)saveAction:(id)sender {
-    NSError *error = nil;
-    
-    if (![[self managedObjectContext] commitEditing]) {
-        NSLog(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
-    }
-
-    if (![[self managedObjectContext] save:&error]) {
-        [[NSApplication sharedApplication] presentError:error];
-    }
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {

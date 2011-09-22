@@ -1,8 +1,12 @@
 #import <Cocoa/Cocoa.h>
+#import "CurrentApplicationChecker.h"
 
 @interface TractorAppDelegate : NSObject <NSApplicationDelegate> {
   NSStatusItem *statusItem;
   IBOutlet NSMenu *statusMenu;
+
+  CurrentApplicationChecker *checker;
+
   NSWindow *window;
   NSPersistentStoreCoordinator *__persistentStoreCoordinator;
   NSManagedObjectModel *__managedObjectModel;
@@ -15,6 +19,6 @@
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 
-- (IBAction)saveAction:(id)sender;
+- (IBAction)dumpItemsToJSON:(id)sender;
 
 @end

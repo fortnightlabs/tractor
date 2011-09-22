@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="untitled.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="562" systemVersion="11B2118" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Item" representedClassName="Item">
+        <attribute name="app" optional="YES" attributeType="String"/>
+        <attribute name="end" optional="YES" attributeType="Date"/>
+        <attribute name="info" optional="YES" attributeType="Binary"/>
+        <attribute name="start" optional="YES" attributeType="Date"/>
+    </entity>
+    <elements>
+        <element name="Item" positionX="160" positionY="192" width="128" height="105"/>
+    </elements>
 </model>

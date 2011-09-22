@@ -1,0 +1,3 @@
+[submodule "macapp/Tractor/JSONKit"]
+	path = macapp/Tractor/JSONKit
+	url = https://github.com/johnezang/JSONKit.git
