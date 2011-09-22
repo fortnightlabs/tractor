@@ -12,8 +12,8 @@ module.exports = (app) ->
           res.render 'items', projects: projects
 
       json: (req, res, next) ->
-        today = new Date
-        day = Date.parse(req.param('date') || "#{today.getFullYear()}-#{today.getMonth()}-#{today.getDate()}")
+        today = new Date(Date.now() - 86400000)
+        day = Date.parse(req.param('date') || "#{today.getFullYear()}-#{today.getMonth()+1}-#{today.getDate()}")
         nextDay = day + 86400000
         conditions = { start: { $gt: day }, end: { $lt: nextDay } }
         if req.param('query')
