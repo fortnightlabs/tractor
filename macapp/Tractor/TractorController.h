@@ -10,6 +10,6 @@
 
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
-- (void)dumpJSON;
+- (void)dumpJSONToURL:(NSURL *)url;
 
 @end

@@ -167,7 +167,7 @@ static int64_t SystemIdleSeconds(void);
   latestItem = [items count] == 0 ? nil : [items objectAtIndex:0];
 }
 
-- (void)dumpJSON
+- (void)dumpJSONToURL:(NSURL *)url
 {
   NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
   NSSortDescriptor *startAsc = [NSSortDescriptor sortDescriptorWithKey:@"start" ascending:YES];
@@ -188,7 +188,10 @@ static int64_t SystemIdleSeconds(void);
     [json addObject:[item JSONDictionary]];
   }
   
-  NSLog(@"%@", [json JSONString]);
+  [[json JSONString] writeToURL:url atomically:NO encoding:NSUTF8StringEncoding error:&error];
+  if (error) {
+    NSLog(@"Couldn't save: %@", [error localizedDescription]);
+  }
 }
 
 - (void)checkStateAgainInOneSecond

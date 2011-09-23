@@ -16,7 +16,10 @@
 
 - (IBAction)dumpItemsToJSON:(id)sender
 {
-  [controller dumpJSON];
+  NSSavePanel *panel = [NSSavePanel savePanel];
+  if ([panel runModal] == NSFileHandlingPanelOKButton) {
+    [controller dumpJSONToURL:[panel URL]];
+  }
 }
 
 - (void)createStatusItem
