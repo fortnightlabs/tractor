@@ -28,10 +28,11 @@ module.exports = (app) ->
         items = req.body
         items = [ items ] unless Array.isArray items
         n = items.length
+        i = 0
         for item in items
           Item.create item, (err, item) ->
-            return next err if err
-            res.json(inserted: items.length) if --n == 0
+            ++i unless err
+            res.json(received: items.length, inserted: i) if --n == 0
 
     update:
       json: (req, res) ->
