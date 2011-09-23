@@ -230,6 +230,7 @@ ItemList = Backbone.View.extend
     @collection.invoke 'set', selected: true
 
   label: (e) ->
+    # TODO fires off way too many events
     @collection.selected().invoke 'save',
       projectId: $(e.target).val()
       selected: false
