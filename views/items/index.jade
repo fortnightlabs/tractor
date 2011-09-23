@@ -40,8 +40,11 @@ template( id='item-view' ):
     td: input( type='checkbox' )
     td!= strftime('%l:<b>%M:%S</b>', item.start)
     td.duration= toDurationString(item.duration)
-    td= item.app
-    td: div.title= item.info.title
+    - if (item.app)
+      td= item.app
+      td: div.title= item.info && (item.info.title || item.info.subject)
+    - else
+      td.unassigned( colspan=2 ) Unassigned
 
 template( id='group-view' ):
   tr.summary
