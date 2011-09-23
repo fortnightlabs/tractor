@@ -7,7 +7,7 @@ module.exports = (app) ->
   app.resource 'items'
     index:
       html: (req, res) ->
-        Project.find (err, projects) ->
+        Project.find {}, {}, { sort: 'name' }, (err, projects) ->
           return next err if err
           res.render 'items', projects: projects
 
