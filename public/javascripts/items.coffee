@@ -46,7 +46,7 @@ ItemView = Backbone.View.extend
     e.preventDefault() if e.shiftKey
 
   changeCursor: (model, val) ->
-    $.uncover $(@el).toggleClass('cursor', val)
+    $(@el).toggleClass('cursor', val)
 
   changeSelected: (model, val) ->
     $(@el)
