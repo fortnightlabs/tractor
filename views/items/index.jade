@@ -1,18 +1,19 @@
-form#filter
-  input( type='date', name='date' )
-  input( type='search', name='query', placeholder='search' )
-  input( type='submit', value='go' )
-  span.totals
+header
+  form#filter
+    input( type='date', name='date' )
+    input( type='search', name='query', placeholder='search' )
+    input( type='submit', value='go' )
+    span.totals
 
-table.hour.toolbar: tr
-  th.project
-  th.checkbox: input( type='checkbox' )
-  th( colspan=4 )
-    select#projects
-      option( disabled=true ) assign to
-      - each project in projects
-        option( value=project.id )= project.name
-    button#destroy delete
+  table.hour.toolbar: tr
+    th.project
+    th.checkbox: input( type='checkbox' )
+    th( colspan=4 )
+      select#projects
+        option( disabled=true ) assign to
+        - each project in projects
+          option( value=project.id )= project.name
+      button#destroy delete
 
 ul.items Loading
   //- hour-view (li)
