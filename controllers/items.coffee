@@ -25,6 +25,7 @@ module.exports = (app) ->
 
     create:
       json: (req, res, next) ->
+        t0 = Date.now()
         items = req.body
         items = [ items ] unless Array.isArray items
         n = items.length
@@ -32,7 +33,11 @@ module.exports = (app) ->
         for item in items
           Item.create item, (err, item) ->
             ++i unless err
-            res.json(received: items.length, inserted: i) if --n == 0
+            if --n == 0
+              res.json
+                received: items.length
+                inserted: i
+                took: Date.now() - t0
 
     update:
       json: (req, res) ->
