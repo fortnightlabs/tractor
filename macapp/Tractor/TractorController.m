@@ -187,8 +187,12 @@ static int64_t SystemIdleSeconds(void);
   for (Item *item in items) {
     [json addObject:[item JSONDictionary]];
   }
-  
-  [[json JSONString] writeToURL:url atomically:NO encoding:NSUTF8StringEncoding error:&error];
+
+  NSString *dump = [json JSONStringWithOptions:JKSerializeOptionPretty error:&error];
+  if (!error) {
+   [dump writeToURL:url atomically:NO encoding:NSUTF8StringEncoding error:&error]; 
+  }
+
   if (error) {
     NSLog(@"Couldn't save: %@", [error localizedDescription]);
   }
