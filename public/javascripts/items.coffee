@@ -31,9 +31,12 @@ ItemView = Backbone.View.extend
     attrs = @model.attributes
     tmpl = @template _.extend(Object.create(Locals), item: attrs)
     @el.innerHTML = tmpl.substring 4, tmpl.length-5  # get rid of <tr>
-    @el.className += ' cursor' if attrs.cursor
+    @el.className = 'cursor' if attrs.cursor
     @el.className += ' selected' if attrs.selected
     this
+
+  detach: ->
+    $(@el).detach()
 
   setCursor: (e) ->
     @model.set { selected: true }, { range: true } if e.shiftKey
@@ -46,7 +49,8 @@ ItemView = Backbone.View.extend
     e.preventDefault() if e.shiftKey
 
   changeCursor: (model, val) ->
-    $(@el).toggleClass('cursor', val)
+    $el = $(@el).toggleClass('cursor', val)
+    $.uncover $el if val
 
   changeSelected: (model, val) ->
     $(@el)
@@ -70,16 +74,15 @@ GroupView = Backbone.View.extend
     @collection.bind 'group:close',     @close, this
     @collection.bind 'change:cursor',   @changeCursor, this
     @collection.bind 'change:selected', @changeSelected, this
-    @open = false
     @el.innerHTML = @template _.extend(Object.create(Locals), group: @collection)
+    @open = false
 
   render: ->
     if @open
-      @collection.each (i) ->
-        @el.appendChild new ItemView(model: i).render().el
-      , this
+      @views ||= @collection.map (i) -> new ItemView model: i
+      @el.appendChild v.render().el for v in @views
     else
-      @$('tr:not(.summary)').remove()
+      _.invoke @views, 'detach'
     this
 
   open: ->
