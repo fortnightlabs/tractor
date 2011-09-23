@@ -99,7 +99,7 @@
     
     NSURL *url = [applicationFilesDirectory URLByAppendingPathComponent:@"Tractor.storedata"];
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSInMemoryStoreType configuration:nil URL:url options:nil error:&error]) {
+    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]) {
         [[NSApplication sharedApplication] presentError:error];
         [__persistentStoreCoordinator release], __persistentStoreCoordinator = nil;
         return nil;
