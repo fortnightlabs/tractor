@@ -1,4 +1,4 @@
 ./.git/*
-./public/stylesheets/*.css
+./public/stylesheets/*
 ./tmp/*
 ./views/*
