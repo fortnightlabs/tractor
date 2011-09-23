@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F203730F142CCC740053C4A5 /* Items.m in Sources */ = {isa = PBXBuildFile; fileRef = F203730E142CCC730053C4A5 /* Items.m */; };
+		F2037312142CD8D20053C4A5 /* ItemsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F2037311142CD8D20053C4A5 /* ItemsRequest.m */; };
+		F26CFE21142C559800C72DA2 /* Uploader.m in Sources */ = {isa = PBXBuildFile; fileRef = F26CFE20142C559800C72DA2 /* Uploader.m */; };
 		F2A0B49C14207CA000F07F32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A0B49B14207CA000F07F32 /* Cocoa.framework */; };
 		F2A0B4A614207CA000F07F32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4A414207CA000F07F32 /* InfoPlist.strings */; };
 		F2A0B4A814207CA000F07F32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0B4A714207CA000F07F32 /* main.m */; };
@@ -39,6 +42,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F203730D142CCC730053C4A5 /* Items.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Items.h; sourceTree = "<group>"; };
+		F203730E142CCC730053C4A5 /* Items.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Items.m; sourceTree = "<group>"; };
+		F2037310142CD8D20053C4A5 /* ItemsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemsRequest.h; sourceTree = "<group>"; };
+		F2037311142CD8D20053C4A5 /* ItemsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemsRequest.m; sourceTree = "<group>"; };
+		F26CFE1F142C559700C72DA2 /* Uploader.h */ = {isa = PBXFileReference; fileEncoding = 4; path = Uploader.h; sourceTree = "<group>"; };
+		F26CFE20142C559800C72DA2 /* Uploader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Uploader.m; sourceTree = "<group>"; };
 		F2A0B49714207CA000F07F32 /* Tractor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tractor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2A0B49B14207CA000F07F32 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F2A0B49E14207CA000F07F32 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -98,6 +107,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F2037313142CDDBA0053C4A5 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				F2EF60B0142AA4A0009FC44C /* Item.h */,
+				F2EF60B1142AA4A0009FC44C /* Item.m */,
+				F203730D142CCC730053C4A5 /* Items.h */,
+				F203730E142CCC730053C4A5 /* Items.m */,
+				F2037310142CD8D20053C4A5 /* ItemsRequest.h */,
+				F2037311142CD8D20053C4A5 /* ItemsRequest.m */,
+			);
+			name = Items;
+			sourceTree = "<group>";
+		};
 		F2A0B48C14207CA000F07F32 = {
 			isa = PBXGroup;
 			children = (
@@ -151,8 +173,9 @@
 				F2A0B4D31420845200F07F32 /* tractor.tiff */,
 				F2A0B4B014207CA000F07F32 /* MainMenu.xib */,
 				F2A0B4B314207CA000F07F32 /* Tractor.xcdatamodeld */,
-				F2EF60B0142AA4A0009FC44C /* Item.h */,
-				F2EF60B1142AA4A0009FC44C /* Item.m */,
+				F26CFE1F142C559700C72DA2 /* Uploader.h */,
+				F26CFE20142C559800C72DA2 /* Uploader.m */,
+				F2037313142CDDBA0053C4A5 /* Items */,
 				F2A0B4A214207CA000F07F32 /* Supporting Files */,
 			);
 			path = Tractor;
@@ -307,6 +330,9 @@
 				F2EF60AF142AA3FA009FC44C /* JSONKit.m in Sources */,
 				F2EF60B2142AA4A0009FC44C /* Item.m in Sources */,
 				F2EF60C0142BEE97009FC44C /* TractorController.m in Sources */,
+				F26CFE21142C559800C72DA2 /* Uploader.m in Sources */,
+				F203730F142CCC740053C4A5 /* Items.m in Sources */,
+				F2037312142CD8D20053C4A5 /* ItemsRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,4 +1,5 @@
 #import "TractorAppDelegate.h"
+#import "JSONKit.h"
 
 @interface TractorAppDelegate (PRIVATE)
 
@@ -11,14 +12,28 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
   [self createStatusItem];
-  controller = [[TractorController alloc] initWithManagedObjectContext:[self managedObjectContext]];
+  items = [[Items alloc] initWithManagedObjectContext:[self managedObjectContext]];
+  controller = [[TractorController alloc] initWithItems:items];
 }
 
 - (IBAction)dumpItemsToJSON:(id)sender
 {
   NSSavePanel *panel = [NSSavePanel savePanel];
   if ([panel runModal] == NSFileHandlingPanelOKButton) {
-    [controller dumpJSONToURL:[panel URL]];
+    ItemsRequest *request = [items request];
+    [request sortBy:@"start" ascending:YES];
+    
+    NSArray *json = [request JSONArray];
+    
+    // dump the json to the file
+    NSError *error = nil;
+    NSString *dump = [json JSONStringWithOptions:JKSerializeOptionPretty error:&error];
+    if (!error) {
+      [dump writeToURL:[panel URL] atomically:NO encoding:NSUTF8StringEncoding error:&error]; 
+    }
+    if (error) {
+      NSLog(@"Couldn't save: %@", [error localizedDescription]);
+    }
   }
 }
 
@@ -182,11 +197,12 @@
 
 - (void)dealloc
 {
-    [controller release];
-    [__managedObjectContext release];
-    [__persistentStoreCoordinator release];
-    [__managedObjectModel release];
-    [super dealloc];
+  [controller release];
+  [items release];
+  [__managedObjectContext release];
+  [__persistentStoreCoordinator release];
+  [__managedObjectModel release];
+  [super dealloc];
 }
 
 @end

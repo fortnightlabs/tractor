@@ -25,16 +25,16 @@ static int64_t SystemIdleSeconds(void);
 
 @implementation TractorController
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+- (id)initWithItems:(Items *)items_;
 {
   self = [super init];
   if (self) {
-    context = [managedObjectContext retain];
+    items = [items_ retain];
     informer = [[CurrentApplicationInformer alloc] init];
+    latestItem = [items latestItem];
 
     [self observeWillSleepNotification];
     
-    [self updateLatestItemFromDataStore];
     [self checkCurrentState:nil];
   }
   
@@ -82,8 +82,7 @@ static int64_t SystemIdleSeconds(void);
     
     // insert a new item
     [latestItem release];
-    latestItem = [NSEntityDescription insertNewObjectForEntityForName:@"Item"
-                                           inManagedObjectContext:context];
+    latestItem = [items addItem];
     [latestItem retain];
 
     [latestItem setStart:start];
@@ -93,10 +92,7 @@ static int64_t SystemIdleSeconds(void);
     if (info) { [latestItem setInfo:infoData]; }
   }
 
-  NSError *error = nil;
-  if (![context save:&error]) {
-    NSLog(@"Couldn't save: %@", [error localizedDescription]);
-  }
+  [items save];
 }
 
 // returns the time when the computer became idle, nil if not idle
@@ -147,57 +143,6 @@ static int64_t SystemIdleSeconds(void);
                                                            object:nil];
 }
 
-
-- (void)updateLatestItemFromDataStore
-{
-  NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-  NSSortDescriptor *startDesc = [NSSortDescriptor sortDescriptorWithKey:@"start" ascending:NO];
-  
-  [request setEntity:[NSEntityDescription entityForName:@"Item"
-                                 inManagedObjectContext:context]];
-  [request setSortDescriptors:[NSArray arrayWithObjects:startDesc, nil]];
-  [request setFetchLimit:1];
-  
-  NSError *error;
-  NSArray *items = [context executeFetchRequest:request error:&error];
-  if (items == nil) {
-    NSLog(@"Couldn't fetch: %@", [error localizedDescription]);
-  }
-  
-  latestItem = [items count] == 0 ? nil : [items objectAtIndex:0];
-}
-
-- (void)dumpJSONToURL:(NSURL *)url
-{
-  NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-  NSSortDescriptor *startAsc = [NSSortDescriptor sortDescriptorWithKey:@"start" ascending:YES];
-  
-  [request setEntity:[NSEntityDescription entityForName:@"Item"
-                                 inManagedObjectContext:context]];
-  [request setSortDescriptors:[NSArray arrayWithObjects:startAsc, nil]];
-  
-  NSError *error;
-  NSArray *items = [context executeFetchRequest:request error:&error];
-  if (items == nil) {
-    NSLog(@"Couldn't fetch: %@", [error localizedDescription]);
-    return;
-  }
-  
-  NSMutableArray *json = [NSMutableArray arrayWithCapacity:[items count]];
-  for (Item *item in items) {
-    [json addObject:[item JSONDictionary]];
-  }
-
-  NSString *dump = [json JSONStringWithOptions:JKSerializeOptionPretty error:&error];
-  if (!error) {
-   [dump writeToURL:url atomically:NO encoding:NSUTF8StringEncoding error:&error]; 
-  }
-
-  if (error) {
-    NSLog(@"Couldn't save: %@", [error localizedDescription]);
-  }
-}
-
 - (void)checkStateAgainInOneSecond
 {
   NSTimer *timer = [NSTimer timerWithTimeInterval:1
@@ -211,7 +156,7 @@ static int64_t SystemIdleSeconds(void);
 
 - (void)dealloc
 {
-  [context release];
+  [items release];
   [informer release];
   [latestItem release];
   [super release];

@@ -4,6 +4,8 @@
 @interface TractorAppDelegate : NSObject <NSApplicationDelegate> {
   NSStatusItem *statusItem;
   IBOutlet NSMenu *statusMenu;
+
+  Items *items;
   TractorController *controller;
 
   NSPersistentStoreCoordinator *__persistentStoreCoordinator;

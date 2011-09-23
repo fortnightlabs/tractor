@@ -1,15 +1,14 @@
 #import <Foundation/Foundation.h>
 #import "CurrentApplicationInformer.h"
+#import "Items.h"
 #import "Item.h"
 
 @interface TractorController : NSObject {
-  NSManagedObjectContext *context;
   CurrentApplicationInformer *informer;
+  Items *items;
   Item *latestItem;
 }
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-
-- (void)dumpJSONToURL:(NSURL *)url;
+- (id)initWithItems:(Items *)items_;
 
 @end
