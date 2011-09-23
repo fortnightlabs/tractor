@@ -9,6 +9,7 @@
 @property (nonatomic, retain) NSDate * end;
 @property (nonatomic, retain) NSString * app;
 @property (nonatomic, retain) NSData * info;
+@property (nonatomic, retain) NSNumber * uploaded;
 
 - (BOOL)matchesApp:(NSString *)app andInfoData:(NSData *)infoData;
 - (NSDictionary *)JSONDictionary;

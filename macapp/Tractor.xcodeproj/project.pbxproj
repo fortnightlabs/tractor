@@ -101,7 +101,6 @@
 		F2A0B48C14207CA000F07F32 = {
 			isa = PBXGroup;
 			children = (
-				F2EF60C1142BFBDD009FC44C /* IOKit.framework */,
 				F2A0B4A114207CA000F07F32 /* Tractor */,
 				F2A0B4C114207CA000F07F32 /* TractorTests */,
 				F2A0B49A14207CA000F07F32 /* Frameworks */,
@@ -121,6 +120,7 @@
 		F2A0B49A14207CA000F07F32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F2EF60C1142BFBDD009FC44C /* IOKit.framework */,
 				F2EF60B3142ABCA1009FC44C /* ScriptingBridge.framework */,
 				F2A0B49B14207CA000F07F32 /* Cocoa.framework */,
 				F2A0B4BC14207CA000F07F32 /* SenTestingKit.framework */,

@@ -5,8 +5,9 @@
         <attribute name="end" optional="YES" attributeType="Date"/>
         <attribute name="info" optional="YES" attributeType="Binary"/>
         <attribute name="start" optional="YES" attributeType="Date"/>
+        <attribute name="uploaded" optional="YES" attributeType="Boolean"/>
     </entity>
     <elements>
-        <element name="Item" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="Item" positionX="160" positionY="192" width="128" height="120"/>
     </elements>
 </model>

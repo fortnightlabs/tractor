@@ -11,6 +11,7 @@ static NSString *JSONDate(NSDate *date);
 @dynamic end;
 @dynamic app;
 @dynamic info;
+@dynamic uploaded;
 
 - (BOOL)matchesApp:(NSString *)app andInfoData:(NSData *)infoData;
 {
