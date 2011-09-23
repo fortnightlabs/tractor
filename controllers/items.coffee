@@ -53,3 +53,16 @@ module.exports = (app) ->
         res.json err, 200
 
     load: (id, fn) -> Item.findById id, fn
+
+  app.put '/items', (req, res) ->
+    items = req.body || []
+    items = [ items ] unless Array.isArray items
+    res.send 'not implemented'
+
+  app.delete '/items', (req, res, next) ->
+    items = req.body || []
+    items = [ items ] unless Array.isArray items
+    ids = _.pluck items, '_id'
+    Item.remove _id: { $in: ids }, (err, n) ->
+      return next err if err
+      res.json removed: n
