@@ -28,9 +28,11 @@ ItemView = Backbone.View.extend
     @model.bind 'destroy',          @remove, this
 
   render: ->
-    tmpl = @template _.extend(Object.create(Locals), item: @model.attributes)
+    attrs = @model.attributes
+    tmpl = @template _.extend(Object.create(Locals), item: attrs)
     @el.innerHTML = tmpl.substring 4, tmpl.length-5  # get rid of <tr>
-    @el.className = 'cursor' if @model.get('cursor')
+    @el.className += ' cursor' if attrs.cursor
+    @el.className += ' selected' if attrs.selected
     this
 
   setCursor: (e) ->
@@ -60,35 +62,49 @@ GroupView = Backbone.View.extend
   template: template._['group-view']
 
   events:
-    'click tr.summary': 'toggle'
+    'click tr.summary input[type=checkbox]': 'selectAll'
+    'click tr.summary':                      'toggle'
 
   initialize: ->
-    @collection.bind 'change:cursor', @changeCursor, this
+    @collection.bind 'group:open',      @open, this
+    @collection.bind 'group:close',     @close, this
+    @collection.bind 'change:cursor',   @changeCursor, this
+    @collection.bind 'change:selected', @changeSelected, this
     @open = false
+    @el.innerHTML = @template _.extend(Object.create(Locals), group: @collection)
 
   render: ->
-    unless @open
-      @el.innerHTML = @template _.extend(Object.create(Locals), group: @collection)
-    else
+    if @open
       @collection.each (i) ->
         @el.appendChild new ItemView(model: i).render().el
       , this
+    else
+      @$('tr:not(.summary)').remove()
     this
+
+  open: ->
+    @open = true
+    @render()
+
+  close: ->
+    @open = false
+    @render()
 
   toggle: ->
     @open = !@open
     @render()
 
+  selectAll: (e) ->
+    e.stopPropagation()
+    @collection.invoke 'set', selected: e.target.checked
+
   changeCursor: (model, val) ->
-    # open the group based on cursor presence
-    if val && !@open
-      @open = true
-      @render()
-    ### and close it when the cursor leaves
-    else if !val && @collection.all((i) -> !i.get('cursor'))
-      @open = false
-      @render()
-    ###
+    if !@open
+      @$('tr.summary').toggleClass 'cursor', val
+
+  changeSelected: (model, val) ->
+    allSelected = @collection.all (i) -> i.get('selected')
+    @$('tr.summary input[type=checkbox]').prop 'checked', allSelected
 
 TotalsView = Backbone.View.extend
   tagName: 'tfoot'
@@ -128,18 +144,18 @@ HourView = Backbone.View.extend
         else
           if lastProject
             lastGroup.trigger 'reset'
-            table.append new GroupView(collection: lastGroup).render().el
+            table.append new GroupView(collection: lastGroup).el
           lastGroup = new Tractor.Group [ i ]
           lastProject = project
       else
         if lastProject
           lastGroup.trigger 'reset'
-          table.append new GroupView(collection: lastGroup).render().el
+          table.append new GroupView(collection: lastGroup).el
           lastGroup = lastProject = null
         table.append $('<tbody>').append(new ItemView(model: i).render().el)
     if lastProject
       lastGroup.trigger 'reset'
-      table.append new GroupView(collection: lastGroup).render().el
+      table.append new GroupView(collection: lastGroup).el
 
     table.append new TotalsView(collection: @collection).render().el
     this

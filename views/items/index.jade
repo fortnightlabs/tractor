@@ -33,11 +33,12 @@ template( id='hour-view' ):
     //- totals-view (tfoot)
 
 template( id='item-view' ):
+  // tr is removed by backbone
   tr
     td.project
       - if (item.projectId)
         = projects.get(item.projectId).get('name')
-    td: input( type='checkbox' )
+    td: input( type='checkbox', checked=item.selected )
     td!= strftime('%l:<b>%M:%S</b>', item.start)
     td.duration= toDurationString(item.duration)
     - if (item.app)
