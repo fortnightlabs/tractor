@@ -1,15 +1,19 @@
 #import "TractorController.h"
-#import "Item.h"
 #import "JSONKit.h"
 
+#include <IOKit/IOKitLib.h>
+static int64_t SystemIdleSeconds(void);
 
 @interface TractorController (PRIVATE)
 
 - (void)checkCurrentState:(NSTimer *)timer;
 - (void)checkStateAgainInOneSecond;
 
-- (Item *)latestItem;
-- (void)insertOrUpdateWithName:(NSString *)name andInfo:(NSDictionary *)info;
+- (void)insertOrUpdateItemWithName:(NSString *)name
+                           andInfo:(NSDictionary *)info
+                            atTime:(NSDate *)now;
+
+- (void)updateLatestItemFromDataStore;
 
 @end
 
@@ -21,6 +25,7 @@
   if (self) {
     context = [managedObjectContext retain];
     informer = [[CurrentApplicationInformer alloc] init];
+    [self updateLatestItemFromDataStore];
     [self checkCurrentState:nil];
   }
   
@@ -29,32 +34,49 @@
 
 - (void)checkCurrentState:(NSTimer *)timer
 {
-  CurrentApplicationInfo *app = [informer currentApplicationInfo];
+  int64_t idleSeconds = SystemIdleSeconds();
+  NSString *name = nil;
+  NSDictionary *info = nil;
+  NSDate *now = [NSDate date];
 
-  [self insertOrUpdateWithName:[app name] andInfo:[app info]];  
+  if (idleSeconds > 5 * 60) { // 5 minutes hard coded for now
+    now = [NSDate dateWithTimeIntervalSinceNow:(NSTimeInterval)idleSeconds];
+  } else {
+    CurrentApplicationInfo *app = [informer currentApplicationInfo];
+    name = [app name];
+    info = [app info];
+  }
+  [self insertOrUpdateItemWithName:name
+                           andInfo:info
+                            atTime:now];  
   
   [self checkStateAgainInOneSecond];
 }
 
-- (void)insertOrUpdateWithName:(NSString *)name andInfo:(NSDictionary *)info
+- (void)insertOrUpdateItemWithName:(NSString *)name
+                           andInfo:(NSDictionary *)info
+                            atTime:(NSDate *)now;
 {
-  NSDate *now = [NSDate date];
-  Item *latest = [self latestItem];
   NSData *infoData = [info JSONData];
 
-  if ([latest matchesApp:name andInfoData:infoData]) {
-    [latest setEnd:now]; // update the end time
+  // TODO handle when now is before start (can happen due to idle time)
+
+  if ([latestItem matchesApp:name andInfoData:infoData]) {
+    [latestItem setEnd:now]; // update the end time
   } else {
-    [latest setEnd:now]; // update the previous item's end time
+    [latestItem setEnd:now]; // update the previous item's end time
     
     // insert a new item
-    latest = [NSEntityDescription insertNewObjectForEntityForName:@"Item"
+    [latestItem autorelease];
+    latestItem = [NSEntityDescription insertNewObjectForEntityForName:@"Item"
                                            inManagedObjectContext:context];
-    [latest setStart:now];
-    [latest setEnd:now];
+    [latestItem retain];
 
-    if (name) { [latest setApp:name]; }
-    if (info) { [latest setInfo:infoData]; }
+    [latestItem setStart:now];
+    [latestItem setEnd:now];
+
+    if (name) { [latestItem setApp:name]; }
+    if (info) { [latestItem setInfo:infoData]; }
   }
 
   NSError *error = nil;
@@ -63,7 +85,7 @@
   }
 }
 
-- (Item *)latestItem
+- (void)updateLatestItemFromDataStore
 {
   NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
   NSSortDescriptor *startDesc = [NSSortDescriptor sortDescriptorWithKey:@"start" ascending:NO];
@@ -77,10 +99,9 @@
   NSArray *items = [context executeFetchRequest:request error:&error];
   if (items == nil) {
     NSLog(@"Couldn't fetch: %@", [error localizedDescription]);
-    return nil;
   }
   
-  return [items count] == 0 ? nil : [items objectAtIndex:0];
+  latestItem = [items count] == 0 ? nil : [items objectAtIndex:0];
 }
 
 - (void)dumpJSON
@@ -109,7 +130,7 @@
 
 - (void)checkStateAgainInOneSecond
 {
-  NSTimer *timer = [NSTimer timerWithTimeInterval:1 * 10 // 10 seconds for now
+  NSTimer *timer = [NSTimer timerWithTimeInterval:1
                                            target:self
                                          selector:@selector(checkCurrentState:)
                                          userInfo:nil
@@ -122,7 +143,38 @@
 {
   [context release];
   [informer release];
+  [latestItem release];
   [super release];
 }
 
 @end
+
+/**
+ Returns the number of seconds the machine has been idle or -1 if an error occurs.
+ The code is compatible with Tiger/10.4 and later (but not iOS).
+
+ Source: http://www.danandcheryl.com/2010/06/how-to-check-the-system-idle-time-using-cocoa
+ */
+int64_t SystemIdleSeconds(void) {
+  int64_t idlesecs = -1;
+  io_iterator_t iter = 0;
+  if (IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching("IOHIDSystem"), &iter) == KERN_SUCCESS) {
+    io_registry_entry_t entry = IOIteratorNext(iter);
+    if (entry) {
+      CFMutableDictionaryRef dict = NULL;
+      if (IORegistryEntryCreateCFProperties(entry, &dict, kCFAllocatorDefault, 0) == KERN_SUCCESS) {
+        CFNumberRef obj = CFDictionaryGetValue(dict, CFSTR("HIDIdleTime"));
+        if (obj) {
+          int64_t nanoseconds = 0;
+          if (CFNumberGetValue(obj, kCFNumberSInt64Type, &nanoseconds)) {
+            idlesecs = (nanoseconds >> 30); // Divide by 10^9 to convert from nanoseconds to seconds.
+          }
+        }
+        CFRelease(dict);
+      }
+      IOObjectRelease(entry);
+    }
+    IOObjectRelease(iter);
+  }
+  return idlesecs;
+}

@@ -25,6 +25,7 @@
 		F2EF60B2142AA4A0009FC44C /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = F2EF60B1142AA4A0009FC44C /* Item.m */; };
 		F2EF60B4142ABCA1009FC44C /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EF60B3142ABCA1009FC44C /* ScriptingBridge.framework */; };
 		F2EF60C0142BEE97009FC44C /* TractorController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2EF60BF142BEE97009FC44C /* TractorController.m */; };
+		F2EF60C2142BFBDD009FC44C /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EF60C1142BFBDD009FC44C /* IOKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,8 +70,9 @@
 		F2EF60B0142AA4A0009FC44C /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		F2EF60B1142AA4A0009FC44C /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
 		F2EF60B3142ABCA1009FC44C /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
-		F2EF60BE142BEE97009FC44C /* TractorController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = TractorController.h; sourceTree = "<group>"; };
+		F2EF60BE142BEE97009FC44C /* TractorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TractorController.h; sourceTree = "<group>"; };
 		F2EF60BF142BEE97009FC44C /* TractorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TractorController.m; sourceTree = "<group>"; };
+		F2EF60C1142BFBDD009FC44C /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2EF60C2142BFBDD009FC44C /* IOKit.framework in Frameworks */,
 				F2EF60B4142ABCA1009FC44C /* ScriptingBridge.framework in Frameworks */,
 				F2A0B49C14207CA000F07F32 /* Cocoa.framework in Frameworks */,
 			);
@@ -98,6 +101,7 @@
 		F2A0B48C14207CA000F07F32 = {
 			isa = PBXGroup;
 			children = (
+				F2EF60C1142BFBDD009FC44C /* IOKit.framework */,
 				F2A0B4A114207CA000F07F32 /* Tractor */,
 				F2A0B4C114207CA000F07F32 /* TractorTests */,
 				F2A0B49A14207CA000F07F32 /* Frameworks */,
