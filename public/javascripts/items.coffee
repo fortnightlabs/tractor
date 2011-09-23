@@ -131,7 +131,7 @@ HourView = Backbone.View.extend
           lastGroup.trigger 'reset'
           table.append new GroupView(collection: lastGroup).render().el
           lastGroup = lastProject = null
-        table.append new ItemView(model: i).render().el
+        table.append $('<tbody>').append(new ItemView(model: i).render().el)
     if lastProject
       lastGroup.trigger 'reset'
       table.append new GroupView(collection: lastGroup).render().el
