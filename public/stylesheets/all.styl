@@ -31,12 +31,15 @@ body.-items
     border-collapse collapse
     margin-bottom 1em
     width 800px
+    tbody
+      border-left solid 1px transparent
     tbody:nth-child(odd)
       background-color hsl(0, 0%, 95%)
     tbody.group
-      border-left solid 1px hsl(0, 0%, 50%)
+      border-left-color hsl(0, 0%, 80%)
       tr.summary
         color #999
+        border-left solid 1px hsl(0, 0%, 50%)
     tr.selected
       background-color yellow
     tr.cursor
@@ -62,7 +65,7 @@ body.-items
       &.app
         width 10em
     td
-      padding 3px 5px
+      padding 3px 5px 3px 4px
     .duration
       text-align right
       white-space nowrap
