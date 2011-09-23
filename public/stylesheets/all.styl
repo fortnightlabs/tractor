@@ -5,6 +5,10 @@ border-radius()
   -moz-border-radius arguments
   border-radius arguments
 
+body
+  margin 0
+  padding 0
+
 body, input
   font-family helvetica neue, helvetica, arial, sans-serif
   font-size medium
@@ -12,16 +16,28 @@ body, input
 h1, h2, h3
   font-weight 300
 
+#page
+  padding 0 10px
+
 body.-projects
 
 body.-items
   header
     position fixed
     background-color white
+    box-shadow 0 0 2px hsla(0, 0%, 0%, 0.2)
+    table.hour
+      margin 0
+      background-color hsl(0, 0%, 50%)
+      color white
+      text-shadow 0 -1px 0 hsla(0, 0%, 0%, 0.3)
+      th
+        padding-bottom 0
 
   ul.items
+    margin 0
     padding 0
-    padding-top 80px
+    padding-top 90px
     > li
       display inline
 
@@ -45,14 +61,14 @@ body.-items
     tr.cursor
       background-color hsl(0, 0%, 20%)
       color white
-      text-shadow 0 -1px 0 hsla(0, 0%, 0%, 0.5)
+      text-shadow 0 -1px 0 hsla(0, 0%, 0%, 0.3)
       &.selected
         background-color hsl(60, 50%, 20%)
     th
       text-align left
       background-color hsl(0, 0%, 50%)
       color white
-      text-shadow 0 -1px 0 hsla(0, 0%, 0%, 0.5)
+      text-shadow 0 -1px 0 hsla(0, 0%, 0%, 0.3)
       padding 5px
       &.project
         width 8em
@@ -76,11 +92,15 @@ body.-items
       white-space nowrap
       overflow hidden
       text-overflow ellipsis
+  span.totals
+    margin-left 1em
   .totals
     font-size small
     dl, dt, dd
       display inline
     dt
-      margin-left 1em
+      margin-left 1.5ex
+    dt:first-child
+      margin-left 0
     dd
       margin-left 1ex

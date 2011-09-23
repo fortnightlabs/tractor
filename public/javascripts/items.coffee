@@ -6,11 +6,11 @@ Locals =
     if duration == 0
       ''
     else if duration > 3600
-      (duration / 3600).toFixed(1) + ' h'
+      (duration / 3600).toFixed(1) + 'h'
     else if duration > 60
-      (duration / 60).toFixed(0) + ' m'
+      (duration / 60).toFixed(0) + 'm'
     else
-      duration.toFixed(0) + ' s'
+      duration.toFixed(0) + 's'
 
 ItemView = Backbone.View.extend
   tagName: 'tr'
@@ -202,7 +202,7 @@ ItemList = Backbone.View.extend
 
   updateTotals: ->
     tmpl = template._['totals-view'](_.extend(Object.create(Locals), totals: @collection.totals))
-    @$('form#filter .totals').html $('td', tmpl).html()
+    @$('table.toolbar tfoot').html $(tmpl).html()
 
   keylisten: (e) ->
     items = @collection
