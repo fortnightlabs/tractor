@@ -179,6 +179,7 @@ ItemList = Backbone.View.extend
   events:
     'keylisten':              'keylisten'
     'submit form#filter':     'filter'
+    'click .toolbar input[type=checkbox]': 'selectAll'
     'change select#projects': 'label'
     'click button#destroy':   'destroy'
 
@@ -224,6 +225,9 @@ ItemList = Backbone.View.extend
   filter: (e) ->
     e.preventDefault()
     @collection.fetch data: $(e.target).serialize()
+
+  selectAll: (e) ->
+    @collection.invoke 'set', selected: true
 
   label: (e) ->
     @collection.selected().invoke 'save',
