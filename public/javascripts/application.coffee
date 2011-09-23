@@ -9,9 +9,6 @@ Tractor.Projects = Backbone.Collection.extend
   url: '/projects'
 
 Tractor.Item = Backbone.Model.extend
-  defaults: ->
-    selected: false
-    cursor: false
   toggle: -> @set selected: !@get('selected')
   parse: (r) ->
     r.start = new Date r.start
@@ -67,9 +64,10 @@ class Tractor.Items extends Tractor.Hour
 
   initialize: ->
     super *arguments
-    @bind 'reset',         @resetHours, this
-    @bind 'change:cursor', @updateCursorChange, this
-    @bind 'remove',        @updateCursorRemove, this
+    @bind 'reset',           @resetHours, this
+    @bind 'remove',          @updateCursorRemove, this
+    @bind 'change:cursor',   @updateCursorChange, this
+    @bind 'change:selected', @selectRange, this
 
   resetHours: ->
     @cursor = -1
@@ -90,3 +88,10 @@ class Tractor.Items extends Tractor.Hour
   updateCursorRemove: (model) ->
     @cursor-- if model.get('start') <= @atCursor()?.get('start')
     @atCursor().set cursor: true
+
+  selectRange: (model, val, options) ->
+    if val and options.range
+      i = @indexOf model
+      for o in @models.slice(Math.min(i, @cursor), Math.max(i, @cursor))
+        o.set selected: true
+      true

@@ -19,6 +19,7 @@ ItemView = Backbone.View.extend
   events:
     'click':                      'setCursor'
     'click input[type=checkbox]': 'select'
+    'mousedown':                  'preventSelection'
 
   initialize: ->
     @model.bind 'change:cursor',    @changeCursor, this
@@ -33,10 +34,14 @@ ItemView = Backbone.View.extend
     this
 
   setCursor: (e) ->
+    @model.set { selected: true }, { range: true } if e.shiftKey
     @model.set cursor: true
 
   select: (e) ->
     @model.set selected: $(e.target).prop('checked')
+
+  preventSelection: (e) ->
+    e.preventDefault() if e.shiftKey
 
   changeCursor: (model, val) ->
     $.uncover $(@el).toggleClass('cursor', val)
