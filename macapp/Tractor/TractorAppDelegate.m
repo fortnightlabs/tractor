@@ -1,5 +1,4 @@
 #import "TractorAppDelegate.h"
-#import "JSONKit.h"
 
 @interface TractorAppDelegate (PRIVATE)
 
@@ -20,20 +19,7 @@
 {
   NSSavePanel *panel = [NSSavePanel savePanel];
   if ([panel runModal] == NSFileHandlingPanelOKButton) {
-    ItemsRequest *request = [items request];
-    [request sortBy:@"start" ascending:YES];
-    
-    NSArray *json = [request JSONArray];
-    
-    // dump the json to the file
-    NSError *error = nil;
-    NSString *dump = [json JSONStringWithOptions:JKSerializeOptionPretty error:&error];
-    if (!error) {
-      [dump writeToURL:[panel URL] atomically:NO encoding:NSUTF8StringEncoding error:&error]; 
-    }
-    if (error) {
-      NSLog(@"Couldn't save: %@", [error localizedDescription]);
-    }
+    [items dumpJSONToFileURL:[panel URL]];    
   }
 }
 

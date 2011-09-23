@@ -1,4 +1,5 @@
 #import "Items.h"
+#import "JSONKit.h"
 
 @implementation Items
 
@@ -36,6 +37,21 @@
 - (ItemsRequest *)request
 {
   return [[[ItemsRequest alloc] initWithManagedObjectContext:context] autorelease];
+}
+
+- (void)dumpJSONToFileURL:(NSURL *)url
+{
+  ItemsRequest *request = [self request];
+  [request sortBy:@"start" ascending:YES];
+
+  NSError *error = nil;
+  NSString *dump = [[request JSONArray] JSONStringWithOptions:JKSerializeOptionPretty error:&error];
+  if (!error) {
+    [dump writeToURL:url atomically:NO encoding:NSUTF8StringEncoding error:&error]; 
+  }
+  if (error) {
+    NSLog(@"Couldn't save: %@", [error localizedDescription]);
+  }
 }
 
 - (void)dealloc

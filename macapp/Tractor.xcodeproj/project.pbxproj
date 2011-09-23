@@ -164,10 +164,10 @@
 		F2A0B4A114207CA000F07F32 /* Tractor */ = {
 			isa = PBXGroup;
 			children = (
-				F2EF60BE142BEE97009FC44C /* TractorController.h */,
-				F2EF60BF142BEE97009FC44C /* TractorController.m */,
 				F2A0B4AD14207CA000F07F32 /* TractorAppDelegate.h */,
 				F2A0B4AE14207CA000F07F32 /* TractorAppDelegate.m */,
+				F2EF60BE142BEE97009FC44C /* TractorController.h */,
+				F2EF60BF142BEE97009FC44C /* TractorController.m */,
 				F2EF60A6142A8C46009FC44C /* CurrentApplicationInformer.h */,
 				F2EF60A7142A8C46009FC44C /* CurrentApplicationInformer.m */,
 				F2A0B4D31420845200F07F32 /* tractor.tiff */,

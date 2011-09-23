@@ -14,4 +14,6 @@
 
 - (ItemsRequest *)request;
 
+- (void)dumpJSONToFileURL:(NSURL *)url;
+
 @end
