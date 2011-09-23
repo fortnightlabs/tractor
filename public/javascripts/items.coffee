@@ -159,6 +159,7 @@ ItemList = Backbone.View.extend
     'keylisten':              'keylisten'
     'submit form#filter':     'filter'
     'change select#projects': 'label'
+    'click button#destroy':   'destroy'
 
   reset: ->
     list = @$ 'ul.items'
@@ -176,7 +177,7 @@ ItemList = Backbone.View.extend
 
   updateTotals: ->
     tmpl = template._['totals-view'](_.extend(Object.create(Locals), totals: @collection.totals))
-    @$('.toolbar .totals').html $(tmpl).html()
+    @$('form#filter .totals').html $('td', tmpl).html()
 
   keylisten: (e) ->
     items = @collection
@@ -208,6 +209,9 @@ ItemList = Backbone.View.extend
       projectId: $(e.target).val()
       selected: false
     $(e.target).prop 'selectedIndex', 0
+
+  destroy: (e) ->
+    @collection.selected().invoke 'destroy'
 
 $ ->
   Projects.fetch()
