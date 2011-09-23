@@ -32,7 +32,7 @@ module.exports = (app) ->
         i = 0
         for item in items
           Item.create item, (err, item) ->
-            ++i unless err
+            if err then console.log 'create error:', err else ++i
             if --n == 0
               res.json
                 received: items.length
