@@ -17,6 +17,7 @@
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 
-- (IBAction)dumpItemsToJSON:(id)sender;
+- (IBAction)dumpItems:(id)sender;
+- (IBAction)uploadItems:(id)sender;
 
 @end

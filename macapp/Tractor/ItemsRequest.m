@@ -43,14 +43,7 @@
 
 - (NSArray *)JSONArray
 {
-  NSArray *items = [self all];
-  
-  NSMutableArray *json = [NSMutableArray arrayWithCapacity:[items count]];
-  for (Item *item in items) {
-    [json addObject:[item JSONDictionary]];
-  }
-  
-  return json;
+  return [[self class] JSONArray:[self all]];
 }
 
 - (void)sortBy:(NSString *)key ascending:(BOOL)yn
@@ -64,10 +57,27 @@
   [self setFetchLimit:1];
 }
 
+- (void)filter:(NSString *)filter, ...
+{
+  va_list args;
+  va_start(args, filter);
+  [self setPredicate:[NSPredicate predicateWithFormat:filter arguments:args]];
+  va_end(args);
+}
+
 - (void)dealloc
 {
   [context release];
   [super release];
+}
+
++ (NSArray *)JSONArray:(NSArray *)array
+{  
+  NSMutableArray *json = [NSMutableArray arrayWithCapacity:[array count]];
+  for (Item *item in array) {
+    [json addObject:[item JSONDictionary]];
+  }
+  return json;
 }
 
 @end

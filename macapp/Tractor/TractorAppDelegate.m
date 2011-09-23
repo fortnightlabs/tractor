@@ -15,12 +15,18 @@
   controller = [[TractorController alloc] initWithItems:items];
 }
 
-- (IBAction)dumpItemsToJSON:(id)sender
+- (IBAction)dumpItems:(id)sender
 {
   NSSavePanel *panel = [NSSavePanel savePanel];
   if ([panel runModal] == NSFileHandlingPanelOKButton) {
     [items dumpJSONToFileURL:[panel URL]];    
   }
+}
+
+- (IBAction)uploadItems:(id)sender
+{
+  NSURL *url = [NSURL URLWithString:@"http://localhost:8000/items"]; // hardcoded for now
+  [items uploadJSONToURL:url];
 }
 
 - (void)createStatusItem

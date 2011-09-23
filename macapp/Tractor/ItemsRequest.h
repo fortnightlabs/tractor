@@ -14,5 +14,8 @@
 
 - (void)sortBy:(NSString *)key ascending:(BOOL)yn;
 - (void)limit:(NSUInteger)count;
+- (void)filter:(NSString *)filter, ...;
+
++ (NSArray *)JSONArray:(NSArray *)array;
 
 @end
