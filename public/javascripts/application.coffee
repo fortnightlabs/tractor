@@ -76,6 +76,10 @@ class Tractor.Items extends Tractor.Hour
       .groupBy((item) -> item.get 'hour')
       .each((items, h) => @hours[h] = new Tractor.Hour items)
 
+  hoursFor: (items) ->
+    hours = items.invoke('get', 'hour').uniq().value()
+    _(@hours[h] for h in hours)
+
   atCursor: -> @at @cursor
   next: -> @at Math.min(@cursor + 1, @length - 1)
   prev: -> @at Math.max(@cursor - 1, 0)

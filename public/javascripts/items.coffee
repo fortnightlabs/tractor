@@ -234,9 +234,14 @@ ItemList = Backbone.View.extend
 
   label: (e) ->
     # TODO fires off way too many events
-    @collection.selected().invoke 'save',
+    selected = @collection.selected()
+    selected.invoke 'save',
       projectId: $(e.target).val()
       selected: false
+    ,
+      silent: true
+    @collection.trigger 'change:projectId'
+    @collection.hoursFor(selected).invoke 'trigger', 'change:projectId'
     $(e.target).prop 'selectedIndex', 0
 
   destroy: (e) ->
