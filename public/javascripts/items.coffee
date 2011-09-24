@@ -228,12 +228,11 @@ ItemList = Backbone.View.extend
     @collection.invoke 'set', selected: true
 
   label: (e) ->
-    selected = @collection.selected()
-    selected.invoke 'save',
+    changes =
       projectId: $(e.target).val()
       selected: false
-    ,
-      silent: true
+    selected = @collection.selected()
+    selected.each (i) -> i.save changes, silent: true  # need to pass new options hash each time
     @collection.trigger 'change:projectId'
     @collection.hoursFor(selected).invoke 'trigger', 'change:projectId'
     $(e.target).prop 'selectedIndex', 0
