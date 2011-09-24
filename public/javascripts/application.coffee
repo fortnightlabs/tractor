@@ -20,14 +20,11 @@ class Tractor.Group extends Backbone.Collection
   model: Tractor.Item
 
   initialize: ->
+    @bind 'reset',            @updateTotals, this
     @bind 'add',              @updateTotals, this
     @bind 'remove',           @updateTotals, this
-    @bind 'reset',            @updateTotals, this
     @bind 'change:projectId', @updateTotals, this
     @updateTotals()
-
-  parse: (response) ->
-    _.map response, Tractor.Item.prototype.parse
 
   updateTotals: ->
     projects = {}
@@ -53,14 +50,12 @@ class Tractor.Group extends Backbone.Collection
 class Tractor.Hour extends Tractor.Group
   initialize: ->
     super *arguments
-    @bind 'reset',            @updateHour, this
-    @updateHour()
-
-  updateHour: ->
     @hour = @first()?.get('start')
 
-class Tractor.Items extends Tractor.Hour
+class Tractor.Items extends Tractor.Group
   url: '/items'
+  parse: (response) ->
+    _.map response, Tractor.Item.prototype.parse
 
   initialize: ->
     super *arguments

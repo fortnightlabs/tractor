@@ -146,19 +146,16 @@ HourView = Backbone.View.extend
           lastGroup.add i, silent: true
         else
           if lastProject
-            lastGroup.trigger 'reset'
-            table.append new GroupView(collection: lastGroup).el
+            table.append new GroupView(collection: lastGroup.trigger('reset')).el
           lastGroup = new Tractor.Group [ i ]
           lastProject = project
       else
         if lastProject
-          lastGroup.trigger 'reset'
-          table.append new GroupView(collection: lastGroup).el
+          table.append new GroupView(collection: lastGroup.trigger('reset')).el
           lastGroup = lastProject = null
         table.append $('<tbody>').append(new ItemView(model: i).render().el)
     if lastProject
-      lastGroup.trigger 'reset'
-      table.append new GroupView(collection: lastGroup).el
+      table.append new GroupView(collection: lastGroup.trigger('reset')).el
 
     table.append new TotalsView(collection: @collection).render().el
     this
