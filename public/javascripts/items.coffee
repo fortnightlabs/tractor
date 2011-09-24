@@ -248,6 +248,6 @@ $ ->
   Projects.fetch()
 
   Items = new Tractor.Items
-  Items.fetch()
+  Items.fetch data: location.search.substring(1)
 
   new ItemList collection: Items
