@@ -189,13 +189,11 @@ ItemList = Backbone.View.extend
   reset: ->
     list = @$ 'ul.items'
     list.html null
-    console.profile 'ItemList.reset'
     @hours = _.map @collection.hours, (hour) ->
       view = new HourView collection: hour
       list.append view.reset().el
       view
     , this
-    console.profileEnd 'ItemList.reset'
     @$('input[type=date]').val (i, old) =>
       old || strftime('%Y-%m-%d', @collection.first()?.get('start'))
     @$(':focus').blur()
@@ -233,7 +231,6 @@ ItemList = Backbone.View.extend
     @collection.invoke 'set', selected: true
 
   label: (e) ->
-    # TODO fires off way too many events
     selected = @collection.selected()
     selected.invoke 'save',
       projectId: $(e.target).val()
