@@ -239,7 +239,7 @@ ItemList = Backbone.View.extend
 
   label: (e) ->
     changes =
-      projectId: $(e.target).val()
+      projectId: $(e.target).val() || null
       selected: false
     selected = @collection.selected()
     selected.each (i) -> i.save changes, silent: true  # need to pass new options hash each time

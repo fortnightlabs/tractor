@@ -13,6 +13,8 @@ header
           option( disabled=true ) assign to
           - each project in projects
             option( value=project.id )= project.name
+          option( disabled=true )
+          option( value='' ) unassign
         button#destroy delete
     tfoot
 
