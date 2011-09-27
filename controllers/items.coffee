@@ -4,7 +4,7 @@ module.exports = (app) ->
   Item = app.db.model 'Item'
   Project = app.db.model 'Project'
 
-  app.resource 'items'
+  Resource =
     index:
       html: (req, res) ->
         Project.find {}, {}, { sort: 'name' }, (err, projects) ->
@@ -53,6 +53,10 @@ module.exports = (app) ->
         res.json err, 200
 
     load: (id, fn) -> Item.findById id, fn
+
+  app.resource 'items', Resource
+
+  app.get '/items/:date?', Resource.index.html
 
   app.put '/items', (req, res) ->
     items = req.body || []

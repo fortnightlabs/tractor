@@ -9,6 +9,7 @@ app.db = require("#{env.paths.root}/models")(env.mongo_url)
 
 # hacks and utils
 require("#{env.paths.lib}/mongo-log")(app.db.mongo)
+require("#{env.paths.lib}/render")
 #require("#{env.paths.lib}/strftime")
 require 'express-resource'
 require 'jadevu'

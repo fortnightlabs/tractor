@@ -175,6 +175,7 @@ ItemList = Backbone.View.extend
   initialize: ->
     @collection.bind 'reset', @reset, this
     @collection.bind 'change:totals', @updateTotals, this
+    @router = @options.router
 
   events:
     'keylisten':              'keylisten'
@@ -223,6 +224,10 @@ ItemList = Backbone.View.extend
   filter: (e) ->
     e.preventDefault()
     @collection.fetch data: $(e.target).serialize()
+    path = 'items'
+    path += '/' + $(e.target.date).val() if $(e.target.date).val()
+    path += '/' + $(e.target.query).val() if $(e.target.query).val()
+    @router.navigate path
 
   selectAll: (e) ->
     @collection.invoke 'set', selected: true
@@ -240,10 +245,20 @@ ItemList = Backbone.View.extend
   destroy: (e) ->
     @collection.selected().invoke 'destroy'
 
+ItemRouter = Backbone.Router.extend
+  initialize: ->
+    Projects.fetch()
+    @items = new Tractor.Items
+    @view = new ItemList collection: @items, router: this
+
+  routes:
+    'items':              'fetch'
+    'items/:date':        'fetch'
+    'items/:date/:query': 'fetch'
+
+  fetch: (date, query) ->
+    @items.fetch data: { date: date, query: query }
+
 $ ->
-  Projects.fetch()
-
-  Items = new Tractor.Items
-  Items.fetch data: location.search.substring(1)
-
-  new ItemList collection: Items
+  new ItemRouter
+  Backbone.history.start pushState: true
