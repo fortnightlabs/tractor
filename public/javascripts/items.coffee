@@ -175,6 +175,7 @@ ItemList = Backbone.View.extend
   initialize: ->
     @collection.bind 'reset', @reset, this
     @collection.bind 'change:totals', @updateTotals, this
+    @collection.bind 'change:selected', @changeSelected, this
     @router = @options.router
 
   events:
@@ -199,6 +200,10 @@ ItemList = Backbone.View.extend
   updateTotals: ->
     tmpl = template._['totals-view'](_.extend(Object.create(Locals), totals: @collection.totals))
     @$('table.toolbar tfoot').html $(tmpl).html()
+
+  changeSelected: (model, val) ->
+    allSelected = @collection.all (i) -> i.get('selected')
+    @$('.toolbar input[type=checkbox]').prop 'checked', allSelected
 
   keylisten: (e) ->
     items = @collection
