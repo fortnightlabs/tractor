@@ -65,7 +65,8 @@ class Tractor.Items extends Tractor.Group
     @bind 'change:selected', @selectRange, this
 
   resetHours: ->
-    @cursor = -1
+    @_cursor = [0, 0]
+    @at(0).set { cursor: true }, { silent: true }
     @hours = []
     @chain()
       .groupBy((item) -> item.get 'hour')
@@ -75,18 +76,26 @@ class Tractor.Items extends Tractor.Group
     hours = items.invoke('get', 'hour').uniq().value()
     _(@hours[h] for h in hours)
 
-  atCursor: -> @at @cursor
-  next: -> @at Math.min(@cursor + 1, @length - 1)
-  prev: -> @at Math.max(@cursor - 1, 0)
+  cursor: -> _(@models[@_cursor[0] .. @_cursor[1]]).chain()
+  next: -> @at Math.min(@_cursor[1] + 1, @length - 1)
+  prev: -> @at Math.max(@_cursor[0] - 1, 0)
 
-  updateCursorChange: (model, val) ->
+  updateCursorChange: (model, val, options) ->
     return unless val
-    @atCursor()?.set cursor: false unless model == @atCursor()
-    @cursor = @indexOf model # TODO slow
+    if val and !options.multiple
+      @cursor().without(model).invoke 'set', cursor: false
+    index = @indexOf model # TODO slow
+    @_cursor =
+      if options.multiple
+        [ Math.min(@_cursor[0], index), Math.max(@_cursor[1], index) ]
+      else
+        [ index, index ]
 
   updateCursorRemove: (model) ->
-    @cursor-- if model.get('start') <= @atCursor()?.get('start')
-    @atCursor().set cursor: true
+    if model.get('start') <= @at(@_cursor[0]).get('start')
+      @_cursor[0]--
+      @_cursor[1]--
+    @cursor().invoke 'set', cursor: true
 
   selectRange: (model, val, options) ->
     if val and options.range

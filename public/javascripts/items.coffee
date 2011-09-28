@@ -87,15 +87,17 @@ GroupView = Backbone.View.extend
 
   open: ->
     @_open = true
+    @collection.first().set { cursor: false }, { silent: true }
+    @collection.first().set cursor: true
     @render()
 
   close: ->
     @_open = false
+    @collection.first().set cursor: true
     @render()
 
   toggle: ->
-    @_open = !@_open
-    @render()
+    if @_open then @close() else @open()
 
   selectAll: (e) ->
     e.stopPropagation()
@@ -104,6 +106,9 @@ GroupView = Backbone.View.extend
   changeCursor: (model, val) ->
     if !@_open
       @$('tr.summary').toggleClass 'cursor', val
+      if val
+        @collection.first().set { cursor: true }, { multiple: true }
+        @collection.last().set { cursor: true }, { multiple: true }
 
   changeSelected: (model, val) ->
     allSelected = @collection.all (i) -> i.get('selected')
@@ -209,17 +214,17 @@ ItemList = Backbone.View.extend
     items = @collection
     handled = switch e.keyName
       when 'h', 'left'
-        items.atCursor().trigger 'group:close'
+        items.cursor().first().value().trigger 'group:close'
       when 'j', 'down'
         items.next().set cursor: true
       when 'k', 'up'
         items.prev().set cursor: true
       when 'l', 'right'
-        items.atCursor().trigger 'group:open'
+        items.cursor().first().value().trigger 'group:open'
       when 'p'
         @$('select#projects').focus()
       when 'x'
-        items.atCursor().toggle()
+        items.cursor().invoke 'toggle'
       when 'y'
         items.selected().invoke 'destroy'
       when '/'
