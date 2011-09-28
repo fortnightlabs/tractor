@@ -66,7 +66,7 @@ class Tractor.Items extends Tractor.Group
 
   resetHours: ->
     @_cursor = [0, 0]
-    @at(0).set { cursor: true }, { silent: true }
+    @at(0)?.set { cursor: true }, { silent: true }
     @hours = []
     @chain()
       .groupBy((item) -> item.get 'hour')
