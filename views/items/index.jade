@@ -1,7 +1,7 @@
 header
   form#filter
-    input( type='date', name='date' )
-    input( type='search', name='query', placeholder='search' )
+    input( type='date', name='date', value=req.param('date') )
+    input( type='search', name='query', value=req.param('query'), placeholder='search' )
     input( type='submit', value='go' )
 
   table.hour.toolbar

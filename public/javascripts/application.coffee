@@ -92,6 +92,7 @@ class Tractor.Items extends Tractor.Group
         [ index, index ]
 
   updateCursorRemove: (model) ->
+    return
     if model.get('start') <= @at(@_cursor[0]).get('start')
       @_cursor[0]--
       @_cursor[1]--

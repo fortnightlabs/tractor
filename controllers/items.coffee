@@ -56,7 +56,7 @@ module.exports = (app) ->
 
   app.resource 'items', Resource
 
-  app.get '/items/:date?', Resource.index.html
+  app.get '/items/:date?/:query?', Resource.index.html
 
   app.put '/items', (req, res) ->
     items = req.body || []
