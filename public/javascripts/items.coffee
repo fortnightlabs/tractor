@@ -75,10 +75,10 @@ GroupView = Backbone.View.extend
     @collection.bind 'change:cursor',   @changeCursor, this
     @collection.bind 'change:selected', @changeSelected, this
     @el.innerHTML = @template _.extend(Object.create(Locals), group: @collection)
-    @open = false
+    @_open = false
 
   render: ->
-    if @open
+    if @_open
       @views ||= @collection.map (i) -> new ItemView model: i
       @el.appendChild v.render().el for v in @views
     else
@@ -86,15 +86,15 @@ GroupView = Backbone.View.extend
     this
 
   open: ->
-    @open = true
+    @_open = true
     @render()
 
   close: ->
-    @open = false
+    @_open = false
     @render()
 
   toggle: ->
-    @open = !@open
+    @_open = !@_open
     @render()
 
   selectAll: (e) ->
@@ -102,7 +102,7 @@ GroupView = Backbone.View.extend
     @collection.invoke 'set', selected: e.target.checked
 
   changeCursor: (model, val) ->
-    if !@open
+    if !@_open
       @$('tr.summary').toggleClass 'cursor', val
 
   changeSelected: (model, val) ->
