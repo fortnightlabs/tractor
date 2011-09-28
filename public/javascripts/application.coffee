@@ -1,6 +1,14 @@
-Backbone.Model.prototype.idAttribute = '_id'
+Tractor =
+  if exports?
+    Backbone = require './vendor/backbone'
+    _ = require 'underscore'
+    exports
+  else  # TODO dry
+    Backbone = window.Backbone
+    _ = window._
+    window.Tractor = {}
 
-Tractor = window.Tractor = {}
+Backbone.Model.prototype.idAttribute = '_id'
 
 Tractor.Project = Backbone.Model.extend()
 
@@ -36,7 +44,7 @@ class Tractor.Group extends Backbone.Collection
       projects: projects
     @each (item) ->
       totals.count++
-      apps[item.get('app')] = true
+      apps[app] = true if app = item.get 'app'
       if project = item.get 'projectId'
         projects[project] = (projects[project] || 0) + item.get 'duration'
       else
