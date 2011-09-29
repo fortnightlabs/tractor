@@ -54,7 +54,7 @@ template( id='group-view' ):
   tr.summary
     td.project
       = projects.get(group.first().get('projectId')).get('name')
-      = ' (' + group.length + ')'
+      = ' (' + group.collection.length + ')'
     td: input( type='checkbox' )
     td
       != strftime('%l:<b>%M:%S</b>', group.first().get('start'))
@@ -67,7 +67,7 @@ template( id='group-view' ):
 
 template( id='totals-view' ):
   tr: td.totals( colspan=6 )
-    = totals.count
+    = totals.length
     |  items:
     dl.projects
       - each duration, projectId in totals.projects

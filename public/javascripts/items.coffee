@@ -22,10 +22,10 @@ ItemView = Backbone.View.extend
     'mousedown':                  'preventSelection'
 
   initialize: ->
-    @model.bind 'change:cursor',    @changeCursor, this
-    @model.bind 'change:selected',  @changeSelected, this
+    #@model.bind 'change:cursor',    @changeCursor, this
+    #@model.bind 'change:selected',  @changeSelected, this
     #@model.bind 'change:projectId', @changeProjectId, this
-    @model.bind 'destroy',          @remove, this
+    #@model.bind 'destroy',          @remove, this
 
   render: ->
     attrs = @model.attributes
@@ -67,52 +67,35 @@ GroupView = Backbone.View.extend
 
   events:
     'click tr.summary input[type=checkbox]': 'selectAll'
-    'click tr.summary':                      'toggle'
 
   initialize: ->
-    @collection.bind 'group:open',      @open, this
-    @collection.bind 'group:close',     @close, this
-    @collection.bind 'change:cursor',   @changeCursor, this
-    @collection.bind 'change:selected', @changeSelected, this
-    @el.innerHTML = @template _.extend(Object.create(Locals), group: @collection)
-    @_open = false
+    #@model.bind 'change:open',     @changeOpen, this
+    #@model.bind 'change:cursor',   @changeCursor, this
+    #@model.bind 'change:selected', @changeSelected, this
 
   render: ->
-    if @_open
+    if @model.get 'projectId'
+      @el.innerHTML = @template _.extend(Object.create(Locals), group: @model)
+    else
+      @model.collection.each (i) ->
+        @el.appendChild new ItemView(model: i).render().el
+      , this
+    this
+
+  selectAll: (e) ->
+    e.stopPropagation()
+    @model.collection.invoke 'set', selected: e.target.checked
+
+  changeOpen: ->
+    return unless @model.get 'projectId' # can't close an unassigned group
+    if @model.get 'open'
       @views ||= @collection.map (i) -> new ItemView model: i
       @el.appendChild v.render().el for v in @views
     else
       _.invoke @views, 'detach'
-    this
-
-  open: ->
-    @_open = true
-    @collection.first().set { cursor: false }, { silent: true }
-    @collection.first().set cursor: true
-    @render()
-
-  close: ->
-    @_open = false
-    @collection.first().set cursor: true
-    @render()
-
-  toggle: ->
-    if @_open then @close() else @open()
-
-  selectAll: (e) ->
-    e.stopPropagation()
-    @collection.invoke 'set', selected: e.target.checked
-
-  changeCursor: (model, val) ->
-    if !@_open
-      @$('tr.summary').toggleClass 'cursor', val
-      if val
-        @collection.first().set { cursor: true }, { multiple: true }
-        @collection.last().set { cursor: true }, { multiple: true }
 
   changeSelected: (model, val) ->
-    allSelected = @collection.all (i) -> i.get('selected')
-    @$('tr.summary input[type=checkbox]').prop 'checked', allSelected
+    @$('tr.summary input[type=checkbox]').prop 'checked', @model.get('selected')
 
 TotalsView = Backbone.View.extend
   tagName: 'tfoot'
@@ -133,35 +116,14 @@ HourView = Backbone.View.extend
 
   initialize: ->
     @collection.bind 'reset',            @reset, this
-    @collection.bind 'change:projectId', @reset, this
-    @collection.bind 'change:selected',  @changeSelected, this
+    #@collection.bind 'change:projectId', @reset, this
+    #@collection.bind 'change:selected',  @changeSelected, this
 
   render: ->
     @el.innerHTML = @template _.extend(Object.create(Locals), hour: @collection)
-    this
-
-  reset: ->
-    table = @render().$('table')
-
-    lastGroup = lastProject = null
-    @collection.each (i) ->
-      project = i.get 'projectId'
-      if project
-        if project == lastProject
-          lastGroup.add i, silent: true
-        else
-          if lastProject
-            table.append new GroupView(collection: lastGroup.trigger('reset')).el
-          lastGroup = new Tractor.Group [ i ]
-          lastProject = project
-      else
-        if lastProject
-          table.append new GroupView(collection: lastGroup.trigger('reset')).el
-          lastGroup = lastProject = null
-        table.append $('<tbody>').append(new ItemView(model: i).render().el)
-    if lastProject
-      table.append new GroupView(collection: lastGroup.trigger('reset')).el
-
+    table = @$('table')
+    @collection.each (g) ->
+      table.append new GroupView(model: g).render().el
     table.append new TotalsView(collection: @collection).render().el
     this
 
@@ -179,8 +141,8 @@ ItemList = Backbone.View.extend
 
   initialize: ->
     @collection.bind 'reset', @reset, this
-    @collection.bind 'change:totals', @updateTotals, this
-    @collection.bind 'change:selected', @changeSelected, this
+    #@collection.bind 'change:totals', @updateTotals, this
+    #@collection.bind 'change:selected', @changeSelected, this
     @router = @options.router
 
   events:
@@ -193,10 +155,8 @@ ItemList = Backbone.View.extend
   reset: ->
     list = @$ 'ul.items'
     list.html null
-    @hours = _.map @collection.hours, (hour) ->
-      view = new HourView collection: hour
-      list.append view.reset().el
-      view
+    _.each @collection.hours, (hour) ->
+      list.append new HourView(collection: hour).render().el
     , this
     @$('input[type=date]').val (i, old) =>
       old || strftime('%Y-%m-%d', @collection.first()?.get('start'))
@@ -258,7 +218,7 @@ ItemList = Backbone.View.extend
 ItemRouter = Backbone.Router.extend
   initialize: ->
     Projects.fetch()
-    @items = new Tractor.Items
+    @items = new Tractor.AllItems
     @view = new ItemList collection: @items, router: this
 
   routes:

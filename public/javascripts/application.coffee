@@ -38,17 +38,15 @@ class Tractor.Items extends Backbone.Collection
     projects = {}
     apps = {}
     totals =
-      count: 0
-      unassigned: 0
+      length: @length
+      duration: 0
       apps: apps
       projects: projects
     @each (item) ->
-      totals.count++
+      totals.duration += duration = item.get 'duration'
       apps[app] = true if app = item.get 'app'
-      if project = item.get 'projectId'
-        projects[project] = (projects[project] || 0) + item.get 'duration'
-      else
-        totals.unassigned += item.get 'duration'
+      project = item.get('projectId') || 'unassigned'
+      projects[project] = (projects[project] || 0) + duration
     @totals = totals
     @trigger 'change:totals', this, @totals
 
@@ -56,39 +54,48 @@ class Tractor.Items extends Backbone.Collection
     @chain().filter (i) -> i.get 'selected'
 
 class Tractor.Group extends Backbone.Model
+  defaults:
+    open: false
+
   initialize: ->
     @collection = new Tractor.Items
-    @items = @collection.models
     @collection.bind 'all', @trigger, this
-
     @collection.bind 'add', @resetAttributes, this
     @collection.bind 'remove', @resetAttributes, this
+    @collection.bind 'change:selected', @resetAttributes, this
 
-  add: (args...) -> @collection.add args...
+  add: -> @collection.add.apply @collection, arguments
 
   resetAttributes: ->
-    @set start: @collection.first()?.get('start')
-    @set end: @collection.last()?.get('end')
-    @set selected: @collection.all (i) -> i.get 'selected'
+    @set
+      projectId: @collection.first()?.get('projectId')
+      start: @collection.first()?.get('start')
+      end: @collection.last()?.get('end')
+      selected: @collection.all (i) -> i.get 'selected'
+      duration: @collection.totals.duration
 
 class Tractor.Hour extends Backbone.Collection
   model: Tractor.Group
 
   initialize: (models, options) ->
     @bind 'change:projectId', @resetGroups, this
+    @hour = @first()?.get('start')
     @resetGroups()
-    @hour = @first()?.get('start')?.getHours()
+    @updateTotals()
 
   items: ->
-    @reduce (ret, itemOrGroup) ->
-      ret.concat itemOrGroup.items ? itemOrGroup
-    , []
+    if @length is 0 or @first() instanceof Tractor.Item
+      @models
+    else
+      @reduce (r, group) ->
+        r.concat group.collection.models
+      , []
 
   resetGroups: ->
     groups = []
     lastProjectId = lastGroup = null
     _.each @items(), (i) ->
-      projectId = i.get 'projectId'
+      projectId = i.get('projectId') || null
       if not lastGroup or projectId isnt lastProjectId
         lastGroup = new Tractor.Group
         groups.push lastGroup
@@ -99,8 +106,17 @@ class Tractor.Hour extends Backbone.Collection
     _.invoke groups, 'resetAttributes'
     @reset groups
 
-###
-class Tractor.Items extends Tractor.Group
+  updateTotals: ->
+    projects = {}
+    apps = {}
+    totals =
+      length: 0
+      duration: 0
+      apps: apps
+      projects: projects
+    @totals = totals
+
+class Tractor.AllItems extends Tractor.Items
   url: '/items'
   parse: (response) ->
     _.map response, Tractor.Item.prototype.parse

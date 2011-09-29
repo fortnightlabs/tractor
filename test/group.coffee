@@ -10,7 +10,7 @@ module.exports =
     item = new Tractor.Item
     group = newGroup item
 
-    assert.equal item, group.items[0]
+    assert.equal item, group.collection.models[0]
 
   'echos events on items': (beforeExit, assert) ->
     item = new Tractor.Item
