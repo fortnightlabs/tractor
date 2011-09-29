@@ -61,13 +61,15 @@ class Tractor.Group extends Backbone.Model
     @items = @collection.models
     @collection.bind 'all', @trigger, this
 
-    @collection.bind 'add', @updateStart, this
-    @collection.bind 'remove', @updateStart, this
+    @collection.bind 'add', @resetAttributes, this
+    @collection.bind 'remove', @resetAttributes, this
 
   add: (args...) -> @collection.add args...
 
-  updateStart: ->
+  resetAttributes: ->
     @set start: @collection.first()?.get('start')
+    @set end: @collection.last()?.get('end')
+    @set selected: @collection.all (i) -> i.get 'selected'
 
 class Tractor.Hour extends Backbone.Collection
   model: Tractor.Group
@@ -94,7 +96,7 @@ class Tractor.Hour extends Backbone.Collection
       lastGroup.add i, silent: true
     , this
 
-    _.invoke groups, 'updateStart'
+    _.invoke groups, 'resetAttributes'
     @reset groups
 
 ###
