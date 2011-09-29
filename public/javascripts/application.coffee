@@ -24,7 +24,7 @@ Tractor.Item = Backbone.Model.extend
     r.hour = r.start.getHours()
     r
 
-class Tractor.Group extends Backbone.Collection
+class Tractor.Items extends Backbone.Collection
   model: Tractor.Item
 
   initialize: ->
@@ -55,11 +55,49 @@ class Tractor.Group extends Backbone.Collection
   selected: ->
     @chain().filter (i) -> i.get 'selected'
 
-class Tractor.Hour extends Tractor.Group
+class Tractor.Group extends Backbone.Model
   initialize: ->
-    super *arguments
-    @hour = @first()?.get('start')
+    @collection = new Tractor.Items
+    @items = @collection.models
+    @collection.bind 'all', @trigger, this
 
+    @collection.bind 'add', @updateStart, this
+    @collection.bind 'remove', @updateStart, this
+
+  add: (args...) -> @collection.add args...
+
+  updateStart: ->
+    @set start: @collection.first()?.get('start')
+
+class Tractor.Hour extends Backbone.Collection
+  model: Tractor.Group
+
+  initialize: (models, options) ->
+    @bind 'change:projectId', @resetGroups, this
+    @resetGroups()
+    @hour = @first()?.get('start')?.getHours()
+
+  items: ->
+    @reduce (ret, itemOrGroup) ->
+      ret.concat itemOrGroup.items ? itemOrGroup
+    , []
+
+  resetGroups: ->
+    groups = []
+    lastProjectId = lastGroup = null
+    _.each @items(), (i) ->
+      projectId = i.get 'projectId'
+      if not lastGroup or projectId isnt lastProjectId
+        lastGroup = new Tractor.Group
+        groups.push lastGroup
+        lastProjectId = projectId
+      lastGroup.add i, silent: true
+    , this
+
+    _.invoke groups, 'updateStart'
+    @reset groups
+
+###
 class Tractor.Items extends Tractor.Group
   url: '/items'
   parse: (response) ->
