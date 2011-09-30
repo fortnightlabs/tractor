@@ -127,6 +127,7 @@ HourView = Backbone.View.extend
 
   selectAll: (e) ->
     # TODO speed up
+    e.stopPropagation()
     _.invoke @collection.items(), 'set', selected: e.target.checked
 
   changeTotals: (model, val) ->
@@ -164,7 +165,6 @@ ItemList = Backbone.View.extend
     @$('table.toolbar tfoot').html $(tmpl).html()
 
   changeSelected: (model, val) ->
-    # TODO speed up (reverse for common case speed?)
     totals = @collection.totals
     @$('.toolbar th.project').text Locals.toDurationString(totals.selected) || ''
     allSelected = totals.duration == totals.selected
@@ -200,6 +200,7 @@ ItemList = Backbone.View.extend
     @router.navigate path
 
   selectAll: (e) ->
+    # TODO speed up
     @collection.invoke 'set', selected: e.target.checked
 
   label: (e) ->

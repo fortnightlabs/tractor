@@ -34,6 +34,7 @@ class Tractor.Items extends Backbone.Collection
     @updateTotals()
 
   updateTotals: ->
+    # TODO speed up (bulk selection)
     projects = {}
     apps = {}
     totals =
