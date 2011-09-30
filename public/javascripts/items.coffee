@@ -114,34 +114,32 @@ HourView = Backbone.View.extend
     'click thead input[type=checkbox]': 'selectAll'
 
   initialize: ->
+    @collection.bind 'change:totals',    @changeTotals, this
     @collection.bind 'change:projectId', @render, this
-    #@collection.bind 'change:selected',  @changeSelected, this
 
   render: ->
     # TODO clean up bindings?
     @el.innerHTML = @template _.extend(Object.create(Locals), hour: @collection)
     table = @$('table')
-    @collection.each (g) ->
-      table.append new GroupView(model: g).render().el
+    @collection.each (g) -> table.append new GroupView(model: g).render().el
     table.append new TotalsView(collection: @collection).render().el
     this
 
   selectAll: (e) ->
+    # TODO speed up
     _.invoke @collection.items(), 'set', selected: e.target.checked
 
-  changeSelected: (model, val) ->
-    selected = @collection.selected()
-    duration = selected.reduce(((sum, i) -> sum + i.get('duration')), 0).value()
-    @$('th.project').text Locals.toDurationString(duration) || 'project'
-    @$('thead input[type=checkbox]').prop 'checked', @collection.length == selected.value().length
+  changeTotals: (model, val) ->
+    @$('th.project').text Locals.toDurationString(@collection.totals.selected) || 'project'
+    @$('thead input[type=checkbox]').prop 'checked', @collection.selected
 
 ItemList = Backbone.View.extend
   el: 'body'
 
   initialize: ->
     @collection.bind 'reset', @reset, this
-    #@collection.bind 'change:totals', @updateTotals, this
-    #@collection.bind 'change:selected', @changeSelected, this
+    @collection.bind 'change:totals', @updateTotals, this
+    @collection.bind 'change:selected', @changeSelected, this
     @router = @options.router
 
   events:
@@ -166,7 +164,10 @@ ItemList = Backbone.View.extend
     @$('table.toolbar tfoot').html $(tmpl).html()
 
   changeSelected: (model, val) ->
-    allSelected = @collection.all (i) -> i.get('selected')
+    # TODO speed up (reverse for common case speed?)
+    totals = @collection.totals
+    @$('.toolbar th.project').text Locals.toDurationString(totals.selected) || ''
+    allSelected = totals.duration == totals.selected
     @$('.toolbar input[type=checkbox]').prop 'checked', allSelected
 
   keylisten: (e) ->
@@ -199,7 +200,7 @@ ItemList = Backbone.View.extend
     @router.navigate path
 
   selectAll: (e) ->
-    @collection.invoke 'set', selected: true
+    @collection.invoke 'set', selected: e.target.checked
 
   label: (e) ->
     changes =

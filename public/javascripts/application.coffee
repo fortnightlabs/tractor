@@ -29,6 +29,7 @@ class Tractor.Items extends Backbone.Collection
 
   initialize: ->
     @bind 'remove',           @updateTotals, this
+    @bind 'change:selected',  @updateTotals, this
     @bind 'change:projectId', @updateTotals, this
     @updateTotals()
 
@@ -38,10 +39,12 @@ class Tractor.Items extends Backbone.Collection
     totals =
       length: @length
       duration: 0
+      selected: 0
       apps: apps
       projects: projects
     @each (item) ->
       totals.duration += duration = item.get 'duration'
+      totals.selected += duration if item.get 'selected'
       apps[app] = true if app = item.get 'app'
       project = item.get('projectId') || 'unassigned'
       projects[project] = (projects[project] || 0) + duration
@@ -78,8 +81,9 @@ class Tractor.Hour extends Backbone.Collection
   model: Tractor.Group
 
   initialize: (models, options) ->
-    @bind 'change:projectId', @resetGroups, this
     @hour = @first()?.get('start')
+    @bind 'change:totals',    @updateTotals, this
+    @bind 'change:projectId', @resetGroups, this
     @resetGroups()
     @updateTotals()
 
@@ -90,6 +94,26 @@ class Tractor.Hour extends Backbone.Collection
       @reduce (r, group) ->
         r.concat group.collection.models
       , []
+
+  updateTotals: ->
+    @totals = @reduce (t, group) ->
+      totals = group.get 'totals'
+      t.length += totals.length
+      t.duration += totals.duration
+      t.selected += totals.selected
+
+      for projectId, duration of totals.projects
+        t.projects[projectId] = (t.projects[projectId] || 0) + duration
+
+      # TODO _.extend t.apps, totals.apps
+      t
+    ,
+      length: 0
+      duration: 0
+      selected: 0
+      apps: {}
+      projects: {}
+    @selected = @totals.duration == @totals.selected
 
   resetGroups: ->
     groups = []
@@ -103,20 +127,6 @@ class Tractor.Hour extends Backbone.Collection
     , this
 
     @reset _.map(groups, (g) -> new Tractor.Group collection: g)
-
-  updateTotals: ->
-    @totals = @reduce (t, group) ->
-      totals = group.get 'totals'
-      t.length += totals.length
-      t.duration += totals.duration
-      for projectId, duration of totals.projects
-        t.projects[projectId] = (t.projects[projectId] || 0) + duration
-      t
-    ,
-      length: 0
-      duration: 0
-      apps: {}
-      projects: {}
 
 class Tractor.AllItems extends Tractor.Items
   url: '/items'

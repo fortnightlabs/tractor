@@ -50,3 +50,11 @@ module.exports =
     assert.eql 1, hour.totals.projects[1]
     assert.eql 2, hour.totals.projects[2]
     assert.eql 3, hour.totals.projects[3]
+
+  'updateTotals selected': (beforeExit, assert) ->
+    hour = newHour itemsForProjects(1,2,2,3,3,3)
+    assert.eql 0, hour.totals.selected
+    hour.models[0].collection.invoke 'set', selected: true
+    assert.eql 1, hour.totals.selected
+    hour.models[1].collection.invoke 'set', selected: true
+    assert.eql 3, hour.totals.selected

@@ -39,3 +39,11 @@ module.exports =
     items.first().set selected: true
     assert.eql 1, items.selected().size().value()
     assert.equal items.first(), items.selected().first().value()
+
+  'selected updateTotals': (beforeExit, assert) ->
+    items = newItems()
+    assert.eql 0, items.totals.selected
+    items.first().set selected: true
+    assert.eql 30, items.totals.selected
+    items.last().set selected: true
+    assert.eql 90, items.totals.selected
