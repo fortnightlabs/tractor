@@ -58,7 +58,6 @@ ItemView = Backbone.View.extend
 
 GroupView = Backbone.View.extend
   tagName: 'tbody'
-  className: 'group'
   template: template._['group-view']
 
   events:
@@ -73,6 +72,7 @@ GroupView = Backbone.View.extend
   render: ->
     if @model.get 'projectId'
       @el.innerHTML = @template _.extend(Object.create(Locals), group: @model)
+      @el.className = 'assigned'
     else
       @model.collection.each (i) ->
         @el.appendChild new ItemView(model: i).render().el
