@@ -1,24 +1,22 @@
 Tractor = require '../public/javascripts/application'
 
 newGroup = (item) ->
-  group = new Tractor.Group
-  group.add item
-  group
+  new Tractor.Group collection: [ item ]
 
 module.exports =
-  'add': (beforeExit, assert) ->
+  'initialize with collection': (beforeExit, assert) ->
     item = new Tractor.Item
     group = newGroup item
 
     assert.equal item, group.collection.models[0]
 
-  'echos events on items': (beforeExit, assert) ->
+  'echos change:projectId on items': (beforeExit, assert) ->
     item = new Tractor.Item
     group = newGroup item
 
     n = 0
-    group.bind 'change:foo', -> n++
-    item.set foo: true
+    group.bind 'change:projectId', -> n++
+    item.set projectId: 2
     assert.eql 1, n
 
   'maintains the start time': (beforeExit, assert) ->

@@ -2,7 +2,7 @@ Tractor = require '../public/javascripts/application'
 
 itemsForProjects = (names...) ->
   names.map (name) ->
-    new Tractor.Item projectId: name
+    new Tractor.Item projectId: name, duration: 1
 
 newHour = (items) ->
   new Tractor.Hour items
@@ -44,3 +44,9 @@ module.exports =
     item = new Tractor.Item start: now
     hour = newHour [item]
     assert.equal now, hour.hour
+
+  'updateTotals': (beforeExit, assert) ->
+    hour = newHour itemsForProjects(1,2,2,3,3,3)
+    assert.eql 1, hour.totals.projects[1]
+    assert.eql 2, hour.totals.projects[2]
+    assert.eql 3, hour.totals.projects[3]

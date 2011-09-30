@@ -28,8 +28,6 @@ class Tractor.Items extends Backbone.Collection
   model: Tractor.Item
 
   initialize: ->
-    @bind 'reset',            @updateTotals, this
-    @bind 'add',              @updateTotals, this
     @bind 'remove',           @updateTotals, this
     @bind 'change:projectId', @updateTotals, this
     @updateTotals()
@@ -58,13 +56,11 @@ class Tractor.Group extends Backbone.Model
     open: false
 
   initialize: ->
-    @collection = new Tractor.Items
-    @collection.bind 'all', @trigger, this
-    @collection.bind 'add', @resetAttributes, this
-    @collection.bind 'remove', @resetAttributes, this
-    @collection.bind 'change:selected', @resetAttributes, this
-
-  add: -> @collection.add.apply @collection, arguments
+    @collection = new Tractor.Items @attributes.collection
+    @collection.bind 'remove',           @resetAttributes, this
+    @collection.bind 'change:selected',  @resetAttributes, this
+    @collection.bind 'change:projectId', @echo('change:projectId'), this
+    @resetAttributes()
 
   resetAttributes: ->
     @set
@@ -73,6 +69,10 @@ class Tractor.Group extends Backbone.Model
       end: @collection.last()?.get('end')
       selected: @collection.all (i) -> i.get 'selected'
       duration: @collection.totals.duration
+      totals: @collection.totals
+
+  echo: (event) ->
+    (model, val, options) -> @trigger event, model, val, options
 
 class Tractor.Hour extends Backbone.Collection
   model: Tractor.Group
@@ -97,24 +97,26 @@ class Tractor.Hour extends Backbone.Collection
     _.each @items(), (i) ->
       projectId = i.get('projectId') || null
       if not lastGroup or projectId isnt lastProjectId
-        lastGroup = new Tractor.Group
-        groups.push lastGroup
+        groups.push lastGroup = []
         lastProjectId = projectId
-      lastGroup.add i, silent: true
+      lastGroup.push i
     , this
 
-    _.invoke groups, 'resetAttributes'
-    @reset groups
+    @reset _.map(groups, (g) -> new Tractor.Group collection: g)
 
   updateTotals: ->
-    projects = {}
-    apps = {}
-    totals =
+    @totals = @reduce (t, group) ->
+      totals = group.get 'totals'
+      t.length += totals.length
+      t.duration += totals.duration
+      for projectId, duration of totals.projects
+        t.projects[projectId] = (t.projects[projectId] || 0) + duration
+      t
+    ,
       length: 0
       duration: 0
-      apps: apps
-      projects: projects
-    @totals = totals
+      apps: {}
+      projects: {}
 
 class Tractor.AllItems extends Tractor.Items
   url: '/items'

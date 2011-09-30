@@ -14,22 +14,6 @@ module.exports =
     assert.eql 90, items.totals.duration
     assert.eql 90, items.totals.projects.unassigned
 
-  'add updateTotals': (beforeExit, assert) ->
-    items = new Tractor.Items
-
-    assert.eql 0, items.totals.length
-
-    items.add new Tractor.Item(duration: 30, app: 'WebKit')
-    assert.eql 1, items.totals.length
-    assert.eql 30, items.totals.projects.unassigned
-    assert.eql {'WebKit': true}, items.totals.apps
-
-    items.add new Tractor.Item(duration: 60, projectId: 1)
-    assert.eql 2, items.totals.length
-    assert.eql 30, items.totals.projects.unassigned
-    assert.eql 60, items.totals.projects[1]
-    assert.eql {'WebKit': true}, items.totals.apps
-
   'remove updateTotals': (beforeExit, assert) ->
     items = newItems()
     items.remove items.last()

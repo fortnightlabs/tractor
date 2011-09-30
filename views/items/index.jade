@@ -53,17 +53,15 @@ template( id='item-view' ):
 template( id='group-view' ):
   tr.summary
     td.project
-      = projects.get(group.first().get('projectId')).get('name')
+      = projects.get(group.get('projectId')).get('name')
       = ' (' + group.collection.length + ')'
     td: input( type='checkbox' )
     td
-      != strftime('%l:<b>%M:%S</b>', group.first().get('start'))
-      - if (group.length > 1)
-        != '-' + strftime('%l:<b>%M:%S</b>', group.last().get('end'))
-    td.duration
-      - each duration in group.totals.projects
-        = toDurationString(duration)
-    td( colspan=2 )= _.keys(group.totals.apps).join(', ')
+      != strftime('%l:<b>%M:%S</b>', group.get('start'))
+      - if (group.collection.length > 1)
+        != strftime(' - %l:<b>%M:%S</b>', group.get('end'))
+    td.duration= toDurationString(group.get('duration'))
+    td( colspan=2 )= _.keys(group.get('totals').apps).join(', ')
 
 template( id='totals-view' ):
   tr: td.totals( colspan=6 )
@@ -71,12 +69,12 @@ template( id='totals-view' ):
     |  items:
     dl.projects
       - each duration, projectId in totals.projects
-        - project = projects.get(projectId)
-        dt= project.get('name')
-        dd
-          = toDurationString(duration)
-          - if (project.get('rate'))
-            = ' ($' + (project.get('rate')*duration/3600).toFixed(2) + ')'
-      - if (totals.unassigned)
+        - if (project = projects.get(projectId))
+          dt= project.get('name')
+          dd
+            = toDurationString(duration)
+            - if (project.get('rate'))
+              = ' ($' + (project.get('rate')*duration/3600).toFixed(2) + ')'
+      - if (totals.projects.unassigned)
         dt unassigned
-        dd= toDurationString(totals.unassigned)
+        dd= toDurationString(totals.projects.unassigned)

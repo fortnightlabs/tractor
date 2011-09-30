@@ -23,8 +23,7 @@ ItemView = Backbone.View.extend
 
   initialize: ->
     #@model.bind 'change:cursor',    @changeCursor, this
-    #@model.bind 'change:selected',  @changeSelected, this
-    #@model.bind 'change:projectId', @changeProjectId, this
+    @model.bind 'change:selected',  @changeSelected, this
     #@model.bind 'destroy',          @remove, this
 
   render: ->
@@ -57,21 +56,19 @@ ItemView = Backbone.View.extend
       .toggleClass('selected', val)
       .find('input[type=checkbox]').prop('checked', val)
 
-  changeProjectId: (model, val) ->
-    @$('td.project').text Projects.get(val).get('name')
-
 GroupView = Backbone.View.extend
   tagName: 'tbody'
   className: 'group'
   template: template._['group-view']
 
   events:
+    'click tr.summary': 'toggleOpen'
     'click tr.summary input[type=checkbox]': 'selectAll'
 
   initialize: ->
-    #@model.bind 'change:open',     @changeOpen, this
+    @model.bind 'change:open',     @changeOpen, this
     #@model.bind 'change:cursor',   @changeCursor, this
-    #@model.bind 'change:selected', @changeSelected, this
+    @model.bind 'change:selected', @changeSelected, this
 
   render: ->
     if @model.get 'projectId'
@@ -82,14 +79,16 @@ GroupView = Backbone.View.extend
       , this
     this
 
+  toggleOpen: ->
+    @model.set open: !@model.get('open')
+
   selectAll: (e) ->
     e.stopPropagation()
     @model.collection.invoke 'set', selected: e.target.checked
 
   changeOpen: ->
-    return unless @model.get 'projectId' # can't close an unassigned group
     if @model.get 'open'
-      @views ||= @collection.map (i) -> new ItemView model: i
+      @views ||= @model.collection.map (i) -> new ItemView model: i
       @el.appendChild v.render().el for v in @views
     else
       _.invoke @views, 'detach'
@@ -115,11 +114,11 @@ HourView = Backbone.View.extend
     'click thead input[type=checkbox]': 'selectAll'
 
   initialize: ->
-    @collection.bind 'reset',            @reset, this
-    #@collection.bind 'change:projectId', @reset, this
+    @collection.bind 'change:projectId', @render, this
     #@collection.bind 'change:selected',  @changeSelected, this
 
   render: ->
+    # TODO clean up bindings?
     @el.innerHTML = @template _.extend(Object.create(Locals), hour: @collection)
     table = @$('table')
     @collection.each (g) ->
@@ -128,6 +127,7 @@ HourView = Backbone.View.extend
     this
 
   selectAll: (e) ->
+    #TODO
     @collection.invoke 'set', selected: e.target.checked
 
   changeSelected: (model, val) ->
