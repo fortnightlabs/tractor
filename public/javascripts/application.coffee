@@ -28,6 +28,7 @@ class Tractor.Items extends Backbone.Collection
   model: Tractor.Item
 
   initialize: ->
+    @bind 'reset',            @updateTotals, this
     @bind 'remove',           @updateTotals, this
     @bind 'change:selected',  @updateTotals, this
     @bind 'change:projectId', @updateTotals, this

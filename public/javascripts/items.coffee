@@ -145,8 +145,8 @@ ItemList = Backbone.View.extend
   el: 'body'
 
   initialize: ->
-    @collection.bind 'reset',           @reset, this
-    @collection.bind 'change:totals',   @changeTotals, this
+    @collection.bind 'reset',         @reset, this
+    @collection.bind 'change:totals', @changeTotals, this
     @router = @options.router
 
   events:
