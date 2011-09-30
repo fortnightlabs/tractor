@@ -170,6 +170,7 @@ ItemList = Backbone.View.extend
     @$('.toolbar th.project').text ''
     @$('.toolbar input[type=checkbox]').prop 'checked', false
     @$(':focus').blur()
+    @$('#projects').prop('selectedIndex', 0)
 
   changeTotals: ->
     tmpl = template?._['totals-view'](_.extend(Object.create(Locals), totals: @collection.totals))
