@@ -62,7 +62,7 @@ class Tractor.Group extends Backbone.Model
 
   initialize: ->
     @collection = new Tractor.Items @attributes.collection
-    @collection.invoke 'set', group: this
+    @collection.each ((i) -> i.group = this), this
     @collection.bind 'remove',           @resetAttributes, this
     @collection.bind 'change:selected',  @resetAttributes, this
     @collection.bind 'change:cursor',    @changeCursor, this
@@ -174,7 +174,7 @@ class Tractor.AllItems extends Tractor.Items
     return unless val
     @cursor().without(model).invoke 'set', cursor: false if val
     i = @indexOf model # TODO slow
-    group = model.get 'group'
+    group = model.group
     @_cursor =
       if group.get('projectId') and not group.get('open')
         items = group.collection

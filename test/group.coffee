@@ -9,7 +9,7 @@ module.exports =
     group = newGroup item
 
     assert.equal item, group.collection.models[0]
-    assert.equal group, item.get('group')
+    assert.equal group, item.group
 
   'echos change:projectId on items': (beforeExit, assert) ->
     item = new Tractor.Item
