@@ -61,9 +61,12 @@ class Tractor.Group extends Backbone.Model
 
   initialize: ->
     @collection = new Tractor.Items @attributes.collection
+    @collection.invoke 'set', group: this
     @collection.bind 'remove',           @resetAttributes, this
     @collection.bind 'change:selected',  @resetAttributes, this
+    @collection.bind 'change:cursor',    @changeCursor, this
     @collection.bind 'change:projectId', @echo('change:projectId'), this
+    @bind 'change:open',                 @changeOpen, this
     @resetAttributes()
 
   resetAttributes: ->
@@ -74,9 +77,18 @@ class Tractor.Group extends Backbone.Model
       selected: @collection.all (i) -> i.get 'selected'
       duration: @collection.totals.duration
       totals: @collection.totals
+    @set { open: true }, { silent: true } if !@get('projectId')
+
+  changeCursor: (item, val) ->
+    @set cursor: @collection.any((i) -> i.get 'cursor')
 
   echo: (event) ->
     (model, val, options) -> @trigger event, model, val, options
+
+  changeOpen: (group, val) ->
+    if @get 'cursor'
+      i = @collection.first()
+      i.trigger 'change:cursor', i, true
 
 class Tractor.Hour extends Backbone.Collection
   model: Tractor.Group
@@ -137,8 +149,8 @@ class Tractor.AllItems extends Tractor.Items
   initialize: ->
     super *arguments
     @bind 'reset',           @resetHours, this
-    @bind 'remove',          @updateCursorRemove, this
-    @bind 'change:cursor',   @updateCursorChange, this
+    @bind 'remove',          @changeCursorOnRemove, this
+    @bind 'change:cursor',   @changeCursor, this
     @bind 'change:selected', @selectRange, this
 
   resetHours: ->
@@ -157,18 +169,20 @@ class Tractor.AllItems extends Tractor.Items
   next: -> @at Math.min(@_cursor[1] + 1, @length - 1)
   prev: -> @at Math.max(@_cursor[0] - 1, 0)
 
-  updateCursorChange: (model, val, options) ->
+  changeCursor: (model, val) ->
     return unless val
-    if val and !options.multiple
-      @cursor().without(model).invoke 'set', cursor: false
-    index = @indexOf model # TODO slow
+    @cursor().without(model).invoke 'set', cursor: false if val
+    i = @indexOf model # TODO slow
+    group = model.get 'group'
     @_cursor =
-      if options.multiple
-        [ Math.min(@_cursor[0], index), Math.max(@_cursor[1], index) ]
+      if group.get('projectId') and not group.get('open')
+        items = group.collection
+        items.invoke 'set', { cursor: true }, { silent: true }
+        [ @indexOf(items.first()), @indexOf(items.last()) ]
       else
-        [ index, index ]
+        [ i, i ]
 
-  updateCursorRemove: (model) ->
+  changeCursorOnRemove: (model) ->
     return
     if model.get('start') <= @at(@_cursor[0]).get('start')
       @_cursor[0]--

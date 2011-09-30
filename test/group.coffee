@@ -1,7 +1,7 @@
 Tractor = require '../public/javascripts/application'
 
-newGroup = (item) ->
-  new Tractor.Group collection: [ item ]
+newGroup = (items...) ->
+  new Tractor.Group collection: items
 
 module.exports =
   'initialize with collection': (beforeExit, assert) ->
@@ -9,6 +9,7 @@ module.exports =
     group = newGroup item
 
     assert.equal item, group.collection.models[0]
+    assert.equal group, item.get('group')
 
   'echos change:projectId on items': (beforeExit, assert) ->
     item = new Tractor.Item
@@ -25,3 +26,9 @@ module.exports =
     group = newGroup item
 
     assert.eql now, group.get('start')
+
+  'opening a group sets cursor to first': (beforeExit, assert) ->
+    group = newGroup [ new Tractor.Item, new Tractor.Item ]
+
+  'closing a group sets cursor to first': (beforeExit, assert) ->
+    group = newGroup [ new Tractor.Item, new Tractor.Item ]

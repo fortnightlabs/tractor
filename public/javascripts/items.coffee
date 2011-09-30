@@ -86,15 +86,19 @@ GroupView = Backbone.View.extend
     e.stopPropagation()
     @model.collection.invoke 'set', selected: e.target.checked
 
-  changeOpen: ->
-    if @model.get 'open'
+  changeOpen: (group, val) ->
+    if val
       @views ||= @model.collection.map (i) -> new ItemView model: i
       @el.appendChild v.render().el for v in @views
+      @$('tr.summary').removeClass 'cursor'
     else
       _.invoke @views, 'detach'
+      @$('tr.summary').addClass 'cursor' if @model.get('cursor')
 
   changeCursor: (item, val) ->
-    @$('tr.summary').toggleClass 'cursor', val unless @model.get 'open'
+    if not @model.get 'open'
+      summary = @$('tr.summary').toggleClass 'cursor', val
+      $.uncover summary if val
 
   changeSelected: (model, val) ->
     @$('tr.summary input[type=checkbox]').prop 'checked', @model.get('selected')
@@ -175,15 +179,15 @@ ItemList = Backbone.View.extend
     items = @collection
     handled = switch e.keyName
       when 'h', 'left'
-        # TODO
-        items.cursor().first().value().trigger 'group:close'
+        group = items.cursor().first().value().get 'group'
+        group.set open: false if group.get 'projectId'
       when 'j', 'down'
         items.next().set cursor: true
       when 'k', 'up'
         items.prev().set cursor: true
       when 'l', 'right'
-        # TODO
-        items.cursor().first().value().trigger 'group:open'
+        group = items.cursor().first().value().get 'group'
+        group.set open: true if group.get 'projectId'
       when 'p'
         @$('select#projects').focus()
       when 'x'
