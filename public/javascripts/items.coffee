@@ -127,8 +127,7 @@ HourView = Backbone.View.extend
     this
 
   selectAll: (e) ->
-    #TODO
-    @collection.invoke 'set', selected: e.target.checked
+    _.invoke @collection.items(), 'set', selected: e.target.checked
 
   changeSelected: (model, val) ->
     selected = @collection.selected()
