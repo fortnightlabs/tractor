@@ -22,7 +22,7 @@ ItemView = Backbone.View.extend
     'mousedown':                  'preventSelection'
 
   initialize: ->
-    #@model.bind 'change:cursor',    @changeCursor, this
+    @model.bind 'change:cursor',    @changeCursor, this
     @model.bind 'change:selected',  @changeSelected, this
     #@model.bind 'destroy',          @remove, this
 
@@ -48,7 +48,7 @@ ItemView = Backbone.View.extend
     e.preventDefault() if e.shiftKey
 
   changeCursor: (model, val) ->
-    $el = $(@el).toggleClass('cursor', val)
+    $el = $(@el).toggleClass 'cursor', val
     $.uncover $el if val
 
   changeSelected: (model, val) ->
@@ -67,8 +67,8 @@ GroupView = Backbone.View.extend
 
   initialize: ->
     @model.bind 'change:open',     @changeOpen, this
-    #@model.bind 'change:cursor',   @changeCursor, this
     @model.bind 'change:selected', @changeSelected, this
+    @model.collection.bind 'change:cursor', @changeCursor, this
 
   render: ->
     if @model.get 'projectId'
@@ -92,6 +92,9 @@ GroupView = Backbone.View.extend
       @el.appendChild v.render().el for v in @views
     else
       _.invoke @views, 'detach'
+
+  changeCursor: (item, val) ->
+    @$('tr.summary').toggleClass 'cursor', val unless @model.get 'open'
 
   changeSelected: (model, val) ->
     @$('tr.summary input[type=checkbox]').prop 'checked', @model.get('selected')
@@ -172,12 +175,14 @@ ItemList = Backbone.View.extend
     items = @collection
     handled = switch e.keyName
       when 'h', 'left'
+        # TODO
         items.cursor().first().value().trigger 'group:close'
       when 'j', 'down'
         items.next().set cursor: true
       when 'k', 'up'
         items.prev().set cursor: true
       when 'l', 'right'
+        # TODO
         items.cursor().first().value().trigger 'group:open'
       when 'p'
         @$('select#projects').focus()
