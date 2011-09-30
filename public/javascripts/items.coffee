@@ -138,9 +138,8 @@ ItemList = Backbone.View.extend
   el: 'body'
 
   initialize: ->
-    @collection.bind 'reset', @reset, this
-    @collection.bind 'change:totals', @updateTotals, this
-    @collection.bind 'change:selected', @changeSelected, this
+    @collection.bind 'reset',           @reset, this
+    @collection.bind 'change:totals',   @changeTotals, this
     @router = @options.router
 
   events:
@@ -158,17 +157,16 @@ ItemList = Backbone.View.extend
     , this
     @$('input[type=date]').val (i, old) =>
       old || strftime('%Y-%m-%d', @collection.first()?.get('start'))
+    @$('.toolbar th.project').text ''
+    @$('.toolbar input[type=checkbox]').prop 'checked', false
     @$(':focus').blur()
 
-  updateTotals: ->
+  changeTotals: ->
     tmpl = template._['totals-view'](_.extend(Object.create(Locals), totals: @collection.totals))
-    @$('table.toolbar tfoot').html $(tmpl).html()
-
-  changeSelected: (model, val) ->
-    totals = @collection.totals
-    @$('.toolbar th.project').text Locals.toDurationString(totals.selected) || ''
-    allSelected = totals.duration == totals.selected
-    @$('.toolbar input[type=checkbox]').prop 'checked', allSelected
+    @$('.toolbar tfoot').html $(tmpl).html()
+    t = @collection.totals
+    @$('.toolbar th.project').text Locals.toDurationString(t.selected) || ''
+    @$('.toolbar input[type=checkbox]').prop 'checked', t.duration == t.selected
 
   keylisten: (e) ->
     items = @collection
