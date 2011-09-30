@@ -9,7 +9,7 @@ module.exports = (app) ->
       html: (req, res) ->
         Project.find {}, {}, { sort: 'name' }, (err, projects) ->
           return next err if err
-          res.render 'items', projects: projects
+          res.render2 'items', projects: projects
 
       json: (req, res, next) ->
         today = new Date

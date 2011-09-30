@@ -9,12 +9,12 @@ module.exports = (app) ->
         return next err if err
         switch req.format
           when 'html'
-            res.render 'projects', projects: projects
+            res.render2 'projects', projects: projects
           when 'json'
             res.json projects
 
     new: (req, res) ->
-      res.render 'projects/new', project: new Project
+      res.render2 'projects/new', project: new Project
 
     create: (req, res, next) ->
       project = new Project req.body
@@ -23,10 +23,10 @@ module.exports = (app) ->
         res.redirect '/projects/' + project.id
 
     show: (req, res) ->
-      res.render 'projects/show', project: req.project
+      res.render2 'projects/show', project: req.project
 
     edit: (req, res) ->
-      res.render 'projects/edit', project: req.project
+      res.render2 'projects/edit', project: req.project
 
     update: (req, res, next) ->
       project = req.project
