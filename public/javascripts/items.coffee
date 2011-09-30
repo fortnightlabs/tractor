@@ -14,7 +14,7 @@ Locals =
 
 ItemView = Backbone.View.extend
   tagName: 'tr'
-  template: template._['item-view']
+  template: template?._['item-view']
 
   events:
     'click':                      'setCursor'
@@ -58,7 +58,7 @@ ItemView = Backbone.View.extend
 
 GroupView = Backbone.View.extend
   tagName: 'tbody'
-  template: template._['group-view']
+  template: template?._['group-view']
 
   events:
     'click tr.summary': 'toggleOpen'
@@ -105,7 +105,7 @@ GroupView = Backbone.View.extend
 
 TotalsView = Backbone.View.extend
   tagName: 'tfoot'
-  template: template._['totals-view']
+  template: template?._['totals-view']
 
   initialize: ->
     @collection.bind 'change:totals', @render, this
@@ -116,7 +116,7 @@ TotalsView = Backbone.View.extend
 
 HourView = Backbone.View.extend
   tagName: 'li'
-  template: template._['hour-view']
+  template: template?._['hour-view']
   events:
     'click thead input[type=checkbox]': 'selectAll'
 
@@ -169,7 +169,7 @@ ItemList = Backbone.View.extend
     @$(':focus').blur()
 
   changeTotals: ->
-    tmpl = template._['totals-view'](_.extend(Object.create(Locals), totals: @collection.totals))
+    tmpl = template?._['totals-view'](_.extend(Object.create(Locals), totals: @collection.totals))
     @$('.toolbar tfoot').html $(tmpl).html()
     t = @collection.totals
     @$('.toolbar th.project').text Locals.toDurationString(t.selected) || ''
