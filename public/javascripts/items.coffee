@@ -213,7 +213,7 @@ class ItemList extends Backbone.View
             .invoke('set', selected: true)
         else                                            # close group
           group = items.cursor().first().value().group
-          group.set open: false if group.get 'projectId'
+          group.set(open: false) if group.get 'projectId'
       when 'j', 'down'                                  # down
         items.next().set cursor: true
       when 'pagedown', 'ctrl+meta+f', 'ctrl+meta+d'     # page down
@@ -224,7 +224,7 @@ class ItemList extends Backbone.View
         items.prev(20).set cursor: true
       when 'l', 'right'                                 # open group
         group = items.cursor().first().value().group
-        group.set open: true if group.get 'projectId'
+        group.set(open: true) if group.get 'projectId'
       when 'n'
         if @lastKey == 'shift+8'                        # deselect
           items.selected().invoke 'set', selected: false
