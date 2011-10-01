@@ -169,8 +169,8 @@ class Tractor.AllItems extends Tractor.Items
     _(@hours[h] for h in hours)
 
   cursor: -> _(@models[@_cursor[0] .. @_cursor[1]]).chain()
-  next: -> @at Math.min(@_cursor[1] + 1, @length - 1)
-  prev: -> @at Math.max(@_cursor[0] - 1, 0)
+  next: (n = 1) -> @at Math.min(@_cursor[1] + n, @length - 1)
+  prev: (n = 1) -> @at Math.max(@_cursor[0] - n, 0)
 
   changeCursor: (model, val) ->
     return unless val
