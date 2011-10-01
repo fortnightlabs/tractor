@@ -234,7 +234,7 @@ class ItemList extends Backbone.View
             .invoke('set', selected: true)
       when 'x'                                          # select
         items.cursor().invoke 'toggle'
-      when '#'                                          # delete
+      when 'shift+3'                                    # delete
         items.selected().invoke 'destroy'
       when '/'                                          # search
         @$('input[type=search]').select()
