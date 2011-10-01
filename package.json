@@ -22,7 +22,7 @@
     "express-resource": "0.2.3",
     "jade": "0.15.4",
     "jadevu": "0.0.7",
-    "mongoose": "2.2.0",
+    "mongoose": "2.2.3",
     "strftime": "0.4.6",
     "stylus": "0.16.0",
     "underscore": "1.1.7"
