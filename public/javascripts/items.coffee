@@ -167,11 +167,13 @@ class ItemList extends Backbone.View
     @router = @options.router
 
   events:
-    'keylisten':              'keylisten'
-    'submit form#filter':     'filter'
+    'keylisten':                           'keylisten'
+    'submit form#filter':                  'filter'
+    'change input[type=date]':             'filter'
+    'search input[type=search]':           'clearSearch'
     'click .toolbar input[type=checkbox]': 'selectAll'
-    'change select#projects': 'assign'
-    'click button#destroy':   'destroy'
+    'change select#projects':              'assign'
+    'click button#destroy':                'destroy'
 
   reset: ->
     list = @$ 'ul.items'
@@ -179,16 +181,12 @@ class ItemList extends Backbone.View
     _.each @collection.hours, (hour) ->
       list.append new HourView(collection: hour).render().el
     , this
-    start = @collection.first()?.get('start')
-    @weekday = strftime '%a', start
-    @$('input[type=date]')
-      .datepicker()
-      .datepicker('option', 'dateFormat', 'yy-mm-dd')
-      .val strftime('%Y-%m-%d', start)
+    @weekday = strftime '%a', @collection.first()?.get('start')
+    @$('input[type=date]').datepicker dateFormat: 'yy-mm-dd'
     @$('.toolbar th.project').text @weekday
     @$('.toolbar input[type=checkbox]').prop 'checked', false
+    @$('.toolbar select#projects').prop 'selectedIndex', 0
     @$(':focus').blur()
-    @$('#projects').prop('selectedIndex', 0)
 
   changeTotals: ->
     tmpl = template?._['totals-view'](_.extend(Object.create(Locals), totals: @collection.totals))
@@ -249,11 +247,16 @@ class ItemList extends Backbone.View
 
   filter: (e) ->
     e.preventDefault()
-    @collection.fetch data: $(e.target).serialize()
+    form = @$ 'form#filter'
+    @collection.fetch data: form.serialize()
+    @$('ul.items').html '<li>Loading</li>'
     path = 'items'
-    path += '/' + $(e.target.date).val() if $(e.target.date).val()
-    path += '/' + $(e.target.query).val() if $(e.target.query).val()
+    path += '/' + date if date = $('input[name=date]', form).val()
+    path += '/' + query if query = $('input[name=query]', form).val()
     @router.navigate path
+
+  clearSearch: (e) ->
+    @$('form#filter').submit() if !$(e.target).val()
 
   selectAll: (e) ->
     # TODO speed up
