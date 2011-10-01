@@ -170,7 +170,7 @@ class ItemList extends Backbone.View
     'keylisten':              'keylisten'
     'submit form#filter':     'filter'
     'click .toolbar input[type=checkbox]': 'selectAll'
-    'change select#projects': 'label'
+    'change select#projects': 'assign'
     'click button#destroy':   'destroy'
 
   reset: ->
@@ -231,7 +231,7 @@ class ItemList extends Backbone.View
     # TODO speed up
     @collection.invoke 'set', selected: e.target.checked
 
-  label: (e) ->
+  assign: (e) ->
     changes =
       projectId: $(e.target).val() || null
       selected: false
