@@ -11,10 +11,13 @@ body
 
 body, input, .ui-widget
   font-family helvetica neue, helvetica, arial, sans-serif
-  font-size medium
-
-.ui-widget
   font-size small
+
+input[type=text], input[type=date], input[type=search]
+  border solid 1px hsla(0, 0%, 0%, 0.2)
+  border-radius 2px
+  padding 2px
+  box-shadow inset 0 0 2px hsla(0, 0%, 0%, 0.2)
 
 h1, h2, h3
   font-weight 300
@@ -27,8 +30,11 @@ body.projects
 body.items
   header
     position fixed
-    background-color white
-    box-shadow 0 0 2px hsla(0, 0%, 0%, 0.2)
+    background-color hsl(0, 0%, 20%)
+    box-shadow 0 0 5px hsla(0, 0%, 0%, 0.5)
+    width 100%
+    margin-left -10px
+    padding 0 10px 0.25em
     #filter
       input[type=date]
         width 6.5em
@@ -37,16 +43,17 @@ body.items
         margin-left 1ex
     table.hour
       margin 0
-      background-color hsl(0, 0%, 50%)
       color white
       text-shadow 0 -1px 0 hsla(0, 0%, 0%, 0.3)
+      width 100%
       th
         padding-bottom 0
+        background hsl(0, 0%, 20%)
 
   ul.items
     margin 0
     padding 0
-    padding-top 90px
+    padding-top 70px
     > li
       display inline
 
