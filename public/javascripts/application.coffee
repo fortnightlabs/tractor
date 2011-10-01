@@ -99,7 +99,6 @@ class Tractor.Hour extends Backbone.Collection
     @bind 'change:totals',    @updateTotals, this
     @bind 'change:projectId', @resetGroups, this
     @resetGroups()
-    @updateTotals()
 
   items: ->
     if @length is 0 or @first() instanceof Tractor.Item
@@ -141,6 +140,7 @@ class Tractor.Hour extends Backbone.Collection
     , this
 
     @reset _.map(groups, (g) -> new Tractor.Group collection: g)
+    @updateTotals()
 
 class Tractor.AllItems extends Tractor.Items
   url: '/items'
