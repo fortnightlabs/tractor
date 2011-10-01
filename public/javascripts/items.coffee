@@ -223,6 +223,7 @@ ItemList = Backbone.View.extend
     @collection.trigger 'change:projectId'
     @collection.hoursFor(selected).invoke 'trigger', 'change:projectId'
     $(e.target).prop 'selectedIndex', 0
+    @$(':focus').blur()
 
   destroy: (e) ->
     @collection.selected().invoke 'destroy'
