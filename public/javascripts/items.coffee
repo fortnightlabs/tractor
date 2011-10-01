@@ -164,9 +164,10 @@ class ItemList extends Backbone.View
   el: 'body'
 
   initialize: ->
+    @router = @options.router
     @collection.bind 'reset',         @reset, this
     @collection.bind 'change:totals', @changeTotals, this
-    @router = @options.router
+    $(window).resize _.debounce(@resize, 500)
 
   events:
     'keylisten':                           'keylisten'
@@ -183,6 +184,7 @@ class ItemList extends Backbone.View
     _.each @collection.hours, (hour) ->
       list.append new HourView(collection: hour).render().el
     , this
+    @resize()
     @weekday = strftime '%a', @collection.first()?.get('start')
     @$('input[type=date]').datepicker
       dateFormat: 'yy-mm-dd'
@@ -220,11 +222,11 @@ class ItemList extends Backbone.View
       when 'j', 'down'                                  # down
         items.next().set cursor: true
       when 'pagedown', 'ctrl+meta+f', 'ctrl+meta+d'     # page down
-        items.next(20).set cursor: true
+        items.next(@rowsPerPage).set cursor: true
       when 'k', 'up'                                    # up
         items.prev().set cursor: true
       when 'pageup', 'ctrl+meta+b', 'ctrl+meta+u'       # page up
-        items.prev(20).set cursor: true
+        items.prev(@rowsPerPage).set cursor: true
       when 'l', 'right'                                 # open group
         group = items.cursor().first().value().group
         group.set(open: true) if group.get 'projectId'
@@ -280,6 +282,9 @@ class ItemList extends Backbone.View
 
   destroy: (e) ->
     @collection.selected().invoke 'destroy'
+
+  resize: (e) =>
+    @rowsPerPage = Math.round $(window).height() / $('table.hour tbody tr').height()
 
 class ItemRouter extends Backbone.Router
   initialize: ->
