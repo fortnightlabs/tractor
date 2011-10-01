@@ -200,24 +200,41 @@ class ItemList extends Backbone.View
     items = @collection
     handled = switch e.keyName
       when 'a'
-        @$('select#projects').focus()
+        if @lastKey == 'shift+8'  # select all
+          items.invoke 'set', selected: true
+        else                      # assign
+          @$('select#projects').focus()
       when 'h', 'left'
-        group = items.cursor().first().value().group
-        group.set open: false if group.get 'projectId'
-      when 'j', 'down'
+        if @lastKey == 'shift+8'  # select hour
+          h = items.cursor().first().value().get 'hour'
+          items.chain()
+            .select((i) -> i.get('hour') == h)
+            .invoke('set', selected: true)
+        else                      # close group
+          group = items.cursor().first().value().group
+          group.set open: false if group.get 'projectId'
+      when 'j', 'down'            # down
         items.next().set cursor: true
-      when 'k', 'up'
+      when 'k', 'up'              # up
         items.prev().set cursor: true
-      when 'l', 'right'
+      when 'l', 'right'           # open group
         group = items.cursor().first().value().group
         group.set open: true if group.get 'projectId'
-      when 'x'
+      when 'n'
+        if @lastKey == 'shift+8'  # deselect
+          items.selected().invoke 'set', selected: false
+      when 'x'                    # select
         items.cursor().invoke 'toggle'
-      when 'y'
+      when 'y'                    # delete
         items.selected().invoke 'destroy'
-      when '/'
+      when '/'                    # search
         @$('input[type=search]').select()
-    e.preventDefault() if handled
+
+    if handled
+      e.preventDefault()
+      @lastKey = null
+    else
+      @lastKey = e.keyName
 
   filter: (e) ->
     e.preventDefault()
