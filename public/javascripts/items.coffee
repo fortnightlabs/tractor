@@ -224,6 +224,12 @@ class ItemList extends Backbone.View
       when 'n'
         if @lastKey == 'shift+8'  # deselect
           items.selected().invoke 'set', selected: false
+      when 'u'
+        if @lastKey == 'shift+8'  # select unassigned (within hour)
+          h = items.cursor().first().value().get 'hour'
+          items.chain()
+            .select((i) -> i.get('hour') == h and !i.get('projectId'))
+            .invoke('set', selected: true)
       when 'x'                    # select
         items.cursor().invoke 'toggle'
       when 'y'                    # delete
