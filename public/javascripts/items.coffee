@@ -199,6 +199,8 @@ class ItemList extends Backbone.View
   keylisten: (e) ->
     items = @collection
     handled = switch e.keyName
+      when 'a'
+        @$('select#projects').focus()
       when 'h', 'left'
         group = items.cursor().first().value().get 'group'
         group.set open: false if group.get 'projectId'
@@ -209,8 +211,6 @@ class ItemList extends Backbone.View
       when 'l', 'right'
         group = items.cursor().first().value().get 'group'
         group.set open: true if group.get 'projectId'
-      when 'p'
-        @$('select#projects').focus()
       when 'x'
         items.cursor().invoke 'toggle'
       when 'y'
