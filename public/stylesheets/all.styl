@@ -58,8 +58,14 @@ body.items
     tbody.assigned
       border-left-color hsl(0, 0%, 80%)
       tr.summary
-        color #999
+        color #888
+        background-color hsl(0, 0%, 96%)
         border-left solid 1px hsl(0, 0%, 50%)
+    tbody.assigned:nth-child(even)
+      tr.summary
+        background-color hsl(0, 0%, 94%)
+    tr:nth-child(odd)
+      background-color hsl(0, 0%, 98%)
     tr.selected
       background-color yellow
     tr.cursor
