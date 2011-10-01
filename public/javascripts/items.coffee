@@ -202,14 +202,14 @@ class ItemList extends Backbone.View
       when 'a'
         @$('select#projects').focus()
       when 'h', 'left'
-        group = items.cursor().first().value().get 'group'
+        group = items.cursor().first().value().group
         group.set open: false if group.get 'projectId'
       when 'j', 'down'
         items.next().set cursor: true
       when 'k', 'up'
         items.prev().set cursor: true
       when 'l', 'right'
-        group = items.cursor().first().value().get 'group'
+        group = items.cursor().first().value().group
         group.set open: true if group.get 'projectId'
       when 'x'
         items.cursor().invoke 'toggle'
