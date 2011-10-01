@@ -12,7 +12,7 @@ Locals =
     else
       duration.toFixed(0) + 's'
 
-ItemView = Backbone.View.extend
+class ItemView extends Backbone.View
   tagName: 'tr'
   template: template?._['item-view']
 
@@ -25,6 +25,11 @@ ItemView = Backbone.View.extend
     @model.bind 'change:cursor',    @changeCursor, this
     @model.bind 'change:selected',  @changeSelected, this
     #@model.bind 'destroy',          @remove, this
+
+  remove: ->
+    @model.unbind 'change:cursor',   @changeCursor
+    @model.unbind 'change:selected', @changeSelected
+    super arguments...
 
   render: ->
     attrs = @model.attributes
@@ -56,7 +61,7 @@ ItemView = Backbone.View.extend
       .toggleClass('selected', val)
       .find('input[type=checkbox]').prop('checked', val)
 
-GroupView = Backbone.View.extend
+class GroupView extends Backbone.View
   tagName: 'tbody'
   template: template?._['group-view']
 
@@ -69,13 +74,22 @@ GroupView = Backbone.View.extend
     @model.bind 'change:selected', @changeSelected, this
     @model.collection.bind 'change:cursor', @changeCursor, this
 
+  remove: ->
+    @model.unbind 'change:open',     @changeOpen, this
+    @model.unbind 'change:selected', @changeSelected, this
+    @model.collection.unbind 'change:cursor', @changeCursor, this
+    _.invoke @views, 'remove'
+    super arguments...
+
   render: ->
     if @model.get 'projectId'
       @el.innerHTML = @template _.extend(Object.create(Locals), group: @model)
       @el.className = 'assigned'
     else
-      @model.collection.each (i) ->
-        @el.appendChild new ItemView(model: i).render().el
+      @views = @model.collection.map (i) ->
+        v = new ItemView model: i
+        @el.appendChild v.render().el
+        v
       , this
     this
 
@@ -103,7 +117,7 @@ GroupView = Backbone.View.extend
   changeSelected: (model, val) ->
     @$('tr.summary input[type=checkbox]').prop 'checked', @model.get('selected')
 
-TotalsView = Backbone.View.extend
+class TotalsView extends Backbone.View
   tagName: 'tfoot'
   template: template?._['totals-view']
 
@@ -114,7 +128,7 @@ TotalsView = Backbone.View.extend
     @el.innerHTML = @template _.extend(Object.create(Locals), totals: @collection.totals)
     this
 
-HourView = Backbone.View.extend
+class HourView extends Backbone.View
   tagName: 'li'
   template: template?._['hour-view']
   events:
@@ -125,10 +139,13 @@ HourView = Backbone.View.extend
     @collection.bind 'change:projectId', @render, this
 
   render: ->
-    # TODO clean up bindings?
     @el.innerHTML = @template _.extend(Object.create(Locals), hour: @collection)
     table = @$('table')
-    @collection.each (g) -> table.append new GroupView(model: g).render().el
+    _.invoke @views, 'remove'
+    @views = @collection.map (g) ->
+      v = new GroupView model: g
+      table.append v.render().el
+      v
     table.append new TotalsView(collection: @collection).render().el
     this
 
@@ -141,7 +158,7 @@ HourView = Backbone.View.extend
     @$('th.project').text Locals.toDurationString(@collection.totals.selected) || 'project'
     @$('thead input[type=checkbox]').prop 'checked', @collection.selected
 
-ItemList = Backbone.View.extend
+class ItemList extends Backbone.View
   el: 'body'
 
   initialize: ->
@@ -228,7 +245,7 @@ ItemList = Backbone.View.extend
   destroy: (e) ->
     @collection.selected().invoke 'destroy'
 
-ItemRouter = Backbone.Router.extend
+class ItemRouter extends Backbone.Router
   initialize: ->
     Projects.fetch()
     @items = new Tractor.AllItems
