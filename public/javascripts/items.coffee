@@ -179,12 +179,13 @@ class ItemList extends Backbone.View
     _.each @collection.hours, (hour) ->
       list.append new HourView(collection: hour).render().el
     , this
+    start = @collection.first()?.get('start')
+    @weekday = strftime '%a', start
     @$('input[type=date]')
       .datepicker()
       .datepicker('option', 'dateFormat', 'yy-mm-dd')
-      .val (i, old) =>
-        old || strftime('%Y-%m-%d', @collection.first()?.get('start'))
-    @$('.toolbar th.project').text ''
+      .val strftime('%Y-%m-%d', start)
+    @$('.toolbar th.project').text @weekday
     @$('.toolbar input[type=checkbox]').prop 'checked', false
     @$(':focus').blur()
     @$('#projects').prop('selectedIndex', 0)
@@ -193,7 +194,7 @@ class ItemList extends Backbone.View
     tmpl = template?._['totals-view'](_.extend(Object.create(Locals), totals: @collection.totals))
     @$('.toolbar tfoot').html $(tmpl).html()
     t = @collection.totals
-    @$('.toolbar th.project').text Locals.toDurationString(t.selected) || ''
+    @$('.toolbar th.project').text Locals.toDurationString(t.selected) || @weekday
     @$('.toolbar input[type=checkbox]').prop 'checked', t.duration == t.selected
 
   keylisten: (e) ->
