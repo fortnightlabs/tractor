@@ -47,7 +47,14 @@ template( id='item-view' ):
     td.duration= toDurationString(item.duration)
     - if (item.app)
       td= item.app
-      td: div.title= item.info && (item.info.title || item.info.subject)
+      td
+        - if (info = item.info)
+          div.title
+            - if (info.title)
+              = info.title
+            - else if (info.subject)
+              = info.subject
+              = ' (' + info.sender + ')'
     - else
       td.unassigned( colspan=2 ) Unassigned
 
