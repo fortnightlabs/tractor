@@ -24,7 +24,7 @@ class ItemView extends Backbone.View
   initialize: ->
     @model.bind 'change:cursor',    @changeCursor, this
     @model.bind 'change:selected',  @changeSelected, this
-    #@model.bind 'destroy',          @remove, this
+    @model.bind 'destroy',          @remove, this
 
   remove: ->
     @model.unbind 'change:cursor',   @changeCursor
