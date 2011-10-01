@@ -162,8 +162,11 @@ ItemList = Backbone.View.extend
     _.each @collection.hours, (hour) ->
       list.append new HourView(collection: hour).render().el
     , this
-    @$('input[type=date]').val (i, old) =>
-      old || strftime('%Y-%m-%d', @collection.first()?.get('start'))
+    @$('input[type=date]')
+      .datepicker()
+      .datepicker('option', 'dateFormat', 'yy-mm-dd')
+      .val (i, old) =>
+        old || strftime('%Y-%m-%d', @collection.first()?.get('start'))
     @$('.toolbar th.project').text ''
     @$('.toolbar input[type=checkbox]').prop 'checked', false
     @$(':focus').blur()

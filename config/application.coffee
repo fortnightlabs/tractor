@@ -37,6 +37,7 @@ app.configure ->
         'vendor/jquery-1.6.4.js'
         'vendor/underscore.js'
         'vendor/backbone.js'
+        'vendor/jquery-ui-1.8.16.custom/js/jquery-ui-1.8.16.custom.min.js'
         'vendor/jquery.keylisten.js'
         'vendor/jquery.uncover.js'
         '../../node_modules/strftime/lib/index.js'
