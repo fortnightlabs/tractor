@@ -1,5 +1,3 @@
-$.fx.speeds._default = $.fx.speeds.fast = 50
-
 Tractor =
   if exports?
     Backbone = require './vendor/backbone'

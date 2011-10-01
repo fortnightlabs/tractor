@@ -1,3 +1,5 @@
+$.fx.speeds._default = $.fx.speeds.fast = 50
+
 Projects = new Tractor.Projects
 
 Locals =
