@@ -195,6 +195,6 @@ class Tractor.AllItems extends Tractor.Items
   selectRange: (model, val, options) ->
     if val and options.range
       i = @indexOf model
-      for o in @models.slice(Math.min(i, @_cursor[0]), Math.max(i, @_cursor[1]))
+      for o in @models[Math.min(i, @_cursor[0]) .. Math.max(i, @_cursor[1])]
         o.set selected: true
       true
