@@ -256,6 +256,9 @@
 /* Begin PBXProject section */
 		F2A0B48E14207CA000F07F32 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = F2A0B49114207CA000F07F32 /* Build configuration list for PBXProject "Tractor" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
