@@ -20,11 +20,11 @@
     "connect-assetmanager": "0.0.23",
     "express": "2.4.6",
     "express-resource": "0.2.3",
-    "jade": "0.15.4",
+    "jade": "0.16.2",
     "jadevu": "0.0.7",
     "mongoose": "2.2.3",
     "strftime": "0.4.6",
-    "stylus": "0.16.0",
+    "stylus": "0.17.0",
     "underscore": "1.1.7"
   },
   "devDependencies": {
