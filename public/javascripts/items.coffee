@@ -167,7 +167,6 @@ class ItemList extends Backbone.View
     @router = @options.router
     @collection.bind 'reset',         @reset, this
     @collection.bind 'change:totals', @changeTotals, this
-    $(window).resize _.debounce(@resize, 500)
 
   events:
     'keylisten':                           'keylisten'
@@ -184,7 +183,6 @@ class ItemList extends Backbone.View
     _.each @collection.hours, (hour) ->
       list.append new HourView(collection: hour).render().el
     , this
-    @resize()
     @weekday = strftime '%a', @collection.first()?.get('start')
     @$('input[type=date]').datepicker
       dateFormat: 'yy-mm-dd'
@@ -194,6 +192,7 @@ class ItemList extends Backbone.View
     @$('.toolbar input[type=checkbox]').prop 'checked', false
     @$('.toolbar select#projects').prop 'selectedIndex', 0
     @$(':focus').blur()
+    @trs = @$('ul.items tbody tr')
 
   changeTotals: ->
     tmpl = template?._['totals-view'](_.extend(Object.create(Locals), totals: @collection.totals))
@@ -222,11 +221,17 @@ class ItemList extends Backbone.View
       when 'j', 'down'                                  # down
         items.next().set cursor: true
       when 'pagedown', 'ctrl+meta+f', 'ctrl+meta+d'     # page down
-        items.next(@rowsPerPage).set cursor: true
+        $window = $(window)
+        bottom = $window.scrollTop() + $window.height() - @trs.eq(0).height()
+        next = $(_.detect(@trs, (tr) -> $(tr).offset().top > bottom)).click()
+        $window.scrollTop next.offset().top - $('header').height() - 5
       when 'k', 'up'                                    # up
         items.prev().set cursor: true
       when 'pageup', 'ctrl+meta+b', 'ctrl+meta+u'       # page up
-        items.prev(@rowsPerPage).set cursor: true
+        $window = $(window)
+        top = $window.scrollTop() + $('header').height() - @trs.eq(0).height()
+        prev = $(_.detect(@trs, (tr) -> $(tr).offset().top > top)).click()
+        $window.scrollTop prev.offset().top - $window.height() + @trs.eq(0).height()
       when 'l', 'right'                                 # open group
         group = items.cursor().first().value().group
         group.set(open: true) if group.get 'projectId'
@@ -282,9 +287,6 @@ class ItemList extends Backbone.View
 
   destroy: (e) ->
     @collection.selected().invoke 'destroy'
-
-  resize: (e) =>
-    @rowsPerPage = Math.round $(window).height() / $('table.hour tbody tr').height()
 
 class ItemRouter extends Backbone.Router
   initialize: ->
