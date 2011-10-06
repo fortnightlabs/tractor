@@ -10,11 +10,14 @@
   };
 
   function uncover(parent, child, options) {
+    options = options || {};
     // make sure child is scrolled to in the parent
-    var ct = child.offset().top,
-        pt = parent.offset() ? parent.offset().top : parent.scrollTop(),
+    var paddingTop = options.paddingTop || 0,
+        paddingBottom = options.paddingBottom || 0,
+        ct = child.offset().top,
+        pt = (parent.offset() ? parent.offset().top : parent.scrollTop()) + paddingTop,
         up = ct - pt,
-        down = ct + child.innerHeight()-1 - (pt + parent.height()),
+        down = ct + child.innerHeight()-1 - (pt + parent.height() - paddingTop - paddingBottom),
         delta = up < 0 ? up : (down > 0 ? down : 0);
     options = options || {};
 

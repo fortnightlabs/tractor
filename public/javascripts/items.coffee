@@ -56,7 +56,7 @@ class ItemView extends Backbone.View
 
   changeCursor: (model, val) ->
     $el = $(@el).toggleClass 'cursor', val
-    $.uncover $el if val
+    $.uncover($el, paddingTop: $('header').height() + 5) if val
 
   changeSelected: (model, val) ->
     $(@el)
