@@ -224,7 +224,7 @@ class ItemList extends Backbone.View
         $window = $(window)
         bottom = $window.scrollTop() + $window.height() - @trs.eq(0).height()
         next = $(_.detect(@trs, (tr) -> $(tr).offset().top > bottom)).click()
-        $window.scrollTop next.offset().top - $('header').height() - 5
+        $window.scrollTop(next.offset().top - $('header').height() - 5) if next.length > 0
       when 'k', 'up'                                    # up
         items.prev().set cursor: true
       when 'pageup', 'ctrl+meta+b', 'ctrl+meta+u'       # page up
