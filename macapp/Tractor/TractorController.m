@@ -50,10 +50,10 @@ static int64_t SystemIdleSeconds(void);
   NSDictionary *info = nil;
 
   if ((idleAt = [self idleAt])) {
-    NSLog(@"Idle at: %@", idleAt);
+    // NSLog(@"Idle at: %@", idleAt);
     start = idleAt;
   } else if ((delayedAt = [self delayedAt])) {
-    NSLog(@"Delayed at: %@", delayedAt);
+    // NSLog(@"Delayed at: %@", delayedAt);
     start = delayedAt;
   } else {
     CurrentApplicationInfo *app = [informer currentApplicationInfo];
@@ -79,10 +79,10 @@ static int64_t SystemIdleSeconds(void);
 
   if ([latestItem matchesApp:name andInfoData:infoData]) {
     [latestItem setEnd:now]; // update the end time
-    NSLog(@"Updated %@", latestItem);
+    // NSLog(@"Updated %@", latestItem);
   } else {
     [latestItem setEnd:start]; // update the previous item's end time
-    NSLog(@"Finished %@", latestItem);
+    // NSLog(@"Finished %@", latestItem);
     
     // insert a new item
     [latestItem release];
@@ -94,7 +94,7 @@ static int64_t SystemIdleSeconds(void);
 
     if (name) { [latestItem setApp:name]; }
     if (info) { [latestItem setInfo:infoData]; }
-    NSLog(@"Started %@", latestItem);
+    // NSLog(@"Started %@", latestItem);
   }
 
   [items save];
