@@ -54,6 +54,7 @@
   NSDictionary *ret = nil;
 
   // TODO handle more applications
+  NSLog(@"%@", bundleIdentifier);
   if ([@"com.google.Chrome" isEqual:bundleIdentifier]) {
     ret = [self infoForChrome:(ChromeApplication *) application];
   } else if ([@"com.apple.mail" isEqual:bundleIdentifier]) {

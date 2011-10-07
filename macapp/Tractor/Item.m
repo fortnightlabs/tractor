@@ -37,6 +37,11 @@ static NSString *JSONDate(NSDate *date);
   return dict;
 }
 
+-(NSString *)description
+{
+  return [NSString stringWithFormat:@"%@ (%@ - %@)", [self app], [self start], [self end]];
+}
+
 @end
 
 NSString *JSONDate(NSDate *date) {
