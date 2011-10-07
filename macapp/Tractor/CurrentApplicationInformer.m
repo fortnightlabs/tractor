@@ -101,7 +101,7 @@
 
   return [NSDictionary dictionaryWithObjectsAndKeys:
       sender, @"sender",
-      subject, @"subject",
+      subject, @"title",
       recipients, @"recipients",
       nil];
 }
