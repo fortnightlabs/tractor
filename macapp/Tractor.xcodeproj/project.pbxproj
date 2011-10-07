@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		858910BC143EC023007E08F0 /* TimeMachine Timmy.icns in Resources */ = {isa = PBXBuildFile; fileRef = 858910BB143EC023007E08F0 /* TimeMachine Timmy.icns */; };
 		F203730F142CCC740053C4A5 /* Items.m in Sources */ = {isa = PBXBuildFile; fileRef = F203730E142CCC730053C4A5 /* Items.m */; };
 		F2037312142CD8D20053C4A5 /* ItemsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F2037311142CD8D20053C4A5 /* ItemsRequest.m */; };
 		F2A0B49C14207CA000F07F32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A0B49B14207CA000F07F32 /* Cocoa.framework */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		858910BB143EC023007E08F0 /* TimeMachine Timmy.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = "TimeMachine Timmy.icns"; path = "../TimeMachine Timmy.icns"; sourceTree = "<group>"; };
 		F203730D142CCC730053C4A5 /* Items.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Items.h; sourceTree = "<group>"; };
 		F203730E142CCC730053C4A5 /* Items.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Items.m; sourceTree = "<group>"; };
 		F2037310142CD8D20053C4A5 /* ItemsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemsRequest.h; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 		F2A0B4A114207CA000F07F32 /* Tractor */ = {
 			isa = PBXGroup;
 			children = (
+				858910BB143EC023007E08F0 /* TimeMachine Timmy.icns */,
 				F2A0B4AD14207CA000F07F32 /* TractorAppDelegate.h */,
 				F2A0B4AE14207CA000F07F32 /* TractorAppDelegate.m */,
 				F2EF60BE142BEE97009FC44C /* TractorController.h */,
@@ -288,6 +291,7 @@
 				F2A0B4AC14207CA000F07F32 /* Credits.rtf in Resources */,
 				F2A0B4B214207CA000F07F32 /* MainMenu.xib in Resources */,
 				F2A0B4D41420845200F07F32 /* tractor.tiff in Resources */,
+				858910BC143EC023007E08F0 /* TimeMachine Timmy.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
