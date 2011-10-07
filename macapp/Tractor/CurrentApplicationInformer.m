@@ -53,20 +53,22 @@
   SBApplication *application = [SBApplication applicationWithBundleIdentifier:bundleIdentifier];
   NSDictionary *ret = nil;
 
-  // TODO handle more applications
-  if ([@"com.google.Chrome" isEqual:bundleIdentifier]) {
-    ret = [self infoForChrome:(ChromeApplication *) application];
-  } else if ([@"com.apple.mail" isEqual:bundleIdentifier]) {
-    ret = [self infoForMail:(MailApplication *) application];
-  } else if ([@"com.apple.Safari" isEqual:bundleIdentifier] ||
-             [@"org.webkit.nightly.WebKit" isEqual:bundleIdentifier]) {
-    ret = [self infoForSafari:(SafariApplication *) application];
-  } else if([@"com.skype.skype" isEqual:bundleIdentifier]) {
-    ret = [self infoForSkype:(SkypeApplication *) application];
-  } else {
-    ret = [self infoForOther:application];
+  if ([application isRunning]) {
+    // TODO handle more applications
+    if ([@"com.google.Chrome" isEqual:bundleIdentifier]) {
+      ret = [self infoForChrome:(ChromeApplication *) application];
+    } else if ([@"com.apple.mail" isEqual:bundleIdentifier]) {
+      ret = [self infoForMail:(MailApplication *) application];
+    } else if ([@"com.apple.Safari" isEqual:bundleIdentifier] ||
+               [@"org.webkit.nightly.WebKit" isEqual:bundleIdentifier]) {
+      ret = [self infoForSafari:(SafariApplication *) application];
+    } else if([@"com.skype.skype" isEqual:bundleIdentifier]) {
+      ret = [self infoForSkype:(SkypeApplication *) application];
+    } else {
+      ret = [self infoForOther:application];
+    }
+    // NSLog(@"%@", bundleIdentifier);
   }
-  // NSLog(@"%@", bundleIdentifier);
 
   return ret;
 }
