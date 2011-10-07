@@ -29,10 +29,20 @@
 {
   NSDictionary *activeApplication = [[NSWorkspace sharedWorkspace] activeApplication];
   NSString *bundleIdentifier = [activeApplication objectForKey:@"NSApplicationBundleIdentifier"];
-
   CurrentApplicationInfo *app = [[[CurrentApplicationInfo alloc] init] autorelease];
-  [app setName:[activeApplication objectForKey:@"NSApplicationName"]];
-  [app setInfo:[self infoForBundleIdentifier:bundleIdentifier]];
+  NSString *name = [activeApplication objectForKey:@"NSApplicationName"];
+
+  [app setName:name];
+  @try {
+    [app setInfo:[self infoForBundleIdentifier:bundleIdentifier]];
+  }
+  @catch (NSException *e) {
+    [[NSAlert alertWithMessageText:[NSString stringWithFormat:@"Couldn't Get Details for %@", name]
+                     defaultButton:nil
+                   alternateButton:nil
+                       otherButton:nil
+         informativeTextWithFormat:@"%@", e] runModal];
+  }
   
   return app;
 }
