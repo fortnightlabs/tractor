@@ -45,6 +45,7 @@
 		F203730E142CCC730053C4A5 /* Items.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Items.m; sourceTree = "<group>"; };
 		F2037310142CD8D20053C4A5 /* ItemsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemsRequest.h; sourceTree = "<group>"; };
 		F2037311142CD8D20053C4A5 /* ItemsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemsRequest.m; sourceTree = "<group>"; };
+		F212B089143E2982001414F8 /* Skype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skype.h; sourceTree = "<group>"; };
 		F2A0B49714207CA000F07F32 /* Tractor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tractor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2A0B49B14207CA000F07F32 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F2A0B49E14207CA000F07F32 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -183,6 +184,7 @@
 				F2EF60AE142AA3FA009FC44C /* JSONKit.m */,
 				F2EF60AB142A8F7B009FC44C /* Mail.h */,
 				F2EF60AC142A8F7B009FC44C /* Safari.h */,
+				F212B089143E2982001414F8 /* Skype.h */,
 				F2EF60AA142A8F49009FC44C /* Chrome.h */,
 				F2A0B4A314207CA000F07F32 /* Tractor-Info.plist */,
 				F2A0B4A414207CA000F07F32 /* InfoPlist.strings */,

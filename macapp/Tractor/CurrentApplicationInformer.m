@@ -9,6 +9,7 @@
 - (NSDictionary *)infoForChrome:(ChromeApplication *)chrome;
 - (NSDictionary *)infoForSafari:(SafariApplication *)safari;
 - (NSDictionary *)infoForMail:(MailApplication *)mail;
+- (NSDictionary *)infoForSkype:(SkypeApplication *)skype;
 - (NSDictionary *)infoForOther:(SBApplication *)application;
 
 - (NSString *)windowNameForApplication:(SBApplication *)application;
@@ -50,6 +51,8 @@
   } else if ([@"com.apple.Safari" isEqual:bundleIdentifier] ||
              [@"org.webkit.nightly.WebKit" isEqual:bundleIdentifier]) {
     ret = [self infoForSafari:(SafariApplication *) application];
+  } else if([@"com.skype.skype" isEqual:bundleIdentifier]) {
+    ret = [self infoForSkype:(SkypeApplication *) application];
   } else {
     ret = [self infoForOther:application];
   }
@@ -90,6 +93,21 @@
       subject, @"subject",
       recipients, @"recipients",
       nil];
+}
+
+- (NSDictionary *)infoForSkype:(SkypeApplication *)skype
+{
+  NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithCapacity:1];
+  NSPredicate *notHidden = [NSPredicate predicateWithFormat:@"visible == TRUE"];
+  NSArray *names = [[[skype windows] filteredArrayUsingPredicate:notHidden] valueForKey:@"name"];
+
+  for (NSString *name in names) {
+    if (![name hasPrefix:@"Skype"] && ![name hasSuffix:@"Overlay"]) {
+      [ret setValue:name forKey:@"title"];
+      break;
+    }
+  }
+  return ret;
 }
 
 - (NSDictionary *)infoForOther:(SBApplication *)application

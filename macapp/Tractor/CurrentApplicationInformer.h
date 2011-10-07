@@ -5,6 +5,7 @@
 #import "Chrome.h" // sdef /Applications/Google\ Chrome.app | sdp -fh --basename Chrome
 #import "Safari.h" // sdef /Applications/Safari.app | sdp -fh --basename Safari
 #import "Mail.h" // sdef /Applications/Mail.app | sdp -fh --basename Mail
+#import "Skype.h" // sdef /Applications/Skype.app | sdp -fh --basename Skype
 
 @interface CurrentApplicationInfo : NSObject {
   NSString *name;
