@@ -114,7 +114,7 @@ class GroupView extends Backbone.View
   changeCursor: (item, val) ->
     if not @model.get 'open'
       summary = @$('tr.summary').toggleClass 'cursor', val
-      $.uncover summary if val
+      $.uncover(summary, paddingTop: $('header').height() + 5) if val
 
   changeSelected: (model, val) ->
     @$('tr.summary input[type=checkbox]').prop 'checked', @model.get('selected')
