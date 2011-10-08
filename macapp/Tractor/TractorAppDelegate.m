@@ -33,6 +33,7 @@
 {
   statusItem = [[[NSStatusBar systemStatusBar] statusItemWithLength:NSSquareStatusItemLength] retain];
   [statusItem setImage:[NSImage imageNamed:@"tractor.tiff"]];
+  [statusItem setAlternateImage:[NSImage imageNamed:@"tractor-white.tiff"]];
   [statusItem setMenu:statusMenu];
   [statusItem setHighlightMode:YES];
 }
