@@ -1,0 +1,14 @@
+include ../header
+  h1 rules
+
+ol.rules
+  - each rule in rules
+    li #{rule.query} &rarr; #{rule.project.name} 
+      a( href='/rules/' + rule.id + '/edit' ) edit
+      | 
+      form( method='POST', action='/rules/' + rule.id )
+        input( type='hidden', name='_method', value='DELETE' )
+        button delete
+
+
+a( href='/rules/new' ) new

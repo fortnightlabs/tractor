@@ -1,0 +1,6 @@
+include ../header
+  h1 new rule
+
+form( action='/rules', method='POST' )
+  != partial('form')
+  input( type='submit', value='create' )

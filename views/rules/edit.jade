@@ -1,0 +1,7 @@
+include ../header
+  h1 edit rule
+
+form( action='/rules/' + rule.id, method='POST' )
+  input( type='hidden', name='_method', value='PUT' )
+  != partial('form')
+  input( type='submit', value='save' )

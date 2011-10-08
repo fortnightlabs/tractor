@@ -1,0 +1,6 @@
+a( href='/projects' ) projects
+h1= project.name
+- if (project.rate)
+  h2= '$' + project.rate + '/hr'
+
+a( href='/projects/' + project.id + '/edit' ) edit

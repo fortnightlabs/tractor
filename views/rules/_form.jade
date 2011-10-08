@@ -1,0 +1,17 @@
+p
+  label( for='query' ) query
+  br
+  input#name( type='text', name='query', value=rule.query )
+
+p
+  label( for='project' ) project
+  br
+  select#project( name='project' )
+    - each project in projects
+      option( value=project.id, selected=rule.project && rule.project.equals(project.id) )= project.name
+p
+  label( for='priority' ) priority
+  br
+  select#priority( name='priority' )
+    - each priority in priorities
+      option( value=priority, selected=rule.priority == priority)= priority
