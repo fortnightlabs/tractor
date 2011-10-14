@@ -22,6 +22,8 @@ include ../header
 ul.items Loading
   //- hour-view (li)
 
+aside
+
 template( id='hour-view' ):
   table.hour
     thead
@@ -31,13 +33,13 @@ template( id='hour-view' ):
         th.duration
         th.hour= strftime('%l %p', hour.hour)
         th.app app
-        th.title title
+        th.description description
     //- group-view (tbody)
       //- item-view (tr)
     //- totals-view (tfoot)
 
 template( id='item-view' ):
-  // tr is removed by backbone
+  // tr is removed by backbone view
   tr
     td.project
       - if (item.projectId)
@@ -48,13 +50,8 @@ template( id='item-view' ):
     - if (item.app)
       td= item.app
       td
-        - if (info = item.info)
-          div.title
-            - if (info.title)
-              = info.title
-            - else if (info.subject)
-              = info.subject
-              = ' (' + info.sender + ')'
+        - if (description)
+          .ellipsis= description
     - else
       td.unassigned( colspan=2 ) Unassigned
 
@@ -86,3 +83,14 @@ template( id='totals-view' ):
       - if (totals.projects.unassigned)
         dt unassigned
         dd= toDurationString(totals.projects.unassigned)
+
+template( id='info-view' ):
+  // aside is removed by backbone view
+  aside
+    h1= item.get('app')
+    - if (item.get('info'))
+      table.info
+        - each v, k in item.get('info')
+          tr
+            th= k
+            td= v

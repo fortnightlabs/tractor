@@ -23,6 +23,13 @@ Tractor.Item = Backbone.Model.extend
     r.end = new Date r.end
     r.hour = r.start.getHours()
     r
+  description: ->
+    if info = @get('info')
+      if info.title
+        info.title
+      else if info.subject
+        "#{info.subject} (#{info.sender})"
+
 
 class Tractor.Items extends Backbone.Collection
   model: Tractor.Item

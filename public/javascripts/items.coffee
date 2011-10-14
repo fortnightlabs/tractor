@@ -35,7 +35,7 @@ class ItemView extends Backbone.View
 
   render: ->
     attrs = @model.attributes
-    tmpl = @template _.extend(Object.create(Locals), item: attrs)
+    tmpl = @template _.extend(Object.create(Locals), item: attrs, description: @model.description() || null)
     @el.innerHTML = tmpl.substring 4, tmpl.length-5  # get rid of <tr>
     @el.className = 'cursor' if attrs.cursor
     @el.className += ' selected' if attrs.selected
@@ -160,6 +160,18 @@ class HourView extends Backbone.View
     @$('th.project').text Locals.toDurationString(@collection.totals.selected) || 'project'
     @$('thead input[type=checkbox]').prop 'checked', @collection.selected
 
+class InfoView extends Backbone.View
+  el: 'aside'
+  template: template?._['info-view']
+
+  initialize: ->
+    @collection.bind 'change:cursor', @render, this
+
+  render: (item, cursor) ->
+    aside = @template _.extend(Object.create(Locals), item: item)
+    @el.innerHTML = $(aside).html()
+    this
+
 class ItemList extends Backbone.View
   el: 'body'
 
@@ -167,6 +179,7 @@ class ItemList extends Backbone.View
     @router = @options.router
     @collection.bind 'reset',         @reset, this
     @collection.bind 'change:totals', @changeTotals, this
+    @info = new InfoView collection: @collection
 
   events:
     'keylisten':                           'keylisten'
