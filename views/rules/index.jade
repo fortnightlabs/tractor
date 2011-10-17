@@ -3,8 +3,11 @@ include ../header
 
 ol.rules
   - each rule in rules
-    li #{rule.query} &rarr; #{rule.project.name} 
+    li &ldquo;#{rule.query}&rdquo; &rarr; #{rule.project.name} 
       a( href='/rules/' + rule.id + '/edit' ) edit
+      | 
+      form( method='POST', action='/rules/' + rule.id + '/run' )
+        button run
       | 
       form( method='POST', action='/rules/' + rule.id )
         input( type='hidden', name='_method', value='DELETE' )

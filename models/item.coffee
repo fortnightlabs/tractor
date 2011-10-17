@@ -18,6 +18,14 @@ ItemSchema = module.exports = new mongoose.Schema
   search: String
   projectId: mongoose.Schema.ObjectId
 
+# statics
+
+ItemSchema.static 'search', (query, conditions, callback) ->
+  conditions.search = new RegExp query, 'i' if query?
+  Item.find conditions, {}, { sort: 'start' }, callback
+
+# callbacks
+
 ItemSchema.pre 'save', (next) ->
   @duration = (@end - @start) / 1000
   unless @duration > 0

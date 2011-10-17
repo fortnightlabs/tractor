@@ -30,6 +30,11 @@ module.exports = (app) ->
   app.get '/rules/:ruleId/edit', [loadProjects, loadRuleCount], (req, res, next) ->
     res.render2 'rules/edit', rule: req.rule, projects: req.projects, priorities: [0...req.ruleCount]
 
+  app.post '/rules/:ruleId/run', (req, res, next) ->
+    req.rule.apply projectId: null, (err, result) ->
+      res.next err if err
+      res.redirect '/rules'
+
   app.resource 'rules'
     index: (req, res, next) ->
       Rule.find().sort('priority', 'ascending').populate('project').run (err, rules) ->

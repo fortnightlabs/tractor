@@ -16,8 +16,7 @@ module.exports = (app) ->
         day = Date.parse(req.param('date') || "#{today.getFullYear()}-#{today.getMonth()+1}-#{today.getDate()}")
         nextDay = day + 86400000
         conditions = { start: { $gt: day }, end: { $lt: nextDay } }
-        conditions.search = new RegExp query, 'i' if query = req.param('query')
-        Item.find conditions, {}, { sort: 'start' }, (err, items) ->
+        Item.search req.param('query'), conditions, (err, items) ->
           return next err if err
           res.json items
 
