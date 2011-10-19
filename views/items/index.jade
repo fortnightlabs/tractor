@@ -12,7 +12,7 @@ include ../header
           option( value='' ) unassign
         button#destroy delete
       th( colspan=3 ): form#filter
-        input( type='date', name='date', value=req.param('date') )
+        input( type='date', name='date', value=req.param('date'), placeholder='date' )
         input( type='search', name='query', value=req.param('query'), placeholder='search' )
         input( type='submit', value='go' )
 
