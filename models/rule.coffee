@@ -1,3 +1,5 @@
+_ = require 'underscore'
+async = require 'async'
 mongoose = require 'mongoose'
 Item = mongoose.model 'Item'
 
@@ -11,9 +13,24 @@ RuleSchema = module.exports = new mongoose.Schema
     ref: 'Project'
     required: true
 
-RuleSchema.method 'apply', (conditions, callback) ->
-  query = Item.search(@query, conditions)
-  query.options.multi = true
-  query.update projectId: @project, callback
+# scopes
+
+RuleSchema.namedScope 'sorted', -> @asc 'priority'
+
+# methods
+
+RuleSchema.method 'run', (conditions, callback) ->
+  conditions.projectId = null
+  Item.search(@query).update conditions,
+    (projectId: @project), multi: true,
+    callback
+
+# statics
+
+RuleSchema.static 'run', (conditions, callback) ->
+  Rule.sorted.find().run (err, rules) ->
+    return callback(err) if err?
+    run = (rule, fn) -> rule.run conditions, fn
+    async.forEachSeries rules, run, callback
 
 Rule = mongoose.model 'Rule', RuleSchema

@@ -16,7 +16,7 @@ module.exports = (app) ->
         day = Date.parse(req.param('date') || "#{today.getFullYear()}-#{today.getMonth()+1}-#{today.getDate()}")
         nextDay = day + 86400000
         conditions = { start: { $gt: day }, end: { $lt: nextDay } }
-        Item.search req.param('query'), conditions, (err, items) ->
+        Item.sorted.search(req.param('query')).find conditions, (err, items) ->
           return next err if err
           res.json items
 
@@ -25,16 +25,12 @@ module.exports = (app) ->
         t0 = Date.now()
         items = req.body
         items = [ items ] unless Array.isArray items
-        n = items.length
-        i = 0
-        for item in items
-          Item.create item, (err, item) ->
-            if err then console.log 'create error:', err else ++i
-            if --n == 0
-              res.json
-                received: items.length
-                inserted: i
-                took: Date.now() - t0
+        Item.import items, (err, i) ->
+          next err if err?
+          res.json
+            received: items.length
+            inserted: i
+            took: Date.now() - t0
 
     update:
       json: (req, res) ->

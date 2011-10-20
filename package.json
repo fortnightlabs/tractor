@@ -8,13 +8,14 @@
   },
   "main": "server.js",
   "scripts": {
-    "start": "nodemon",
+    "start": "nodemon --debug",
     "test": "node_modules/.bin/expresso"
   },
   "engines": {
     "node": "~v0.4.11"
   },
   "dependencies": {
+    "async": "0.1.12",
     "coffee-script": "1.1.2",
     "colors": "0.5.1",
     "connect-assetmanager": "0.0.23",

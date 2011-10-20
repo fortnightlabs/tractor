@@ -31,13 +31,13 @@ module.exports = (app) ->
     res.render2 'rules/edit', rule: req.rule, projects: req.projects, priorities: [0...req.ruleCount]
 
   app.post '/rules/:ruleId/run', (req, res, next) ->
-    req.rule.apply projectId: null, (err, result) ->
+    req.rule.run {}, (err, result) ->
       res.next err if err
       res.redirect '/rules'
 
   app.resource 'rules'
     index: (req, res, next) ->
-      Rule.find().sort('priority', 'ascending').populate('project').run (err, rules) ->
+      Rule.sorted.find().populate('project').run (err, rules) ->
         return next err if err
         res.render2 'rules', rules: rules
 

@@ -1,4 +1,5 @@
 _ = require 'underscore'
+async = require 'async'
 mongoose = require 'mongoose'
 
 Project = mongoose.model 'Project'
@@ -17,12 +18,33 @@ ItemSchema = module.exports = new mongoose.Schema
   info: {}
   search: String
   projectId: mongoose.Schema.ObjectId
+  importId: mongoose.Schema.ObjectId
+
+# scopes
+
+ItemSchema.namedScope 'search', (query) ->
+  this.where 'search', new RegExp query, 'i' if query?
+
+ItemSchema.namedScope 'sorted', -> @asc 'start'
 
 # statics
 
-ItemSchema.static 'search', (query, conditions, callback) ->
-  conditions.search = new RegExp query, 'i' if query?
-  Item.find conditions, {}, { sort: 'start' }, callback
+ItemSchema.static 'import', (items, callback) ->
+  Rule = mongoose.model 'Rule'
+
+  i = 0
+  importId = new mongoose.Types.ObjectId
+  insert = (item, fn) ->
+    item.importId = importId
+    Item.create item, (err, item) ->
+      if err? then console.error 'create error:', err else i++
+      fn()
+
+  async.forEach items, insert, ->
+    # apply rules to all imported items
+    Rule.run { importId: importId }, (err, rules) ->
+      return callback err if err?
+      callback null, i
 
 # callbacks
 
