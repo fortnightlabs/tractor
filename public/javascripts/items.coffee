@@ -180,6 +180,10 @@ class ItemList extends Backbone.View
     @collection.bind 'reset',         @reset, this
     @collection.bind 'change:totals', @changeTotals, this
     @info = new InfoView collection: @collection
+    @$('input[type=date]').datepicker
+      dateFormat: 'yy-mm-dd'
+      selectOtherMonths: true
+      showOtherMonths: true
 
   events:
     'keylisten':                           'keylisten'
@@ -197,10 +201,6 @@ class ItemList extends Backbone.View
       list.append new HourView(collection: hour).render().el
     , this
     @weekday = strftime '%a', @collection.first()?.get('start')
-    @$('input[type=date]').datepicker
-      dateFormat: 'yy-mm-dd'
-      selectOtherMonths: true
-      showOtherMonths: true
     @$('.toolbar th.project').text @weekday
     @$('.toolbar input[type=checkbox]').prop 'checked', false
     @$('.toolbar select#projects').prop 'selectedIndex', 0
