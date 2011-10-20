@@ -25,6 +25,12 @@ ItemSchema = module.exports = new mongoose.Schema
 ItemSchema.namedScope 'search', (query) ->
   this.where 'search', new RegExp query, 'i' if query?
 
+ItemSchema.namedScope 'onDay', (date) ->
+  today = new Date
+  day = Date.parse(date || "#{today.getFullYear()}-#{today.getMonth()+1}-#{today.getDate()}")
+  nextDay = day + 86400000
+  this.where('start').gte(day).lt(nextDay)
+
 ItemSchema.namedScope 'sorted', -> @asc 'start'
 
 # statics

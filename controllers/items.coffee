@@ -1,4 +1,5 @@
 _ = require 'underscore'
+async = require 'async'
 
 module.exports = (app) ->
   Item = app.db.model 'Item'
@@ -12,11 +13,7 @@ module.exports = (app) ->
           res.render2 'items', projects: projects
 
       json: (req, res, next) ->
-        today = new Date
-        day = Date.parse(req.param('date') || "#{today.getFullYear()}-#{today.getMonth()+1}-#{today.getDate()}")
-        nextDay = day + 86400000
-        conditions = { start: { $gt: day }, end: { $lt: nextDay } }
-        Item.sorted.search(req.param('query')).find conditions, (err, items) ->
+        Item.search(req.param('query')).onDay(req.param('date')).sorted.find (err, items) ->
           return next err if err
           res.json items
 
@@ -50,6 +47,37 @@ module.exports = (app) ->
   app.resource 'items', Resource
 
   app.get '/items/:date?/:query?', Resource.index.html
+
+  app.post '/items/:date?/:query?/sweep', (req, res, next) ->
+    Item.search(req.param('query')).onDay(req.param('date')).sorted.find {}, ['_id', 'projectId', 'duration'], (err, items) ->
+      return next(err) if err?
+
+      # if an item takes < 30s and is preceded and succeeded by items
+      # that are both assigned to the same project, then assign the
+      # unassigned item to the preceeding / succeeding items' project
+      sweeps = {}
+      for item in items
+        if (pid = item.projectId)
+          if toSweep?.length and pid.equals lastProjectId
+            a = (sweeps[pid] or= [])
+            a.push.apply a, toSweep
+          toSweep = []
+          lastProjectId = pid
+        else if item.duration > 30
+          toSweep = null
+        else if toSweep?
+          toSweep.push item.id
+
+      # convert to object ids
+      oid = require('mongoose').Types.ObjectId.createFromHexString
+      sweeps = for k, v of sweeps
+        (ids: oid(i) for i in v, projectId: oid(k))
+
+      async.forEach sweeps, ({projectId, ids}, fn) ->
+          Item.update (_id: ($in: ids)), (projectId: projectId), multi: true, fn
+        , (err) ->
+          return next err if err?
+          res.redirect 'back'
 
   app.put '/items', (req, res) ->
     items = req.body || []

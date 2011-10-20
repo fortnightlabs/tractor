@@ -11,6 +11,8 @@ include ../header
           option( disabled=true )
           option( value='' ) unassign
         button#destroy delete
+        form#sweep( method='POST', action=req.url + '/sweep')
+          button sweep
       th( colspan=2 ): form#filter
         input( type='date', name='date', value=req.param('date'), placeholder='date' )
         input( type='search', name='query', value=req.param('query'), placeholder='search' )
