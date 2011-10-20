@@ -20,6 +20,7 @@ class ItemView extends Backbone.View
 
   events:
     'click':                      'setCursor'
+    'cursor.tractor':             'setCursor'
     'click input[type=checkbox]': 'select'
     'mousedown':                  'preventSelection'
 
@@ -68,7 +69,8 @@ class GroupView extends Backbone.View
   template: template?._['group-view']
 
   events:
-    'click tr.summary': 'toggleOpen'
+    'click tr.summary':                      'toggleOpen'
+    'cursor.tractor tr.summary':             'setCursor'
     'click tr.summary input[type=checkbox]': 'selectAll'
 
   initialize: ->
@@ -97,6 +99,9 @@ class GroupView extends Backbone.View
 
   toggleOpen: ->
     @model.set open: !@model.get('open')
+
+  setCursor: ->
+    @model.collection.first().set cursor: true
 
   selectAll: (e) ->
     e.stopPropagation()
@@ -237,14 +242,14 @@ class ItemList extends Backbone.View
       when 'pagedown', 'ctrl+meta+f', 'ctrl+meta+d'     # page down
         $window = $(window)
         bottom = $window.scrollTop() + $window.height() - @trs.eq(0).height()
-        next = $(_.detect(@trs, (tr) -> $(tr).offset().top > bottom)).click()
+        next = $(_.detect(@trs, (tr) -> $(tr).offset().top > bottom)).trigger('cursor.tractor')
         $window.scrollTop(next.offset().top - $('header').height() - 5) if next.length > 0
       when 'k', 'up'                                    # up
         items.prev().set cursor: true
       when 'pageup', 'ctrl+meta+b', 'ctrl+meta+u'       # page up
         $window = $(window)
         top = $window.scrollTop() + $('header').height() - @trs.eq(0).height()
-        prev = $(_.detect(@trs, (tr) -> $(tr).offset().top > top)).click()
+        prev = $(_.detect(@trs, (tr) -> $(tr).offset().top > top)).trigger('cursor.tractor')
         $window.scrollTop prev.offset().top - $window.height() + @trs.eq(0).height()
       when 'l', 'right'                                 # open group
         group = items.cursor().first().value().group
