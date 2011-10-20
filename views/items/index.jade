@@ -3,7 +3,7 @@ include ../header
     tbody: tr
       th.project
       th.checkbox: input( type='checkbox' )
-      th
+      th( colspan=2 )
         select#projects
           option( disabled=true ) assign to
           - each project in projects
@@ -11,7 +11,7 @@ include ../header
           option( disabled=true )
           option( value='' ) unassign
         button#destroy delete
-      th( colspan=3 ): form#filter
+      th( colspan=2 ): form#filter
         input( type='date', name='date', value=req.param('date'), placeholder='date' )
         input( type='search', name='query', value=req.param('query'), placeholder='search' )
         input( type='submit', value='go' )
