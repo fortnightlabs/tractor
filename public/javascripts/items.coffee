@@ -204,7 +204,7 @@ class ItemList extends Backbone.View
     @$('.toolbar th.project').text @weekday
     @$('.toolbar input[type=checkbox]').prop 'checked', false
     @$('.toolbar select#projects').prop 'selectedIndex', 0
-    @$('.toolbar input[type=date]').val strftime('%Y-%m-%d', @collection.first().get('start'))
+    @$('.toolbar input[type=date]').val(strftime('%Y-%m-%d', date)) if date = @collection.first()?.get('start')
     @$(':focus').blur()
     @trs = @$('ul.items tbody tr')
 
