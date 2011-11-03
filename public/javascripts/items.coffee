@@ -228,6 +228,13 @@ class ItemList extends Backbone.View
           items.invoke 'set', selected: true
         else                                            # assign
           @$('select#projects').focus()
+      when 'd'
+        if @lastKey == 'û'                              # previous day
+          @$('input[type="date"]')[0].stepDown()
+          @$('input[type="date"]').change()
+        else if @lastKey == 'ý'                         # next day
+          @$('input[type="date"]')[0].stepUp()
+          @$('input[type="date"]').change()
       when 'h', 'left'
         if @lastKey == 'shift+8'                        # select hour
           h = items.cursor().first().value().get 'hour'
