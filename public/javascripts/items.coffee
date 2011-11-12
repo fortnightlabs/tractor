@@ -227,6 +227,8 @@ class ItemList extends Backbone.View
       when 'a'
         if @lastKey == 'shift+8'                        # select all
           items.invoke 'set', selected: true
+        else if @lastKey == 'g'                         # filter none
+          @filter e, ''
         else                                            # assign
           @$('select#projects').focus()
       when 'd'
@@ -271,6 +273,8 @@ class ItemList extends Backbone.View
           items.chain()
             .select((i) -> i.get('hour') == h and !i.get('projectId'))
             .invoke('set', selected: true)
+        else if @lastKey == 'g'                         # filter unassigned
+          @filterUnassigned e
       when 'x'                                          # select
         items.cursor().invoke 'toggle'
       when 'shift+3'                                    # delete
@@ -284,18 +288,22 @@ class ItemList extends Backbone.View
     else
       @lastKey = e.keyName
 
-  filter: (e) ->
+  filter: (e, query) ->
     e.preventDefault()
+
     form = @$ 'form#filter'
+    $('input[name="query"]', form).val(query) if query?
+
     @collection.fetch data: form.serialize()
     @$('ul.items').html '<li>Loading</li>'
+
     path = 'items'
-    path += '/' + date if date = @$('input[name=date]', form).val()
-    path += '/' + query if query = @$('input[name=query]', form).val()
+    path += '/' + date if date = $('input[name="date"]', form).val()
+    path += '/' + query if query = $('input[name="query"]', form).val()
     @router.navigate path
 
   filterUnassigned: (e) ->
-    @$('input[name=query]').val('unassigned').closest('form').submit()
+    @filter e, 'unassigned'
 
   clearSearch: (e) ->
     @$('form#filter').submit() if !$(e.target).val()
