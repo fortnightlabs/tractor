@@ -194,6 +194,7 @@ class ItemList extends Backbone.View
     'keylisten':                           'keylisten'
     'submit form#filter':                  'filter'
     'change input[type=date]':             'filter'
+    'click a.unassigned':                  'filterUnassigned'
     'search input[type=search]':           'clearSearch'
     'click .toolbar input[type=checkbox]': 'selectAll'
     'change select#projects':              'assign'
@@ -289,9 +290,12 @@ class ItemList extends Backbone.View
     @collection.fetch data: form.serialize()
     @$('ul.items').html '<li>Loading</li>'
     path = 'items'
-    path += '/' + date if date = $('input[name=date]', form).val()
-    path += '/' + query if query = $('input[name=query]', form).val()
+    path += '/' + date if date = @$('input[name=date]', form).val()
+    path += '/' + query if query = @$('input[name=query]', form).val()
     @router.navigate path
+
+  filterUnassigned: (e) ->
+    @$('input[name=query]').val('unassigned').closest('form').submit()
 
   clearSearch: (e) ->
     @$('form#filter').submit() if !$(e.target).val()
