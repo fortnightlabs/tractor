@@ -2,7 +2,10 @@ _ = require 'underscore'
 async = require 'async'
 mongoose = require 'mongoose'
 
+Projects = {}
 Project = mongoose.model 'Project'
+Project.find (err, projects) ->
+  projects.forEach (p) -> Projects[p.name] = p.id
 
 ItemSchema = module.exports = new mongoose.Schema
   start:
@@ -23,11 +26,12 @@ ItemSchema = module.exports = new mongoose.Schema
 # scopes
 
 ItemSchema.namedScope 'search', (query) ->
-  switch query
-    when 'unassigned'
-      @where 'projectId', null
-    else
-      @where 'search', new RegExp query, 'i' if query?
+  if query == 'unassigned'
+    @where 'projectId', null
+  else if match = query.match /project:(\w+)/
+    @where 'projectId', Projects[match[1]]
+  else
+    @where 'search', new RegExp query, 'i' if query?
 
 ItemSchema.namedScope 'onDay', (date) ->
   today = new Date
