@@ -99,6 +99,7 @@ class GroupView extends Backbone.View
 
   toggleOpen: ->
     @model.set open: !@model.get('open')
+    @setCursor()
 
   setCursor: ->
     @model.collection.first().set cursor: true
