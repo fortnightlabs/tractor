@@ -34,9 +34,13 @@ ItemSchema.namedScope 'search', (query) ->
     @where 'search', new RegExp query, 'i' if query?
 
 ItemSchema.namedScope 'onDay', (date) ->
-  today = new Date
-  day = Date.parse(date || "#{today.getFullYear()}-#{today.getMonth()+1}-#{today.getDate()}")
-  nextDay = day + 86400000
+  day =
+    if parts = date?.split '-'
+      new Date parts[0], parts[1]-1, parts[2]
+    else
+      today = new Date
+      new Date today.getFullYear(), today.getMonth(), today.getDate()
+  nextDay = day.valueOf() + 86400000
   @where('start').gte(day).lt(nextDay)
 
 ItemSchema.namedScope 'sorted', -> @asc 'start'
