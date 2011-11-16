@@ -252,7 +252,7 @@ class ItemList extends Backbone.View
       when 'shift+j', 'shift+down'                      # select + down
         items.cursor().invoke 'set', selected: true
         items.next().set cursor: true
-      when 'pagedown', 'ctrl+meta+f', 'ctrl+meta+d'     # page down
+      when 'pagedown', 'ctrl+f', 'ctrl+d'     # page down
         $window = $(window)
         bottom = $window.scrollTop() + $window.height() - @trs.eq(0).height()
         next = $(_.detect(@trs, (tr) -> $(tr).offset().top > bottom)).trigger('cursor.tractor')
@@ -262,7 +262,7 @@ class ItemList extends Backbone.View
       when 'shift+k', 'shift+up'                        # select + up
         items.cursor().invoke 'set', selected: true
         items.prev().set cursor: true
-      when 'pageup', 'ctrl+meta+b', 'ctrl+meta+u'       # page up
+      when 'pageup', 'ctrl+b', 'ctrl+u'       # page up
         $window = $(window)
         top = $window.scrollTop() + $('header').height() - @trs.eq(0).height()
         prev = $(_.detect(@trs, (tr) -> $(tr).offset().top > top)).trigger('cursor.tractor')
