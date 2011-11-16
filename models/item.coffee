@@ -28,7 +28,7 @@ ItemSchema = module.exports = new mongoose.Schema
 ItemSchema.namedScope 'search', (query) ->
   if query == 'unassigned'
     @where 'projectId', null
-  else if match = query.match /project:(\w+)/
+  else if match = query?.match /project:(\w+)/
     @where 'projectId', Projects[match[1]]
   else
     @where 'search', new RegExp query, 'i' if query?
