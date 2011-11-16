@@ -126,7 +126,7 @@ class GroupView extends Backbone.View
     @$('tr.summary input[type=checkbox]').prop 'checked', @model.get('selected')
 
 class TotalsView extends Backbone.View
-  tagName: 'tfoot'
+  tagName: 'thead'
   template: template?._['totals-view']
 
   initialize: ->
@@ -149,12 +149,12 @@ class HourView extends Backbone.View
   render: ->
     @el.innerHTML = @template _.extend(Object.create(Locals), hour: @collection)
     table = @$('table')
+    table.append new TotalsView(collection: @collection).render().el
     _.invoke @views, 'remove'
     @views = @collection.map (g) ->
       v = new GroupView model: g
       table.append v.render().el
       v
-    table.append new TotalsView(collection: @collection).render().el
     this
 
   selectAll: (e) ->

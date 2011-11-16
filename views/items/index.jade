@@ -36,9 +36,9 @@ template( id='hour-view' ):
         th.hour= strftime('%l %p', hour.hour)
         th.app app
         th.description description
+    //- totals-view (thead)
     //- group-view (tbody)
       //- item-view (tr)
-    //- totals-view (tfoot)
 
 template( id='item-view' ):
   // tr is removed by backbone view
@@ -71,7 +71,7 @@ template( id='group-view' ):
     td( colspan=2 )= _.keys(group.get('totals').apps).join(', ')
 
 template( id='totals-view' ):
-  tr: td.totals( colspan=6 )
+  tr: th.totals( colspan=6 )
     = totals.length
     |  items:
     dl.projects
