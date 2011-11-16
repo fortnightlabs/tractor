@@ -249,12 +249,18 @@ class ItemList extends Backbone.View
           group.set(open: false) if group.get 'projectId'
       when 'j', 'down'                                  # down
         items.next().set cursor: true
+      when 'shift+j', 'shift+down'                      # select + down
+        items.cursor().invoke 'set', selected: true
+        items.next().set cursor: true
       when 'pagedown', 'ctrl+meta+f', 'ctrl+meta+d'     # page down
         $window = $(window)
         bottom = $window.scrollTop() + $window.height() - @trs.eq(0).height()
         next = $(_.detect(@trs, (tr) -> $(tr).offset().top > bottom)).trigger('cursor.tractor')
         $window.scrollTop(next.offset().top - $('header').height() - 5) if next.length > 0
       when 'k', 'up'                                    # up
+        items.prev().set cursor: true
+      when 'shift+k', 'shift+up'                        # select + up
+        items.cursor().invoke 'set', selected: true
         items.prev().set cursor: true
       when 'pageup', 'ctrl+meta+b', 'ctrl+meta+u'       # page up
         $window = $(window)
