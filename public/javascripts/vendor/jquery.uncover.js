@@ -10,6 +10,7 @@
   };
 
   function uncover(parent, child, options) {
+    if (child.parent().length === 0) return;
     options = options || {};
     // make sure child is scrolled to in the parent
     var paddingTop = options.paddingTop || 0,
