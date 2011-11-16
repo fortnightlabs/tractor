@@ -195,7 +195,7 @@ class ItemList extends Backbone.View
     'keylisten':                           'keylisten'
     'submit form#filter':                  'filter'
     'change input[type=date]':             'filter'
-    'click a.unassigned':                  'filterUnassigned'
+    'click .totals dt':                    'filterProject'
     'search input[type=search]':           'clearSearch'
     'click .toolbar input[type=checkbox]': 'selectAll'
     'change select#projects':              'assign'
@@ -281,7 +281,7 @@ class ItemList extends Backbone.View
             .select((i) -> i.get('hour') == h and !i.get('projectId'))
             .invoke('set', selected: true)
         else if @lastKey == 'g'                         # filter unassigned
-          @filterUnassigned e
+          @filter e, 'project:unassigned'
       when 'x'                                          # select
         items.cursor().invoke 'toggle'
       when 'shift+3'                                    # delete
@@ -309,8 +309,8 @@ class ItemList extends Backbone.View
     path += '/' + query if query = $('input[name="query"]', form).val()
     @router.navigate path
 
-  filterUnassigned: (e) ->
-    @filter e, 'unassigned'
+  filterProject: (e) ->
+    @filter e, "project:#{$(e.target).text()}"
 
   clearSearch: (e) ->
     @$('form#filter').submit() if !$(e.target).val()

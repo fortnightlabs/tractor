@@ -83,7 +83,7 @@ template( id='totals-view' ):
             - if (project.get('rate'))
               = ' ($' + (project.get('rate')*duration/3600).toFixed(2) + ')'
       - if (totals.projects.unassigned)
-        dt: a.unassigned unassigned
+        dt.unassigned unassigned
         dd= toDurationString(totals.projects.unassigned)
 
 template( id='info-view' ):
