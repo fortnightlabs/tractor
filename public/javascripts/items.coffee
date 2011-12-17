@@ -308,6 +308,7 @@ class ItemList extends Backbone.View
     path += '/' + date if date = $('input[name="date"]', form).val()
     path += '/' + query if query = $('input[name="query"]', form).val()
     @router.navigate path
+    @router.updateTitle date, query # TODO dry
 
   filterProject: (e) ->
     @filter e, "project:#{$(e.target).text()}"
@@ -346,6 +347,13 @@ class ItemRouter extends Backbone.Router
 
   fetch: (date, query) ->
     @items.fetch data: { date: date, query: query }
+    @updateTitle date, query
+
+  updateTitle: (date, query) ->
+    title = 'Tractor'
+    title = query + ' &mdash; ' + title if query
+    title = date + ' &mdash; ' + title if date
+    $('title').html(title)
 
 $ ->
   new ItemRouter
