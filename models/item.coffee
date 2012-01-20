@@ -79,6 +79,7 @@ ItemSchema.pre 'save', (next) ->
     search.push @info.recipients
     search.push @info.subject
     search.push @info.url
+    search.push @info.path
   @search = _.compact(search).join '\n'
   next()
 
