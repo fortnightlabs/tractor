@@ -5,6 +5,7 @@
 
 - (void)checkAgainInOneSecond;
 
+- (NSMutableDictionary *)axInfoForProcessIdentifier:(NSNumber *)processIdentifier;
 - (NSDictionary *)infoForBundleIdentifier:(NSString *)bundleIdentifier;
 - (NSDictionary *)infoForChrome:(ChromeApplication *)chrome;
 - (NSDictionary *)infoForSafari:(SafariApplication *)safari;
@@ -31,10 +32,19 @@
   NSString *bundleIdentifier = [activeApplication objectForKey:@"NSApplicationBundleIdentifier"];
   CurrentApplicationInfo *app = [[[CurrentApplicationInfo alloc] init] autorelease];
   NSString *name = [activeApplication objectForKey:@"NSApplicationName"];
+  NSMutableDictionary *axInfo;
+  NSDictionary *info;
 
   [app setName:name];
   @try {
-    [app setInfo:[self infoForBundleIdentifier:bundleIdentifier]];
+    info = [self infoForBundleIdentifier:bundleIdentifier];
+    if (AXAPIEnabled()) {
+      axInfo = [self axInfoForProcessIdentifier:[activeApplication objectForKey:@"NSApplicationProcessIdentifier"]];
+      [axInfo addEntriesFromDictionary:info];
+      [app setInfo:axInfo];
+    } else {
+      [app setInfo:info];
+    }
   }
   @catch (NSException *e) {
     [[NSAlert alertWithMessageText:[NSString stringWithFormat:@"Couldn't Get Details for %@", name]
@@ -45,6 +55,44 @@
   }
   
   return app;
+}
+
+// http://stackoverflow.com/questions/2107657/mac-cocoa-getting-a-list-of-windows-using-accessibility-api
+// http://stackoverflow.com/questions/853833/how-can-my-app-detect-a-change-to-another-apps-window
+// http://cocoatutorial.grapewave.com/tag/axuielementcopyattributevalue/
+- (NSMutableDictionary *)axInfoForProcessIdentifier:(NSNumber *)processIdentifier
+{
+  NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithCapacity:2];
+  pid_t pid = (pid_t) [processIdentifier integerValue];
+  AXUIElementRef app = AXUIElementCreateApplication(pid);
+  AXUIElementRef frontWindow = nil;
+  NSString *title = nil;
+  NSString *path = nil;
+  AXError err;
+
+  // get the focused window for the application
+  err = AXUIElementCopyAttributeValue(app, kAXFocusedWindowAttribute,
+                                      (CFTypeRef *) &frontWindow);
+  if (err == kAXErrorSuccess) {
+    // get the title for the window
+    err = AXUIElementCopyAttributeValue(frontWindow, kAXTitleAttribute, (CFTypeRef *) &title);
+    if (err == kAXErrorSuccess) {
+      [ret setObject:title forKey:@"title"];
+      [title autorelease];
+    }
+    
+    // get the document path for the window
+    err = AXUIElementCopyAttributeValue(frontWindow, kAXDocumentAttribute, (CFTypeRef *) &path);
+    if (err == kAXErrorSuccess) {
+      [ret setObject:path forKey:@"path"];
+      [path autorelease];
+    }
+
+    CFRelease(frontWindow);
+  }
+
+  CFRelease(app);
+  return ret;
 }
 
 - (NSDictionary *)infoForBundleIdentifier:(NSString *)bundleIdentifier
