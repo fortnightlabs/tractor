@@ -35,13 +35,14 @@ class Tractor.Items extends Backbone.Collection
   model: Tractor.Item
 
   initialize: ->
-    @bind 'reset',            @updateTotals, this
-    @bind 'remove',           @updateTotals, this
-    @bind 'change:selected',  @updateTotals, this
-    @bind 'change:projectId', @updateTotals, this
+    lazyUpdateTotals = _.debounce @updateTotals, 1
+    @bind 'reset',            lazyUpdateTotals, this
+    @bind 'remove',           lazyUpdateTotals, this
+    @bind 'change:selected',  lazyUpdateTotals, this
+    @bind 'change:projectId', lazyUpdateTotals, this
     @updateTotals()
 
-  updateTotals: ->
+  updateTotals: =>
     # TODO speed up (bulk selection)
     projects = {}
     apps = {}
