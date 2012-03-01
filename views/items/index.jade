@@ -13,10 +13,10 @@ include ../header
         button#destroy delete
         form#sweep( method='POST', action=req.url + '/sweep')
           button sweep
-        input( type='search', name='match' )
+        input( type='search', name='match', placeholder='select' )
       th( colspan=2 ): form#filter
         input( type='date', name='date', value=req.param('date'), placeholder='date' )
-        input( type='search', name='query', value=req.param('query'), placeholder='search' )
+        input( type='search', name='query', value=req.param('query'), placeholder='filter' )
         input( type='submit', value='go' )
 
     tfoot: tr
