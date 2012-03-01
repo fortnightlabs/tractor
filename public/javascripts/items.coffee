@@ -196,8 +196,9 @@ class ItemList extends Backbone.View
     'submit form#filter':                  'filter'
     'change input[type=date]':             'filter'
     'click .totals dt':                    'filterProject'
-    'search input[type=search]':           'clearSearch'
+    'search input[name=query]':            'clearSearch'
     'click .toolbar input[type=checkbox]': 'selectAll'
+    'search input[name=match]':            'selectMatch'
     'change select#projects':              'assign'
     'click button#destroy':                'destroy'
 
@@ -287,7 +288,7 @@ class ItemList extends Backbone.View
       when 'shift+3'                                    # delete
         items.selected().invoke 'destroy'
       when '/'                                          # search
-        @$('input[type=search]').select()
+        @$('input[name=match]').select()
 
     if handled
       e.preventDefault()
@@ -319,6 +320,11 @@ class ItemList extends Backbone.View
   selectAll: (e) ->
     # TODO speed up
     @collection.invoke 'set', selected: e.target.checked
+
+  selectMatch: (e) ->
+    match = new RegExp $(e.target).val(), 'i'
+    @collection.each (i) -> i.set selected: i.get('search').match(match)?
+    @$(':focus').blur()
 
   assign: (e) ->
     changes =
