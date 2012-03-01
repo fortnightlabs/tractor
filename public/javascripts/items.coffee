@@ -322,8 +322,10 @@ class ItemList extends Backbone.View
     @collection.invoke 'set', selected: e.target.checked
 
   selectMatch: (e) ->
-    match = new RegExp $(e.target).val(), 'i'
-    @collection.each (i) -> i.set selected: i.get('search').match(match)?
+    search = $(e.target).val()
+    if search != ''
+      match = new RegExp search, 'i'
+      @collection.each (i) -> i.set selected: i.get('search').match(match)?
     @$(':focus').blur()
 
   assign: (e) ->
