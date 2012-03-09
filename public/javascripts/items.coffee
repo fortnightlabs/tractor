@@ -289,6 +289,8 @@ class ItemList extends Backbone.View
         items.selected().invoke 'destroy'
       when '/'                                          # search
         @$('input[name=match]').select()
+      when '?'
+        window.open 'https://github.com/fortnightlabs/tractor/blob/master/public/javascripts/items.coffee#L226'
 
     if handled
       e.preventDefault()
