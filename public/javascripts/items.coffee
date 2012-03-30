@@ -254,7 +254,7 @@ class ItemList extends Backbone.View
       when 'shift+j', 'shift+down'                      # select + down
         items.cursor().invoke 'set', selected: true
         items.next().set cursor: true
-      when 'pagedown', 'ctrl+f', 'ctrl+d'     # page down
+      when 'pagedown', 'ctrl+f', 'ctrl+d'               # page down
         $window = $(window)
         bottom = $window.scrollTop() + $window.height() - @trs.eq(0).height()
         next = $(_.detect(@trs, (tr) -> $(tr).offset().top > bottom)).trigger('cursor.tractor')
@@ -264,7 +264,7 @@ class ItemList extends Backbone.View
       when 'shift+k', 'shift+up'                        # select + up
         items.cursor().invoke 'set', selected: true
         items.prev().set cursor: true
-      when 'pageup', 'ctrl+b', 'ctrl+u'       # page up
+      when 'pageup', 'ctrl+b', 'ctrl+u'                 # page up
         $window = $(window)
         top = $window.scrollTop() + $('header').height() - @trs.eq(0).height()
         prev = $(_.detect(@trs, (tr) -> $(tr).offset().top > top)).trigger('cursor.tractor')
@@ -286,7 +286,7 @@ class ItemList extends Backbone.View
       when 'x'                                          # select
         items.cursor().invoke 'toggle'
       when 'shift+3'                                    # delete
-        items.selected().invoke 'destroy'
+        @destroy e
       when '/'                                          # search
         @$('input[name=match]').select()
       when 'shift+/'
@@ -334,7 +334,7 @@ class ItemList extends Backbone.View
     changes =
       projectId: $(e.target).val() || null
       selected: false
-    selected = @collection.selected()
+    selected = @collection.selectedOrCursor()
     selected.each (i) -> i.save changes, silent: true  # need to pass new options hash each time
     @collection.trigger 'change:projectId'
     @collection.hoursFor(selected).invoke 'trigger', 'change:projectId'
@@ -342,7 +342,7 @@ class ItemList extends Backbone.View
     @$(':focus').blur()
 
   destroy: (e) ->
-    @collection.selected().invoke 'destroy'
+    @collection.selectedOrCursor().invoke 'destroy'
 
 class ItemRouter extends Backbone.Router
   initialize: ->

@@ -199,6 +199,13 @@ class Tractor.AllItems extends Tractor.Items
       @_cursor[1]--
     @cursor().invoke 'set', cursor: true
 
+  selectedOrCursor: ->
+    selected = @selected()
+    if selected.value().length > 0
+      selected
+    else
+      @cursor()
+
   selectRange: (model, val, options) ->
     if val and options.range
       i = @indexOf model
