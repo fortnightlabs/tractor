@@ -73,6 +73,7 @@ class Tractor.Group extends Backbone.Model
     @collection.each ((i) -> i.group = this), this
     @collection.bind 'remove',           @resetAttributes, this
     @collection.bind 'change:selected',  @resetAttributes, this
+    @collection.bind 'change:totals',    @resetAttributes, this
     @collection.bind 'change:cursor',    @changeCursor, this
     @collection.bind 'change:projectId', @echo('change:projectId'), this
     @bind 'change:open',                 @changeOpen, this
