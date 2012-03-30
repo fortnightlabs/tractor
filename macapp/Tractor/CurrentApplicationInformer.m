@@ -6,14 +6,16 @@
 - (void)checkAgainInOneSecond;
 
 - (NSMutableDictionary *)axInfoForProcessIdentifier:(NSNumber *)processIdentifier;
-- (NSDictionary *)infoForBundleIdentifier:(NSString *)bundleIdentifier;
-- (NSDictionary *)infoForChrome:(ChromeApplication *)chrome;
-- (NSDictionary *)infoForSafari:(SafariApplication *)safari;
-- (NSDictionary *)infoForMail:(MailApplication *)mail;
-- (NSDictionary *)infoForSkype:(SkypeApplication *)skype;
-- (NSDictionary *)infoForOther:(SBApplication *)application;
 
-- (NSString *)windowNameForApplication:(SBApplication *)application;
+- (NSDictionary *)sbInfoForBundleIdentifier:(NSString *)bundleIdentifier;
+- (NSDictionary *)sbInfoForChrome:(ChromeApplication *)chrome;
+- (NSDictionary *)sbInfoForSafari:(SafariApplication *)safari;
+- (NSDictionary *)sbInfoForMail:(MailApplication *)mail;
+- (NSDictionary *)sbInfoForSkype:(SkypeApplication *)skype;
+- (NSDictionary *)sbInfoForOther:(SBApplication *)application;
+
+- (NSString *)windowNameForSBApplication:(SBApplication *)application;
+- (BOOL)isScriptableBundleIdentifier:(NSString *)bundleIdentifier;
 
 @end
 
@@ -26,25 +28,38 @@
 
 @implementation CurrentApplicationInformer
 
+- (id)init
+{
+  if (self = [super init]) {
+    scriptabilityOfBundleIdentifiers = [[NSMutableDictionary alloc] init];    
+  }
+  return self;
+}
+
 - (CurrentApplicationInfo *)currentApplicationInfo
 {
   NSDictionary *activeApplication = [[NSWorkspace sharedWorkspace] activeApplication];
   NSString *bundleIdentifier = [activeApplication objectForKey:@"NSApplicationBundleIdentifier"];
   CurrentApplicationInfo *app = [[[CurrentApplicationInfo alloc] init] autorelease];
   NSString *name = [activeApplication objectForKey:@"NSApplicationName"];
-  NSMutableDictionary *axInfo;
-  NSDictionary *info;
+
+  NSMutableDictionary *info = [NSMutableDictionary dictionary];
 
   [app setName:name];
   @try {
-    info = [self infoForBundleIdentifier:bundleIdentifier];
-    if (AXAPIEnabled()) {
-      axInfo = [self axInfoForProcessIdentifier:[activeApplication objectForKey:@"NSApplicationProcessIdentifier"]];
-      [axInfo addEntriesFromDictionary:info];
-      [app setInfo:axInfo];
-    } else {
-      [app setInfo:info];
+    // try to get info from the scripting bridge
+    if ([self isScriptableBundleIdentifier:bundleIdentifier]) {
+      NSDictionary *sbInfo = [self sbInfoForBundleIdentifier:bundleIdentifier];
+      [info addEntriesFromDictionary:sbInfo];
     }
+
+    // try to get info from the accessibilty api
+    if (AXAPIEnabled()) {
+      NSDictionary *axInfo = [self axInfoForProcessIdentifier:[activeApplication objectForKey:@"NSApplicationProcessIdentifier"]];
+      [info addEntriesFromDictionary:axInfo];
+    }
+
+    [app setInfo:info];
   }
   @catch (NSException *e) {
     [[NSAlert alertWithMessageText:[NSString stringWithFormat:@"Couldn't Get Details for %@", name]
@@ -92,36 +107,35 @@
   }
 
   CFRelease(app);
+
   return ret;
 }
 
-- (NSDictionary *)infoForBundleIdentifier:(NSString *)bundleIdentifier
+- (NSDictionary *)sbInfoForBundleIdentifier:(NSString *)bundleIdentifier;
 {
-  // NSLog(@"BundleIdentifier: %@", bundleIdentifier);
   SBApplication *application = [SBApplication applicationWithBundleIdentifier:bundleIdentifier];
   NSDictionary *ret = nil;
 
   if ([application isRunning]) {
-    // TODO handle more applications
     if ([@"com.google.Chrome" isEqual:bundleIdentifier]) {
-      ret = [self infoForChrome:(ChromeApplication *) application];
+      ret = [self sbInfoForChrome:(ChromeApplication *) application];
     } else if ([@"com.apple.mail" isEqual:bundleIdentifier]) {
-      ret = [self infoForMail:(MailApplication *) application];
+      ret = [self sbInfoForMail:(MailApplication *) application];
     } else if ([@"com.apple.Safari" isEqual:bundleIdentifier] ||
                [@"org.webkit.nightly.WebKit" isEqual:bundleIdentifier]) {
-      ret = [self infoForSafari:(SafariApplication *) application];
+      ret = [self sbInfoForSafari:(SafariApplication *) application];
     } else if([@"com.skype.skype" isEqual:bundleIdentifier]) {
-      ret = [self infoForSkype:(SkypeApplication *) application];
+      ret = [self sbInfoForSkype:(SkypeApplication *) application];
     } else {
-      ret = [self infoForOther:application];
+      // NSLog(@"BundleIdentifier: %@", bundleIdentifier);
+      ret = [self sbInfoForOther:application];
     }
-    // NSLog(@"%@", bundleIdentifier);
   }
 
   return ret;
 }
 
-- (NSDictionary *)infoForChrome:(ChromeApplication *)chrome
+- (NSDictionary *)sbInfoForChrome:(ChromeApplication *)chrome
 {
   ChromeTab *tab = [[[chrome windows] objectAtIndex:0] activeTab];
 
@@ -131,7 +145,7 @@
       nil];
 }
 
-- (NSDictionary *)infoForSafari:(SafariApplication *)safari
+- (NSDictionary *)sbInfoForSafari:(SafariApplication *)safari
 {
   SafariTab *tab = [[[safari windows] objectAtIndex:0] currentTab];
 
@@ -141,7 +155,7 @@
       nil];
 }
 
-- (NSDictionary *)infoForMail:(MailApplication *)mail
+- (NSDictionary *)sbInfoForMail:(MailApplication *)mail
 {
   MailMessageViewer *messageViewer = [[mail messageViewers] objectAtIndex:0];
   MailMessage *message = [[messageViewer selectedMessages] objectAtIndex:0];
@@ -156,7 +170,7 @@
       nil];
 }
 
-- (NSDictionary *)infoForSkype:(SkypeApplication *)skype
+- (NSDictionary *)sbInfoForSkype:(SkypeApplication *)skype
 {
   NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithCapacity:1];
   NSPredicate *notHidden = [NSPredicate predicateWithFormat:@"visible == TRUE"];
@@ -171,9 +185,9 @@
   return ret;
 }
 
-- (NSDictionary *)infoForOther:(SBApplication *)application
+- (NSDictionary *)sbInfoForOther:(SBApplication *)application
 {
-  NSString *windowName = [self windowNameForApplication:application];
+  NSString *windowName = [self windowNameForSBApplication:application];
   NSDictionary *ret = nil;
 
   if (windowName) {
@@ -185,7 +199,7 @@
   return ret;
 }
 
-- (NSString *)windowNameForApplication:(SBApplication *)application
+- (NSString *)windowNameForSBApplication:(SBApplication *)application
 {
   NSString *name = nil;
   SEL windowsSelector = @selector(windows);
@@ -206,4 +220,31 @@
   return name;
 }
 
+- (BOOL)isScriptableBundleIdentifier:(NSString *)bundleIdentifier
+{
+  BOOL ret;
+  NSNumber *scriptability = [scriptabilityOfBundleIdentifiers objectForKey:bundleIdentifier];
+
+  if (scriptability) {
+    ret = [scriptability boolValue];
+  } else {
+    SBApplication *application = [SBApplication applicationWithBundleIdentifier:bundleIdentifier];
+
+    // it is scriptable if it is a subclass of SBApplication
+    ret = ([application isKindOfClass:[SBApplication class]] &&
+           ![application isMemberOfClass:[SBApplication class]]);
+
+    // cache the lookup in the dictionary
+    [scriptabilityOfBundleIdentifiers setValue:[NSNumber numberWithBool:ret]
+                                        forKey:bundleIdentifier];
+  }
+
+  return ret;
+}
+
+- (void)dealloc
+{
+  [scriptabilityOfBundleIdentifiers release];
+  [super dealloc];
+}
 @end

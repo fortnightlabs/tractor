@@ -68,7 +68,7 @@
 - (void)dealloc
 {
   [context release];
-  [super release];
+  [super dealloc];
 }
 
 + (NSArray *)JSONArray:(NSArray *)array

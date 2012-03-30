@@ -164,7 +164,7 @@ static int64_t SystemIdleSeconds(void);
   [items release];
   [informer release];
   [latestItem release];
-  [super release];
+  [super dealloc];
 }
 
 @end

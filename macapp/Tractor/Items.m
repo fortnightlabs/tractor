@@ -100,7 +100,7 @@
 - (void)dealloc
 {
   [context release];
-  [super release];
+  [super dealloc];
 }
 
 @end

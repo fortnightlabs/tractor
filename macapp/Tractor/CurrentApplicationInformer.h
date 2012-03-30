@@ -18,7 +18,9 @@
 @end
 
 
-@interface CurrentApplicationInformer : NSObject
+@interface CurrentApplicationInformer : NSObject {
+  NSMutableDictionary *scriptabilityOfBundleIdentifiers;
+}
 
 - (CurrentApplicationInfo *)currentApplicationInfo;
 
