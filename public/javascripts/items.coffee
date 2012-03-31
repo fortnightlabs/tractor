@@ -214,7 +214,6 @@ class ItemList extends Backbone.View
     @$('.toolbar select#projects').prop 'selectedIndex', 0
     @$('.toolbar input[type=date]').val(strftime('%Y-%m-%d', date)) if date = @collection.first()?.get('start')
     @$(':focus').blur()
-    @trs = @$('ul.items tbody tr')
 
   changeTotals: ->
     tmpl = template?._['totals-view'](_.extend(Object.create(Locals), totals: @collection.totals))
@@ -255,9 +254,10 @@ class ItemList extends Backbone.View
         items.cursor().invoke 'set', selected: true
         items.next().set cursor: true
       when 'pagedown', 'ctrl+f', 'ctrl+d'               # page down
+        $trs = @$('ul.items tbody tr')
         $window = $(window)
-        bottom = $window.scrollTop() + $window.height() - @trs.eq(0).height()
-        next = $(_.detect(@trs, (tr) -> $(tr).offset().top > bottom)).trigger('cursor.tractor')
+        bottom = $window.scrollTop() + $window.height() - $trs.eq(0).height()
+        next = $(_.detect($trs, (tr) -> $(tr).offset().top > bottom)).trigger('cursor.tractor')
         $window.scrollTop(next.offset().top - $('header').height() - 5) if next.length > 0
       when 'k', 'up'                                    # up
         items.prev().set cursor: true
@@ -265,10 +265,11 @@ class ItemList extends Backbone.View
         items.cursor().invoke 'set', selected: true
         items.prev().set cursor: true
       when 'pageup', 'ctrl+b', 'ctrl+u'                 # page up
+        $trs = @$('ul.items tbody tr')
         $window = $(window)
-        top = $window.scrollTop() + $('header').height() - @trs.eq(0).height()
-        prev = $(_.detect(@trs, (tr) -> $(tr).offset().top > top)).trigger('cursor.tractor')
-        $window.scrollTop prev.offset().top - $window.height() + @trs.eq(0).height()
+        top = $window.scrollTop() + $('header').height() - $trs.eq(0).height()
+        prev = $(_.detect($trs, (tr) -> $(tr).offset().top > top)).trigger('cursor.tractor')
+        $window.scrollTop prev.offset().top - $window.height() + $trs.eq(0).height()
       when 'l', 'right'                                 # open group
         group = items.cursor().first().value().group
         group.set(open: true) if group.get 'projectId'
