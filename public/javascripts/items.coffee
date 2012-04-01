@@ -257,7 +257,7 @@ class ItemList extends Backbone.View
         $trs = @$('ul.items tbody tr')
         $window = $(window)
         bottom = $window.scrollTop() + $window.height() - $trs.eq(0).height()
-        next = $(_.detect($trs, (tr) -> $(tr).offset().top > bottom)).trigger('cursor.tractor')
+        next = $(_.detect($trs, (tr) -> $(tr).offset().top > bottom)).or($trs.last()).trigger('cursor.tractor')
         $window.scrollTop(next.offset().top - $('header').height() - 5) if next.length > 0
       when 'k', 'up'                                    # up
         items.prev().set cursor: true
@@ -268,7 +268,7 @@ class ItemList extends Backbone.View
         $trs = @$('ul.items tbody tr')
         $window = $(window)
         top = $window.scrollTop() + $('header').height() - $trs.eq(0).height()
-        prev = $(_.detect($trs, (tr) -> $(tr).offset().top > top)).trigger('cursor.tractor')
+        prev = $(_.detect($trs, (tr) -> $(tr).offset().top > top)).or($trs.first()).trigger('cursor.tractor')
         $window.scrollTop prev.offset().top - $window.height() + $trs.eq(0).height()
       when 'l', 'right'                                 # open group
         group = items.cursor().first().value().group
@@ -367,5 +367,5 @@ class ItemRouter extends Backbone.Router
     $('title').html(title)
 
 $ ->
-  new ItemRouter
+  window.itemRouter = new ItemRouter
   Backbone.history.start pushState: true
