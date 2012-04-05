@@ -48,7 +48,7 @@
   [app setName:name];
   @try {
     // try to get info from the scripting bridge
-    if ([self isScriptableBundleIdentifier:bundleIdentifier]) {
+    if (bundleIdentifier && [self isScriptableBundleIdentifier:bundleIdentifier]) {
       NSDictionary *sbInfo = [self sbInfoForBundleIdentifier:bundleIdentifier];
       [info addEntriesFromDictionary:sbInfo];
     }
