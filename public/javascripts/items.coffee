@@ -201,6 +201,7 @@ class ItemList extends Backbone.View
     'search input[name=match]':            'selectMatch'
     'change select#projects':              'assign'
     'click button#destroy':                'destroy'
+    'click button#sweep':                  'sweep'
 
   reset: ->
     list = @$ 'ul.items'
@@ -221,6 +222,9 @@ class ItemList extends Backbone.View
     t = @collection.totals
     @$('.toolbar th.project').text Locals.toDurationString(t.selected) || @weekday
     @$('.toolbar input[type=checkbox]').prop 'checked', t.duration == t.selected
+
+  loading: ->
+    @$('ul.items').html '<li>Loading</li>'
 
   keylisten: (e) ->
     items = @collection
@@ -306,7 +310,7 @@ class ItemList extends Backbone.View
     $('input[name="query"]', form).val(query) if query?
 
     @collection.fetch data: form.serialize()
-    @$('ul.items').html '<li>Loading</li>'
+    @loading()
 
     path = 'items'
     path += '/' + date if date = $('input[name="date"]', form).val()
@@ -344,6 +348,10 @@ class ItemList extends Backbone.View
 
   destroy: (e) ->
     @collection.selectedOrCursor().invoke 'destroy'
+
+  sweep: (e) ->
+    @loading()
+    $.post window.location + '/sweep', => @filter e
 
 class ItemRouter extends Backbone.Router
   initialize: ->

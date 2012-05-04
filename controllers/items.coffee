@@ -73,11 +73,17 @@ module.exports = (app) ->
       sweeps = for k, v of sweeps
         (ids: oid(i) for i in v, projectId: oid(k))
 
+      for set in sweeps
+        console.log 'Sweeping %d items into %s', set.ids.length, set.projectId
+
       async.forEach sweeps, ({projectId, ids}, fn) ->
           Item.update (_id: ($in: ids)), (projectId: projectId), multi: true, fn
         , (err) ->
           return next err if err?
-          res.redirect 'back'
+          if req.format is 'json'
+            res.send sweeps
+          else
+            res.redirect 'back'
 
   app.put '/items', (req, res) ->
     items = req.body || []
