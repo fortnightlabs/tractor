@@ -263,6 +263,13 @@ class ItemList extends Backbone.View
         bottom = $window.scrollTop() + $window.height() - $trs.eq(0).height()
         next = $(_.detect($trs, (tr) -> $(tr).offset().top > bottom)).or($trs.last()).trigger('cursor.tractor')
         $window.scrollTop(next.offset().top - $('header').height() - 5) if next.length > 0
+      when 'shift+ý'                                    # } next hour
+        hour = items.hoursFor(items.cursor()).first()
+        last = hour.last().collection.last()
+        if last.get 'cursor'
+          hour = items.hours[items.next().get('hour')]
+          last = hour.last().collection.last()
+        last.set cursor: true
       when 'k', 'up'                                    # up
         items.prev().set cursor: true
       when 'shift+k', 'shift+up'                        # select + up
@@ -274,6 +281,18 @@ class ItemList extends Backbone.View
         top = $window.scrollTop() + $('header').height() - $trs.eq(0).height()
         prev = $(_.detect($trs, (tr) -> $(tr).offset().top > top)).or($trs.first()).trigger('cursor.tractor')
         $window.scrollTop prev.offset().top - $window.height() + $trs.eq(0).height()
+      when 'shift+û'                                    # { previous hour
+        hour = items.hoursFor(items.cursor()).first()
+        first = hour.first().collection.first()
+        if first.get 'cursor'
+          hour = items.hours[items.prev().get('hour')]
+          first = hour.first().collection.first()
+        first.set cursor: true
+      when 'shift+g'                                    # goto
+        if @lastKey == '1'
+          items.first().set cursor: true
+        else
+          items.last().set cursor: true
       when 'l', 'right'                                 # open group
         group = items.cursor().first().value().group
         group.set(open: true) if group.get 'projectId'
@@ -300,7 +319,7 @@ class ItemList extends Backbone.View
     if handled
       e.preventDefault()
       @lastKey = null
-    else
+    else if e.keyName != 'shift'
       @lastKey = e.keyName
 
   filter: (e, query) ->
