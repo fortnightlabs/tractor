@@ -23,6 +23,10 @@ ItemSchema = module.exports = new mongoose.Schema
   projectId: mongoose.Schema.ObjectId
   importId: mongoose.Schema.ObjectId
 
+# indexes
+
+ItemSchema.index { start: 1, end: 1 }, { unique: true }
+
 # scopes
 
 ItemSchema.namedScope 'search', (query) ->
