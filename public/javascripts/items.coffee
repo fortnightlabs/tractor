@@ -314,7 +314,7 @@ class ItemList extends Backbone.View
       when '/'                                          # search
         @$('input[name=match]').select()
       when 'shift+/'
-        window.open 'https://github.com/fortnightlabs/tractor/blob/master/public/javascripts/items.coffee#L226'
+        window.open 'https://github.com/fortnightlabs/tractor/blob/master/public/javascripts/items.coffee#L229'
 
     if handled
       e.preventDefault()
