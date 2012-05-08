@@ -84,7 +84,9 @@ template( id='totals-view' ):
               = ' ($' + (project.get('rate')*duration/3600).toFixed(2) + ')'
       - if (totals.projects.unassigned)
         dt.unassigned unassigned
-        dd= toDurationString(totals.projects.unassigned)
+        dd
+          = toDurationString(totals.projects.unassigned)
+          = ' ($' + (200*totals.projects.unassigned/3600).toFixed(2) + ')'
 
 template( id='info-view' ):
   // aside is removed by backbone view
