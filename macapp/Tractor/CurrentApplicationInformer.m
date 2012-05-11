@@ -175,13 +175,28 @@
   NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithCapacity:1];
   NSPredicate *notHidden = [NSPredicate predicateWithFormat:@"visible == TRUE"];
   NSArray *names = [[[skype windows] filteredArrayUsingPredicate:notHidden] valueForKey:@"name"];
+  NSString *name = nil;
 
-  for (NSString *name in names) {
+  for (name in names) {
     if (![name hasPrefix:@"Skype"] && ![name hasSuffix:@"Overlay"]) {
-      [ret setValue:name forKey:@"title"];
       break;
     }
   }
+
+  // strip leading duration ("01:23 | ") from Skype conference calls
+  NSError *err = nil;
+  NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"^(?:\\d{2}:)+\\d{2} \\| "
+                                                                          options:0
+                                                                            error:&err];
+  if (!err) {
+    NSRange range = { .location = 0, .length = [name length] };
+    name = [regexp stringByReplacingMatchesInString:name
+                                            options:0
+                                              range:range
+                                       withTemplate:@""];
+  }
+
+  [ret setValue:name forKey:@"title"];
   return ret;
 }
 
