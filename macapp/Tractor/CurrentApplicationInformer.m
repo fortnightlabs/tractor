@@ -47,16 +47,16 @@
 
   [app setName:name];
   @try {
-    // try to get info from the scripting bridge
-    if (bundleIdentifier && [self isScriptableBundleIdentifier:bundleIdentifier]) {
-      NSDictionary *sbInfo = [self sbInfoForBundleIdentifier:bundleIdentifier];
-      [info addEntriesFromDictionary:sbInfo];
-    }
-
     // try to get info from the accessibilty api
     if (AXAPIEnabled()) {
       NSDictionary *axInfo = [self axInfoForProcessIdentifier:[activeApplication objectForKey:@"NSApplicationProcessIdentifier"]];
       [info addEntriesFromDictionary:axInfo];
+    }
+
+    // try to get info from the scripting bridge
+    if (bundleIdentifier && [self isScriptableBundleIdentifier:bundleIdentifier]) {
+      NSDictionary *sbInfo = [self sbInfoForBundleIdentifier:bundleIdentifier];
+      [info addEntriesFromDictionary:sbInfo];
     }
 
     [app setInfo:info];
@@ -68,7 +68,7 @@
                        otherButton:nil
          informativeTextWithFormat:@"%@", e] runModal];
   }
-  
+
   return app;
 }
 
