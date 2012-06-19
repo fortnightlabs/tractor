@@ -37,7 +37,7 @@ module.exports = (app) ->
 
   app.resource 'rules'
     index: (req, res, next) ->
-      Rule.sorted.find().populate('project').run (err, rules) ->
+      Rule.find().asc('priority').populate('project').run (err, rules) ->
         return next err if err
         res.render2 'rules', rules: rules
 

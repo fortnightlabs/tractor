@@ -13,10 +13,6 @@ RuleSchema = module.exports = new mongoose.Schema
     ref: 'Project'
     required: true
 
-# scopes
-
-RuleSchema.namedScope 'sorted', -> @asc 'priority'
-
 # methods
 
 RuleSchema.method 'run', (conditions, callback) ->
@@ -28,7 +24,7 @@ RuleSchema.method 'run', (conditions, callback) ->
 # statics
 
 RuleSchema.static 'run', (conditions, callback) ->
-  Rule.sorted.find().run (err, rules) ->
+  Rule.find().asc('priority').run (err, rules) ->
     return callback(err) if err?
     run = (rule, fn) -> rule.run conditions, fn
     async.forEachSeries rules, run, callback
