@@ -52,6 +52,6 @@ NSString *JSONDate(NSDate *date) {
   struct tm t;
   gmtime_r(&secs, &t);
 
-  return [NSString stringWithFormat:@"%04d-%02d-%02dT%02d:%02d:%02d.%04dZ",
+  return [NSString stringWithFormat:@"%04d-%02d-%02dT%02d:%02d:%02d.%04ldZ",
           t.tm_year + 1900, t.tm_mon + 1, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec, ms];
 }

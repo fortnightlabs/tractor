@@ -265,7 +265,7 @@
 		F2A0B48E14207CA000F07F32 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = F2A0B49114207CA000F07F32 /* Build configuration list for PBXProject "Tractor" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -445,6 +445,7 @@
 		F2A0B4CE14207CA000F07F32 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tractor/Tractor-Prefix.pch";
 				INFOPLIST_FILE = "Tractor/Tractor-Info.plist";
@@ -457,6 +458,7 @@
 		F2A0B4CF14207CA000F07F32 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tractor/Tractor-Prefix.pch";
 				INFOPLIST_FILE = "Tractor/Tractor-Info.plist";
@@ -470,6 +472,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Tractor.app/Contents/MacOS/Tractor";
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tractor/Tractor-Prefix.pch";
@@ -484,6 +487,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Tractor.app/Contents/MacOS/Tractor";
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tractor/Tractor-Prefix.pch";

@@ -8,7 +8,7 @@
   },
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --debug",
+    "start": "nodemon",
     "test": "node_modules/.bin/expresso"
   },
   "engines": {
