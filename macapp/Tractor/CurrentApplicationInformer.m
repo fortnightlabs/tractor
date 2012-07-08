@@ -17,6 +17,8 @@
 - (NSString *)windowNameForSBApplication:(SBApplication *)application;
 - (BOOL)isScriptableBundleIdentifier:(NSString *)bundleIdentifier;
 
+- (void)notifyUser:(NSException *)exception name:(NSString *)name;
+
 @end
 
 @implementation CurrentApplicationInfo
@@ -31,7 +33,8 @@
 - (id)init
 {
   if (self = [super init]) {
-    scriptabilityOfBundleIdentifiers = [[NSMutableDictionary alloc] init];    
+    scriptabilityOfBundleIdentifiers = [[NSMutableDictionary alloc] init];
+    notificationCenter = [NSUserNotificationCenter defaultUserNotificationCenter];
   }
   return self;
 }
@@ -62,11 +65,7 @@
     [app setInfo:info];
   }
   @catch (NSException *e) {
-    [[NSAlert alertWithMessageText:[NSString stringWithFormat:@"Couldn't Get Details for %@", name]
-                     defaultButton:nil
-                   alternateButton:nil
-                       otherButton:nil
-         informativeTextWithFormat:@"%@", e] runModal];
+    [self notifyUser:e name:name];
   }
 
   return app;
@@ -255,6 +254,20 @@
   }
 
   return ret;
+}
+
+- (void)notifyUser:(NSException *)exception name:(NSString *)name
+{
+  if ([[notificationCenter deliveredNotifications] count] == 0) {
+    NSUserNotification *notification = [[NSUserNotification alloc] init];
+    [notification setTitle:[NSString stringWithFormat:@"Couldn't Get Details for %@", name]];
+    [notification setInformativeText:[NSString stringWithFormat:@"%@", exception]];
+    [notification setHasActionButton:NO];
+    
+    [notificationCenter deliverNotification:notification];
+    
+    [notification release];
+  }
 }
 
 - (void)dealloc

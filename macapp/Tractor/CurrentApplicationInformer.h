@@ -20,6 +20,7 @@
 
 @interface CurrentApplicationInformer : NSObject {
   NSMutableDictionary *scriptabilityOfBundleIdentifiers;
+  NSUserNotificationCenter *notificationCenter;
 }
 
 - (CurrentApplicationInfo *)currentApplicationInfo;
