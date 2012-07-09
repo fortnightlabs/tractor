@@ -260,16 +260,16 @@
 
 - (void)notifyUser:(NSException *)exception name:(NSString *)name
 {
-  if ([[notificationCenter deliveredNotifications] count] == 0) {
-    NSUserNotification *notification = [[NSUserNotification alloc] init];
-    [notification setTitle:[NSString stringWithFormat:@"Couldn't Get Details for %@", name]];
-    [notification setInformativeText:[NSString stringWithFormat:@"%@", exception]];
-    [notification setHasActionButton:NO];
-    
+  NSUserNotification *notification = [[NSUserNotification alloc] init];
+  [notification setTitle:[NSString stringWithFormat:@"Couldn't Get Details for %@", name]];
+  [notification setInformativeText:[NSString stringWithFormat:@"%@", exception]];
+
+  if (![[notificationCenter deliveredNotifications] containsObject:notification]) {
     [notificationCenter deliverNotification:notification];
-    
-    [notification release];
+    NSLog(@"%@", [exception callStackSymbols]);
   }
+
+  [notification release];
 }
 
 - (void)dealloc
