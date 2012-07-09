@@ -181,6 +181,8 @@
       break;
     }
   }
+  
+  if (name == nil) name = @"Skype";
 
   // strip leading duration ("01:23 | ") from Skype conference calls
   NSError *err = nil;
