@@ -35,6 +35,7 @@
   if (self = [super init]) {
     scriptabilityOfBundleIdentifiers = [[NSMutableDictionary alloc] init];
     notificationCenter = [NSUserNotificationCenter defaultUserNotificationCenter];
+    sqlite3_open("/Users/visnup/Library/Application Support/Skype/visnup/main.db", &skypeDatabase);
   }
   return self;
 }
@@ -169,6 +170,14 @@
       nil];
 }
 
+int skypeCallback(void *ret, int argc, char **argv, char **column)
+{
+  if (argc) {
+    [(NSMutableDictionary *)ret setValue:[NSString stringWithUTF8String:argv[0]] forKey:@"chat"];
+  }
+  return 0;
+}
+
 - (NSDictionary *)sbInfoForSkype:(SkypeApplication *)skype
 {
   NSMutableDictionary *ret = [NSMutableDictionary dictionaryWithCapacity:1];
@@ -198,6 +207,11 @@
   }
 
   [ret setValue:name forKey:@"title"];
+
+  if (skypeDatabase) {
+    sqlite3_exec(skypeDatabase, "select friendlyname from chats order by activity_timestamp desc limit 1;", skypeCallback, ret, nil);
+  }
+
   return ret;
 }
 
@@ -275,6 +289,7 @@
 - (void)dealloc
 {
   [scriptabilityOfBundleIdentifiers release];
+  if (skypeDatabase) sqlite3_close(skypeDatabase);
   [super dealloc];
 }
 @end

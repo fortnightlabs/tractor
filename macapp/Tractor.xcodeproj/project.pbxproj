@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		853AD03B143FDDA000416E54 /* TimeMachine Timmy.icns in Resources */ = {isa = PBXBuildFile; fileRef = 853AD03A143FDDA000416E54 /* TimeMachine Timmy.icns */; };
 		853AD03E143FE30100416E54 /* tractor-white.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 853AD03D143FE30100416E54 /* tractor-white.tiff */; };
+		85C8F9A015AAAEDD006823A1 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 85C8F99F15AAAEDD006823A1 /* libsqlite3.dylib */; };
 		F203730F142CCC740053C4A5 /* Items.m in Sources */ = {isa = PBXBuildFile; fileRef = F203730E142CCC730053C4A5 /* Items.m */; };
 		F2037312142CD8D20053C4A5 /* ItemsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F2037311142CD8D20053C4A5 /* ItemsRequest.m */; };
 		F2A0B49C14207CA000F07F32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A0B49B14207CA000F07F32 /* Cocoa.framework */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		853AD03A143FDDA000416E54 /* TimeMachine Timmy.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "TimeMachine Timmy.icns"; sourceTree = "<group>"; };
 		853AD03D143FE30100416E54 /* tractor-white.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "tractor-white.tiff"; sourceTree = "<group>"; };
+		85C8F99F15AAAEDD006823A1 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		F203730D142CCC730053C4A5 /* Items.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Items.h; sourceTree = "<group>"; };
 		F203730E142CCC730053C4A5 /* Items.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Items.m; sourceTree = "<group>"; };
 		F2037310142CD8D20053C4A5 /* ItemsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemsRequest.h; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				85C8F9A015AAAEDD006823A1 /* libsqlite3.dylib in Frameworks */,
 				F2EF60C2142BFBDD009FC44C /* IOKit.framework in Frameworks */,
 				F2EF60B4142ABCA1009FC44C /* ScriptingBridge.framework in Frameworks */,
 				F2A0B49C14207CA000F07F32 /* Cocoa.framework in Frameworks */,
@@ -144,9 +147,10 @@
 		F2A0B49A14207CA000F07F32 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				85C8F99F15AAAEDD006823A1 /* libsqlite3.dylib */,
+				F2A0B49B14207CA000F07F32 /* Cocoa.framework */,
 				F2EF60C1142BFBDD009FC44C /* IOKit.framework */,
 				F2EF60B3142ABCA1009FC44C /* ScriptingBridge.framework */,
-				F2A0B49B14207CA000F07F32 /* Cocoa.framework */,
 				F2A0B4BC14207CA000F07F32 /* SenTestingKit.framework */,
 				F2A0B49D14207CA000F07F32 /* Other Frameworks */,
 			);
