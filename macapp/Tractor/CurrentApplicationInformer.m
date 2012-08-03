@@ -191,7 +191,7 @@ int skypeCallback(void *ret, int argc, char **argv, char **column)
     }
   }
   
-  if (name == nil) name = @"Skype";
+  if (name == nil) name = [names lastObject];
 
   // strip leading duration ("01:23 | ") from Skype conference calls
   NSError *err = nil;
