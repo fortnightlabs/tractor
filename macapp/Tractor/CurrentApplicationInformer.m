@@ -209,7 +209,7 @@ int skypeCallback(void *ret, int argc, char **argv, char **column)
   [ret setValue:name forKey:@"title"];
 
   if (skypeDatabase) {
-    sqlite3_exec(skypeDatabase, "select friendlyname from chats order by activity_timestamp desc limit 1;", skypeCallback, ret, nil);
+    sqlite3_exec(skypeDatabase, "select current_video_audience as name, begin_timestamp as time from calls union select friendlyname as name, activity_timestamp as time from chats order by time desc limit 1;", skypeCallback, ret, nil);
   }
 
   return ret;
