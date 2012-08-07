@@ -173,7 +173,7 @@
 int skypeCallback(void *ret, int argc, char **argv, char **column)
 {
   if (argc) {
-    [(NSMutableDictionary *)ret setValue:[NSString stringWithUTF8String:argv[0]] forKey:@"chat"];
+    [(NSMutableDictionary *)ret setValue:[NSString stringWithUTF8String:argv[0]] forKey:@"subject"];
   }
   return 0;
 }
