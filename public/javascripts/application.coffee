@@ -179,6 +179,26 @@ class Tractor.AllItems extends Tractor.Items
   next: (n = 1) -> @at Math.min(@_cursor[1] + n, @length - 1)
   prev: (n = 1) -> @at Math.max(@_cursor[0] - n, 0)
 
+  nextAssigned: (assigned) ->
+    max = @length - 1 - @_cursor[1]
+    n = 1
+    if assigned or @next().get('projectId')?
+      n++ while n < max && @next(n).get('projectId')?
+      @next n
+    else
+      n++ until n == max || @next(n).get('projectId')?
+      @next n - 1
+  prevAssigned: (assigned) ->
+    max = @_cursor[0]
+    n = 1
+    prev =
+      if assigned or @prev().get('projectId')?
+        n++ while n < max && @prev(n).get('projectId')?
+        @prev n
+      else
+        n++ until n == max || @prev(n).get('projectId')?
+        @prev n - 1
+
   changeCursor: (model, val) ->
     return unless val
     @cursor().without(model).invoke 'set', cursor: false if val
