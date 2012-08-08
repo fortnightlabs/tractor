@@ -2,3 +2,4 @@
 ./public/stylesheets/*
 ./tmp/*
 ./views/*
+./macapp/*
