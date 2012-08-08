@@ -26,6 +26,6 @@
 }
 
 - (CurrentApplicationInfo *)currentApplicationInfo;
-int skypeCallback(void *ret, int argc, char **argv, char **column);
+int skypeTranslateSQLResultToDictionary(void *ret, int argc, char **argv, char **column);
 
 @end

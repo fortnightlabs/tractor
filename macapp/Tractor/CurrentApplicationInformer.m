@@ -170,11 +170,15 @@
       nil];
 }
 
-int skypeCallback(void *ret, int argc, char **argv, char **column)
+int skypeTranslateSQLResultToDictionary(void *ret, int argc, char **argv, char **column)
 {
   if (argc) {
-    [(NSMutableDictionary *)ret setValue:[NSString stringWithUTF8String:argv[0]] forKey:@"subject"];
+    // 0 - time, 1 - subject, 2 - recipients
+    NSMutableDictionary *dict = (NSMutableDictionary *)ret;
+    [dict setValue:[NSString stringWithUTF8String:argv[1]] forKey:@"subject"];
+    [dict setValue:[NSString stringWithUTF8String:argv[2]] forKey:@"recipients"];
   }
+  
   return 0;
 }
 
@@ -209,7 +213,7 @@ int skypeCallback(void *ret, int argc, char **argv, char **column)
   [ret setValue:name forKey:@"title"];
 
   if (skypeDatabase) {
-    sqlite3_exec(skypeDatabase, "select current_video_audience as name, begin_timestamp as time from calls union select friendlyname as name, activity_timestamp as time from chats order by time desc limit 1;", skypeCallback, ret, nil);
+    sqlite3_exec(skypeDatabase, "select begin_timestamp as time, friendlyname as subject, participants as recipients from calls inner join conversations on calls.conv_dbid = conversations.id inner join chats on conversations.chat_dbid = chats.id union select activity_timestamp as time, friendlyname as subject, participants as recipients from chats order by time desc limit 1;", skypeTranslateSQLResultToDictionary, ret, nil);
   }
 
   return ret;
