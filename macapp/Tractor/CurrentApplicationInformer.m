@@ -9,8 +9,9 @@
 
 - (NSDictionary *)sbInfoForBundleIdentifier:(NSString *)bundleIdentifier;
 - (NSDictionary *)sbInfoForChrome:(ChromeApplication *)chrome;
-- (NSDictionary *)sbInfoForSafari:(SafariApplication *)safari;
 - (NSDictionary *)sbInfoForMail:(MailApplication *)mail;
+- (NSDictionary *)sbInfoForMessages:(MessagesApplication *)messages;
+- (NSDictionary *)sbInfoForSafari:(SafariApplication *)safari;
 - (NSDictionary *)sbInfoForSkype:(SkypeApplication *)skype;
 - (NSDictionary *)sbInfoForOther:(SBApplication *)application;
 
@@ -124,7 +125,9 @@
     } else if ([@"com.apple.Safari" isEqual:bundleIdentifier] ||
                [@"org.webkit.nightly.WebKit" isEqual:bundleIdentifier]) {
       ret = [self sbInfoForSafari:(SafariApplication *) application];
-    } else if([@"com.skype.skype" isEqual:bundleIdentifier]) {
+    } else if ([@"com.apple.iChat" isEqual:bundleIdentifier]) {
+      ret = [self sbInfoForMessages:(MessagesApplication *) application];
+    } else if ([@"com.skype.skype" isEqual:bundleIdentifier]) {
       ret = [self sbInfoForSkype:(SkypeApplication *) application];
     } else {
       // NSLog(@"BundleIdentifier: %@", bundleIdentifier);
@@ -176,6 +179,16 @@
   return [NSDictionary dictionaryWithObjectsAndKeys:
       sender, @"sender",
       subject, @"title",
+      recipients, @"recipients",
+      nil];
+}
+
+- (NSDictionary *)sbInfoForMessages:(MessagesApplication *)messages
+{
+  MessagesChat *activeChat = [[messages chats] lastObject];
+  NSArray *recipients = [[activeChat participants] valueForKey:@"name"];
+
+  return [NSDictionary dictionaryWithObjectsAndKeys:
       recipients, @"recipients",
       nil];
 }

@@ -46,6 +46,7 @@
 /* Begin PBXFileReference section */
 		853AD03A143FDDA000416E54 /* TimeMachine Timmy.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "TimeMachine Timmy.icns"; sourceTree = "<group>"; };
 		853AD03D143FE30100416E54 /* tractor-white.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "tractor-white.tiff"; sourceTree = "<group>"; };
+		85BC4F5515D99A05008FD547 /* Messages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Messages.h; sourceTree = "<group>"; };
 		85C8F99F15AAAEDD006823A1 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		F203730D142CCC730053C4A5 /* Items.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Items.h; sourceTree = "<group>"; };
 		F203730E142CCC730053C4A5 /* Items.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Items.m; sourceTree = "<group>"; };
@@ -192,10 +193,11 @@
 			children = (
 				F2EF60AD142AA3FA009FC44C /* JSONKit.h */,
 				F2EF60AE142AA3FA009FC44C /* JSONKit.m */,
+				F2EF60AA142A8F49009FC44C /* Chrome.h */,
 				F2EF60AB142A8F7B009FC44C /* Mail.h */,
+				85BC4F5515D99A05008FD547 /* Messages.h */,
 				F2EF60AC142A8F7B009FC44C /* Safari.h */,
 				F212B089143E2982001414F8 /* Skype.h */,
-				F2EF60AA142A8F49009FC44C /* Chrome.h */,
 				F2A0B4A314207CA000F07F32 /* Tractor-Info.plist */,
 				F2A0B4A414207CA000F07F32 /* InfoPlist.strings */,
 				F2A0B4A714207CA000F07F32 /* main.m */,
