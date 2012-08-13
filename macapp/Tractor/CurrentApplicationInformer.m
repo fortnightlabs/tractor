@@ -158,10 +158,20 @@
 - (NSDictionary *)sbInfoForMail:(MailApplication *)mail
 {
   MailMessageViewer *messageViewer = [[mail messageViewers] objectAtIndex:0];
-  MailMessage *message = [[messageViewer selectedMessages] objectAtIndex:0];
-  NSString *sender = [message sender];
-  NSString *subject = [message subject];
-  NSArray *recipients = [[message recipients] arrayByApplyingSelector:@selector(address)];
+
+  NSArray *selectedMessages = [messageViewer selectedMessages];
+  MailMessage *mostRecentMessage = [selectedMessages objectAtIndex:0];
+
+  // get the most recent message in the selected set
+  for (MailMessage *message in selectedMessages) {
+    if ([[message dateReceived] compare:[mostRecentMessage dateReceived]] == NSOrderedDescending) {
+      mostRecentMessage = message;
+    }
+  }
+
+  NSString *sender = [mostRecentMessage sender];
+  NSString *subject = [mostRecentMessage subject];
+  NSArray *recipients = [[mostRecentMessage recipients] arrayByApplyingSelector:@selector(address)];
 
   return [NSDictionary dictionaryWithObjectsAndKeys:
       sender, @"sender",
