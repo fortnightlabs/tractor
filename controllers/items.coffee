@@ -52,26 +52,24 @@ module.exports = (app) ->
     Item.search(req.param('query')).onDay(req.param('date')).sorted.find {}, ['_id', 'projectId', 'duration'], (err, items) ->
       return next(err) if err?
 
-      # if an item takes < 30s and is preceded and succeeded by items
-      # that are both assigned to the same project, then assign the
-      # unassigned item to the preceeding / succeeding items' project
+      # assign all unassigned items that take less than 30s into the
+      # succedding item's project
       sweeps = {}
       for item in items
         if (pid = item.projectId)
-          if toSweep?.length and pid.equals lastProjectId
+          if toSweep?.length
             a = (sweeps[pid] or= [])
             a.push.apply a, toSweep
           toSweep = []
-          lastProjectId = pid
         else if item.duration > 30
-          toSweep = null
+          toSweep = []
         else if toSweep?
           toSweep.push item.id
 
       # convert to object ids
       oid = require('mongoose').Types.ObjectId.createFromHexString
       sweeps = for k, v of sweeps
-        (ids: oid(i) for i in v, projectId: oid(k))
+        { ids: (oid(i) for i in v), projectId: oid(k) }
 
       for set in sweeps
         console.log 'Sweeping %d items into %s', set.ids.length, set.projectId
