@@ -8,6 +8,8 @@
 - (NSMutableDictionary *)axInfoForProcessIdentifier:(NSNumber *)processIdentifier;
 
 - (NSDictionary *)sbInfoForBundleIdentifier:(NSString *)bundleIdentifier;
+
+NSString *gmailInputValueJavascriptForPart(NSString *part);
 - (NSDictionary *)sbInfoForChrome:(ChromeApplication *)chrome;
 - (NSDictionary *)sbInfoForSafari:(SafariApplication *)safari;
 - (NSDictionary *)sbInfoForMail:(MailApplication *)mail;
@@ -135,13 +137,33 @@
   return ret;
 }
 
+NSString *gmailInputValueJavascriptForPart(NSString *part)
+{
+  return [NSString stringWithFormat:@"window.frames['canvas_frame'].contentDocument.forms[1].elements.%@.value", part];
+}
+
 - (NSDictionary *)sbInfoForChrome:(ChromeApplication *)chrome
 {
   ChromeTab *tab = [[[chrome windows] objectAtIndex:0] activeTab];
 
+  // TODO DRY this with the safari bits below
+  NSString *title = [tab title];
+  NSString *url = [tab URL];
+  NSString *to = nil, *subject = nil, *cc = nil, *bcc = nil;  
+  if ([url hasPrefix:@"https://mail.google.com"] && [title hasPrefix:@"Compose Mail"]) {
+    to = [tab executeJavascript:gmailInputValueJavascriptForPart(@"to")];
+    subject = [tab executeJavascript:gmailInputValueJavascriptForPart(@"subject")];
+    cc = [tab executeJavascript:gmailInputValueJavascriptForPart(@"cc")];
+    bcc = [tab executeJavascript:gmailInputValueJavascriptForPart(@"bcc")];
+  }
+
   return [NSDictionary dictionaryWithObjectsAndKeys:
-      [tab title], @"title",
-      [tab URL], @"url",
+      title, @"title",
+      url, @"url",
+      to, @"to",
+      subject, @"subject",
+      cc, @"cc",
+      bcc, @"bcc",
       nil];
 }
 
@@ -149,10 +171,25 @@
 {
   SafariTab *tab = [[[safari windows] objectAtIndex:0] currentTab];
 
+  // TODO DRY this with the chrome bits above
+  NSString *title = [tab name];
+  NSString *url = [tab URL];
+  NSString *to = nil, *subject = nil, *cc = nil, *bcc = nil;  
+  if ([url hasPrefix:@"https://mail.google.com"] && [title hasPrefix:@"Compose Mail"]) {
+    to = [safari doJavaScript:gmailInputValueJavascriptForPart(@"to") in:tab];
+    subject = [safari doJavaScript:gmailInputValueJavascriptForPart(@"subject") in:tab];
+    cc = [safari doJavaScript:gmailInputValueJavascriptForPart(@"cc") in:tab];
+    bcc = [safari doJavaScript:gmailInputValueJavascriptForPart(@"bcc") in:tab];
+  }
+  
   return [NSDictionary dictionaryWithObjectsAndKeys:
-      [tab name], @"title",
-      [tab URL], @"url",
-      nil];
+          title, @"title",
+          url, @"url",
+          to, @"to",
+          subject, @"subject",
+          cc, @"cc",
+          bcc, @"bcc",
+          nil];
 }
 
 - (NSDictionary *)sbInfoForMail:(MailApplication *)mail
@@ -188,7 +225,7 @@
   NSRegularExpression *regexp = [NSRegularExpression regularExpressionWithPattern:@"^(?:\\d{2}:)+\\d{2} \\| "
                                                                           options:0
                                                                             error:&err];
-  if (!err) {
+  if (!err && name) {
     NSRange range = { .location = 0, .length = [name length] };
     name = [regexp stringByReplacingMatchesInString:name
                                             options:0
