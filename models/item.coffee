@@ -80,6 +80,7 @@ ItemSchema.pre 'save', (next) ->
   if @info
     search.push @info.title
     search.push @info.sender
+    search.push @info.to
     search.push @info.recipients
     search.push @info.subject
     search.push @info.url
