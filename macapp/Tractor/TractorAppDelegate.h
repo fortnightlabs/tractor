@@ -8,14 +8,7 @@
   Items *items;
   TractorController *controller;
 
-  NSPersistentStoreCoordinator *__persistentStoreCoordinator;
-  NSManagedObjectModel *__managedObjectModel;
-  NSManagedObjectContext *__managedObjectContext;
 }
-
-@property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
-@property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 
 - (IBAction)dumpItems:(id)sender;
 - (IBAction)uploadItems:(id)sender;

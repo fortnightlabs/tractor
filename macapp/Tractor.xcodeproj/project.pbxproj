@@ -11,6 +11,7 @@
 		853AD03E143FE30100416E54 /* tractor-white.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 853AD03D143FE30100416E54 /* tractor-white.tiff */; };
 		F203730F142CCC740053C4A5 /* Items.m in Sources */ = {isa = PBXBuildFile; fileRef = F203730E142CCC730053C4A5 /* Items.m */; };
 		F2037312142CD8D20053C4A5 /* ItemsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F2037311142CD8D20053C4A5 /* ItemsRequest.m */; };
+		F29409DE168744FF00A80E04 /* ManagedObjectContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F29409DD168744FF00A80E04 /* ManagedObjectContext.m */; };
 		F2A0B49C14207CA000F07F32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A0B49B14207CA000F07F32 /* Cocoa.framework */; };
 		F2A0B4A614207CA000F07F32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4A414207CA000F07F32 /* InfoPlist.strings */; };
 		F2A0B4A814207CA000F07F32 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0B4A714207CA000F07F32 /* main.m */; };
@@ -50,6 +51,8 @@
 		F2037310142CD8D20053C4A5 /* ItemsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemsRequest.h; sourceTree = "<group>"; };
 		F2037311142CD8D20053C4A5 /* ItemsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemsRequest.m; sourceTree = "<group>"; };
 		F212B089143E2982001414F8 /* Skype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skype.h; sourceTree = "<group>"; };
+		F29409DC168744FF00A80E04 /* ManagedObjectContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjectContext.h; sourceTree = "<group>"; };
+		F29409DD168744FF00A80E04 /* ManagedObjectContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedObjectContext.m; sourceTree = "<group>"; };
 		F2A0B49714207CA000F07F32 /* Tractor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tractor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2A0B49B14207CA000F07F32 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F2A0B49E14207CA000F07F32 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -76,8 +79,6 @@
 		F2EF60AA142A8F49009FC44C /* Chrome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chrome.h; sourceTree = "<group>"; };
 		F2EF60AB142A8F7B009FC44C /* Mail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mail.h; sourceTree = "<group>"; };
 		F2EF60AC142A8F7B009FC44C /* Safari.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Safari.h; sourceTree = "<group>"; };
-		F2EF60AD142AA3FA009FC44C /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = JSONKit/JSONKit.h; sourceTree = "<group>"; };
-		F2EF60AE142AA3FA009FC44C /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = JSONKit/JSONKit.m; sourceTree = "<group>"; };
 		F2EF60B0142AA4A0009FC44C /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		F2EF60B1142AA4A0009FC44C /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
 		F2EF60B3142ABCA1009FC44C /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
@@ -173,6 +174,8 @@
 				F2EF60BF142BEE97009FC44C /* TractorController.m */,
 				F2EF60A6142A8C46009FC44C /* CurrentApplicationInformer.h */,
 				F2EF60A7142A8C46009FC44C /* CurrentApplicationInformer.m */,
+				F29409DC168744FF00A80E04 /* ManagedObjectContext.h */,
+				F29409DD168744FF00A80E04 /* ManagedObjectContext.m */,
 				F2A0B4D31420845200F07F32 /* tractor.tiff */,
 				853AD03D143FE30100416E54 /* tractor-white.tiff */,
 				F2A0B4B014207CA000F07F32 /* MainMenu.xib */,
@@ -340,6 +343,7 @@
 				F2EF60C0142BEE97009FC44C /* TractorController.m in Sources */,
 				F203730F142CCC740053C4A5 /* Items.m in Sources */,
 				F2037312142CD8D20053C4A5 /* ItemsRequest.m in Sources */,
+				F29409DE168744FF00A80E04 /* ManagedObjectContext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

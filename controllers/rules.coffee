@@ -33,6 +33,7 @@ module.exports = (app) ->
   app.post '/rules/:ruleId/run', (req, res, next) ->
     req.rule.run {}, (err, result) ->
       res.next err if err
+      console.log result
       res.redirect '/rules'
 
   app.resource 'rules'
