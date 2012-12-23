@@ -1,5 +1,4 @@
 #import "TractorController.h"
-#import "JSONKit.h"
 
 #include <IOKit/IOKitLib.h>
 static int64_t SystemIdleSeconds(void);
@@ -73,7 +72,11 @@ static int64_t SystemIdleSeconds(void);
                            atStart:(NSDate *)start;
 {
   NSDate *now = [NSDate date];
-  NSData *infoData = [info JSONData];
+  NSError *error;
+  NSData *infoData = [NSJSONSerialization dataWithJSONObject:info options:0 error:&error];
+  if (error) {
+    NSLog(@"Error serializing info: %@", error);
+  }
 
   // TODO handle when now is before start (can happen due to idle time)
 

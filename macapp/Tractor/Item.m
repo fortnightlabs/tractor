@@ -1,5 +1,4 @@
 #import "Item.h"
-#import "JSONKit.h"
 
 #import <time.h>
 #import <xlocale.h>
@@ -25,7 +24,13 @@ static NSString *JSONDate(NSDate *date);
   NSString *app = [self app];
   NSString *startStr = JSONDate([self start]);
   NSString *endStr = JSONDate([self end]);
-  id info = [[self info] objectFromJSONData];
+
+  NSError *error;
+  id info = [NSJSONSerialization JSONObjectWithData:[self info] options:0 error:&error];  
+  if (error) {
+    NSLog(@"Error deserializing item json: %@", error);
+    info = nil;
+  }
 
   #define NULLNIL(__x__) ((__x__) ? (__x__) : [NSNull null])
   NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:

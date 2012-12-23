@@ -1,5 +1,4 @@
 #import "Items.h"
-#import "JSONKit.h"
 
 @implementation Items
 
@@ -53,9 +52,9 @@
   [request sortBy:@"start" ascending:YES];
 
   NSError *error = nil;
-  NSString *dump = [[request JSONArray] JSONStringWithOptions:JKSerializeOptionPretty error:&error];
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[request JSONArray] options:0 error:&error];
   if (!error) {
-    [dump writeToURL:url atomically:NO encoding:NSUTF8StringEncoding error:&error]; 
+    [jsonData writeToURL:url atomically:NO];
   }
   if (error) {
     NSLog(@"Couldn't save: %@", [error localizedDescription]);
@@ -75,10 +74,17 @@
   [itemsRequest filter:@"start < %@ AND uploaded = nil", [[self latestItem] start]];
   items = [itemsRequest all];
 
-  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-  [request setHTTPBody:[[ItemsRequest JSONArray:items] JSONData]];
-  [request setHTTPMethod:@"POST"];
+  NSArray *jsonArray = [ItemsRequest JSONArray:items];
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonArray options:0 error:&error];
+  if (error) {
+    NSLog(@"Could not serialize JSON data %@", error);
+    return;
+  }
   
+  [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+  [request setHTTPBody:jsonData];
+  [request setHTTPMethod:@"POST"];
+
   NSData *data = [NSURLConnection sendSynchronousRequest:request
                                        returningResponse:&response
                                                    error:&error];
