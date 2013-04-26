@@ -34,7 +34,7 @@
 
 - (IBAction)assignTime:(id)sender
 {
-  AssignTimeWindowController *atwc = [[AssignTimeWindowController alloc] initWithWindowNibName:@"AssignTimeWindowController"];
+  AssignTimeWindowController *atwc = [[AssignTimeWindowController alloc] initWithWindowNibName:@"AssignTimeWindow"];
   [atwc setItems:items];
   NSWindow *w = [atwc window];
   [w makeKeyAndOrderFront:sender];

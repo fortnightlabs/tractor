@@ -17,5 +17,6 @@
 - (NSString *)durationDescription;
 - (NSString *)summary;
 - (NSString *)startString;
+- (NSString *)fileName;
 
 @end

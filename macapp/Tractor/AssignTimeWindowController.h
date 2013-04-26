@@ -3,18 +3,18 @@
 //  Tractor
 #import <Cocoa/Cocoa.h>
 #import "Items.h"
+#import "ItemDetailViewController.h"
 
 @interface AssignTimeWindowController : NSWindowController {
-  IBOutlet NSTextFieldCell *textField;
   IBOutlet NSTableView *itemsTable;
   IBOutlet NSDatePickerCell *datePicker;
+  IBOutlet ItemDetailViewController *itemDetailViewController;
   
   NSArray *tableItems;
   NSDate *currentDate;
 }
 
 @property (nonatomic, retain) Items *items;
-
 
 #pragma mark - datePicker
 

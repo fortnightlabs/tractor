@@ -79,11 +79,7 @@
 
 - (void)setCurrentItem:(Item *)item
 {
-  if (item) {
-    [textField setStringValue:[item summary]];
-  } else {
-    [textField setStringValue:@""];
-  }
+  [itemDetailViewController setCurrentItem:item];
 }
 
 #pragma mark - itemsTable

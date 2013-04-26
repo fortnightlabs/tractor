@@ -4,6 +4,12 @@
 #import <math.h>
 static NSString *JSONDate(NSDate *date);
 
+@interface Item (PRIVATE)
+
+- (NSDictionary *)infoDictionary;
+
+@end
+
 @implementation Item
 @dynamic start;
 @dynamic end;
@@ -23,13 +29,7 @@ static NSString *JSONDate(NSDate *date);
   NSString *app = [self app];
   NSString *startStr = JSONDate([self start]);
   NSString *endStr = JSONDate([self end]);
-
-  NSError *error;
-  id info = [NSJSONSerialization JSONObjectWithData:[self info] options:0 error:&error];  
-  if (error) {
-    NSLog(@"Error deserializing item json: %@", error);
-    info = nil;
-  }
+  NSDictionary *info = [self infoDictionary];
 
   #define NULLNIL(__x__) ((__x__) ? (__x__) : [NSNull null])
   NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -81,16 +81,7 @@ static NSString *JSONDate(NSDate *date);
   NSString *summary = @"";
   NSString *val = nil;
   
-  NSError *error = nil;
-  NSDictionary *info = nil;
-  if ([self info]) {
-    info = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:[self info] options:0 error:&error];
-    if (error) {
-      NSLog(@"Error deserializing item json: %@", error);
-      info = nil;
-    }
-  }
-
+  NSDictionary *info = [self infoDictionary];
   
   // start / duration
   summary = [summary stringByAppendingFormat:@"%@ - %@\n", [self startString], [self durationDescription]];
@@ -118,6 +109,46 @@ static NSString *JSONDate(NSDate *date);
   }
   
   return summary;
+}
+
+- (NSString *)fileName
+{
+  NSDictionary *info = [self infoDictionary];
+  NSString *val = nil;
+  NSString *fileName = nil;
+
+  // path
+  if (info && (val = [info objectForKey:@"path"]) && ([val length] > 0)) {
+    fileName = [val lastPathComponent];
+  }
+  
+  // url
+//  if (!fileName && info && !val && (val = [info objectForKey:@"url"]) && ([val length] > 0)) {
+//    summary = [summary stringByAppendingFormat:@"\nURL: %@", val];
+//  }
+
+  // title
+  if (!fileName && info && (val = [info objectForKey:@"title"]) && ([val length] > 0)) {
+    fileName = val;
+  }
+  
+  return fileName;
+}
+
+- (NSDictionary *)infoDictionary
+{
+  NSError *error = nil;
+  NSDictionary *info = nil;
+
+  if ([self info]) {
+    info = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:[self info] options:0 error:&error];
+    if (error) {
+      NSLog(@"Error deserializing item json: %@", error);
+      info = nil;
+    }
+  }
+
+  return info;
 }
 
 @end
