@@ -11,6 +11,7 @@
 		853AD03E143FE30100416E54 /* tractor-white.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 853AD03D143FE30100416E54 /* tractor-white.tiff */; };
 		F203730F142CCC740053C4A5 /* Items.m in Sources */ = {isa = PBXBuildFile; fileRef = F203730E142CCC730053C4A5 /* Items.m */; };
 		F2037312142CD8D20053C4A5 /* ItemsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F2037311142CD8D20053C4A5 /* ItemsRequest.m */; };
+		F237D21D1729FC0D005C1296 /* NSDate+DayExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F237D21C1729FC0D005C1296 /* NSDate+DayExtensions.m */; };
 		F29409DE168744FF00A80E04 /* ManagedObjectContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F29409DD168744FF00A80E04 /* ManagedObjectContext.m */; };
 		F2A0B49C14207CA000F07F32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A0B49B14207CA000F07F32 /* Cocoa.framework */; };
 		F2A0B4A614207CA000F07F32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4A414207CA000F07F32 /* InfoPlist.strings */; };
@@ -25,6 +26,8 @@
 		F2A0B4C814207CA000F07F32 /* TractorTests.h in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4C714207CA000F07F32 /* TractorTests.h */; };
 		F2A0B4CA14207CA000F07F32 /* TractorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0B4C914207CA000F07F32 /* TractorTests.m */; };
 		F2A0B4D41420845200F07F32 /* tractor.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4D31420845200F07F32 /* tractor.tiff */; };
+		F2E654481728AE5F00FC7AFF /* AssignTimeWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2E654461728AE5F00FC7AFF /* AssignTimeWindowController.m */; };
+		F2E654491728AE5F00FC7AFF /* AssignTimeWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2E654471728AE5F00FC7AFF /* AssignTimeWindowController.xib */; };
 		F2EF60A8142A8C46009FC44C /* CurrentApplicationInformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F2EF60A7142A8C46009FC44C /* CurrentApplicationInformer.m */; };
 		F2EF60B2142AA4A0009FC44C /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = F2EF60B1142AA4A0009FC44C /* Item.m */; };
 		F2EF60B4142ABCA1009FC44C /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EF60B3142ABCA1009FC44C /* ScriptingBridge.framework */; };
@@ -50,6 +53,8 @@
 		F2037310142CD8D20053C4A5 /* ItemsRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemsRequest.h; sourceTree = "<group>"; };
 		F2037311142CD8D20053C4A5 /* ItemsRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemsRequest.m; sourceTree = "<group>"; };
 		F212B089143E2982001414F8 /* Skype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skype.h; sourceTree = "<group>"; };
+		F237D21B1729FC0D005C1296 /* NSDate+DayExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DayExtensions.h"; sourceTree = "<group>"; };
+		F237D21C1729FC0D005C1296 /* NSDate+DayExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DayExtensions.m"; sourceTree = "<group>"; };
 		F29409DC168744FF00A80E04 /* ManagedObjectContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjectContext.h; sourceTree = "<group>"; };
 		F29409DD168744FF00A80E04 /* ManagedObjectContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedObjectContext.m; sourceTree = "<group>"; };
 		F2A0B49714207CA000F07F32 /* Tractor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tractor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,6 +78,9 @@
 		F2A0B4C714207CA000F07F32 /* TractorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TractorTests.h; sourceTree = "<group>"; };
 		F2A0B4C914207CA000F07F32 /* TractorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TractorTests.m; sourceTree = "<group>"; };
 		F2A0B4D31420845200F07F32 /* tractor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = tractor.tiff; sourceTree = "<group>"; };
+		F2E654451728AE5F00FC7AFF /* AssignTimeWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssignTimeWindowController.h; sourceTree = "<group>"; };
+		F2E654461728AE5F00FC7AFF /* AssignTimeWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssignTimeWindowController.m; sourceTree = "<group>"; };
+		F2E654471728AE5F00FC7AFF /* AssignTimeWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AssignTimeWindowController.xib; sourceTree = "<group>"; };
 		F2EF60A6142A8C46009FC44C /* CurrentApplicationInformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentApplicationInformer.h; sourceTree = "<group>"; };
 		F2EF60A7142A8C46009FC44C /* CurrentApplicationInformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentApplicationInformer.m; sourceTree = "<group>"; };
 		F2EF60AA142A8F49009FC44C /* Chrome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chrome.h; sourceTree = "<group>"; };
@@ -171,6 +179,10 @@
 				F2A0B4AE14207CA000F07F32 /* TractorAppDelegate.m */,
 				F2EF60BE142BEE97009FC44C /* TractorController.h */,
 				F2EF60BF142BEE97009FC44C /* TractorController.m */,
+				F2E654451728AE5F00FC7AFF /* AssignTimeWindowController.h */,
+				F2E654461728AE5F00FC7AFF /* AssignTimeWindowController.m */,
+				F237D21B1729FC0D005C1296 /* NSDate+DayExtensions.h */,
+				F237D21C1729FC0D005C1296 /* NSDate+DayExtensions.m */,
 				F2EF60A6142A8C46009FC44C /* CurrentApplicationInformer.h */,
 				F2EF60A7142A8C46009FC44C /* CurrentApplicationInformer.m */,
 				F29409DC168744FF00A80E04 /* ManagedObjectContext.h */,
@@ -178,6 +190,7 @@
 				F2A0B4D31420845200F07F32 /* tractor.tiff */,
 				853AD03D143FE30100416E54 /* tractor-white.tiff */,
 				F2A0B4B014207CA000F07F32 /* MainMenu.xib */,
+				F2E654471728AE5F00FC7AFF /* AssignTimeWindowController.xib */,
 				F2A0B4B314207CA000F07F32 /* Tractor.xcdatamodeld */,
 				F2037313142CDDBA0053C4A5 /* Items */,
 				F2A0B4A214207CA000F07F32 /* Supporting Files */,
@@ -296,6 +309,7 @@
 				F2A0B4D41420845200F07F32 /* tractor.tiff in Resources */,
 				853AD03B143FDDA000416E54 /* TimeMachine Timmy.icns in Resources */,
 				853AD03E143FE30100416E54 /* tractor-white.tiff in Resources */,
+				F2E654491728AE5F00FC7AFF /* AssignTimeWindowController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +354,8 @@
 				F203730F142CCC740053C4A5 /* Items.m in Sources */,
 				F2037312142CD8D20053C4A5 /* ItemsRequest.m in Sources */,
 				F29409DE168744FF00A80E04 /* ManagedObjectContext.m in Sources */,
+				F2E654481728AE5F00FC7AFF /* AssignTimeWindowController.m in Sources */,
+				F237D21D1729FC0D005C1296 /* NSDate+DayExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

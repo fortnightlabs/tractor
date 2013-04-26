@@ -54,7 +54,7 @@
 
 - (void)limit:(NSUInteger)count
 {
-  [self setFetchLimit:1];
+  [self setFetchLimit:count];
 }
 
 - (void)filter:(NSString *)filter, ...

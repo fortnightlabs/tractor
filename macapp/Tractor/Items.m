@@ -1,4 +1,5 @@
 #import "Items.h"
+#import "NSDate+DayExtensions.h"
 
 @implementation Items
 
@@ -35,6 +36,18 @@
   [request filter:@"start <= %@", [NSDate date]];
   [request sortBy:@"start" ascending:NO];
   return [request first];
+}
+
+- (NSArray *)itemsForDay:(NSDate *)date
+{
+  
+  NSDate *start = [date beginningOfDay];
+  NSDate *end = [date endOfDay];
+
+  ItemsRequest *request = [self request];
+  [request filter:@"start > %@ AND start <= %@", start, end];
+  [request sortBy:@"start" ascending:NO];
+  return [request all];
 }
 
 - (ItemsRequest *)request

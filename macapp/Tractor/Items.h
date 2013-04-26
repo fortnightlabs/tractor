@@ -12,6 +12,8 @@
 - (Item *)addItem;
 - (Item *)latestItem;
 
+- (NSArray *)itemsForDay:(NSDate *)date;
+
 - (ItemsRequest *)request;
 
 - (void)dumpJSONToFileURL:(NSURL *)url;

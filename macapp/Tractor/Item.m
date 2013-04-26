@@ -1,5 +1,4 @@
 #import "Item.h"
-
 #import <time.h>
 #import <xlocale.h>
 #import <math.h>
@@ -42,9 +41,83 @@ static NSString *JSONDate(NSDate *date);
   return dict;
 }
 
--(NSString *)description
+- (NSString *)description
 {
   return [NSString stringWithFormat:@"%@ (%@ - %@)", [self app], [self start], [self end]];
+}
+
+- (NSTimeInterval)duration
+{
+  return [[self end] timeIntervalSinceDate:[self start]];
+}
+
+- (NSString *)durationDescription
+{
+  NSTimeInterval duration = [self duration];
+  NSString *desc = nil;
+
+  if (duration < 0) {
+    desc = @"0s";
+  } else if (duration < 60) {
+    desc = [NSString stringWithFormat:@"%.0fs", duration];
+  } else if (duration < 3600) {
+    desc = [NSString stringWithFormat:@"%.0fm", duration / 60];
+  } else {
+    desc = [NSString stringWithFormat:@"%.1fh", duration / 3600];
+  }
+
+  return desc;
+}
+
+- (NSString *)startString
+{
+  return [NSDateFormatter localizedStringFromDate:[self start]
+                                        dateStyle:NSDateFormatterNoStyle
+                                        timeStyle:NSDateFormatterShortStyle];
+}
+
+- (NSString *)summary
+{
+  NSString *summary = @"";
+  NSString *val = nil;
+  
+  NSError *error = nil;
+  NSDictionary *info = nil;
+  if ([self info]) {
+    info = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:[self info] options:0 error:&error];
+    if (error) {
+      NSLog(@"Error deserializing item json: %@", error);
+      info = nil;
+    }
+  }
+
+  
+  // start / duration
+  summary = [summary stringByAppendingFormat:@"%@ - %@\n", [self startString], [self durationDescription]];
+
+  // name
+  if ((val = [self app]) && ([val length] > 0)) {
+    summary = [summary stringByAppendingFormat:@"%@\n", val];
+  } else {
+    summary = [summary stringByAppendingString:@"Away"];
+  }
+  
+  // title
+  if (info && (val = [info objectForKey:@"title"]) && ([val length] > 0)) {
+    summary = [summary stringByAppendingFormat:@"\nTitle: %@", val];
+  }
+
+  // path
+  if (info && (val = [info objectForKey:@"path"]) && ([val length] > 0)) {
+    summary = [summary stringByAppendingFormat:@"\nFile: %@", val];
+  }
+
+  // url
+  if (info && (val = [info objectForKey:@"url"]) && ([val length] > 0)) {
+    summary = [summary stringByAppendingFormat:@"\nURL: %@", val];
+  }
+  
+  return summary;
 }
 
 @end
@@ -57,6 +130,6 @@ NSString *JSONDate(NSDate *date) {
   struct tm t;
   gmtime_r(&secs, &t);
 
-  return [NSString stringWithFormat:@"%04d-%02d-%02dT%02d:%02d:%02d.%04dZ",
+  return [NSString stringWithFormat:@"%04d-%02d-%02dT%02d:%02d:%02d.%04ldZ",
           t.tm_year + 1900, t.tm_mon + 1, t.tm_mday, t.tm_hour, t.tm_min, t.tm_sec, ms];
 }

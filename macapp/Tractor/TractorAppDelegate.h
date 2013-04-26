@@ -7,10 +7,10 @@
 
   Items *items;
   TractorController *controller;
-
 }
 
 - (IBAction)dumpItems:(id)sender;
 - (IBAction)uploadItems:(id)sender;
+- (IBAction)assignTime:(id)sender;
 
 @end

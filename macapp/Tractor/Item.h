@@ -13,5 +13,9 @@
 
 - (BOOL)matchesApp:(NSString *)app andInfoData:(NSData *)infoData;
 - (NSDictionary *)JSONDictionary;
+- (NSTimeInterval)duration;
+- (NSString *)durationDescription;
+- (NSString *)summary;
+- (NSString *)startString;
 
 @end

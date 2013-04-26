@@ -73,9 +73,13 @@ static int64_t SystemIdleSeconds(void);
 {
   NSDate *now = [NSDate date];
   NSError *error;
-  NSData *infoData = [NSJSONSerialization dataWithJSONObject:info options:0 error:&error];
-  if (error) {
-    NSLog(@"Error serializing info: %@", error);
+  NSData *infoData = nil;
+  
+  if (info) {
+    infoData = [NSJSONSerialization dataWithJSONObject:info options:0 error:&error];
+    if (error) {
+//      NSLog(@"Error serializing info: %@", error);
+    }
   }
 
   // TODO handle when now is before start (can happen due to idle time)

@@ -1,5 +1,6 @@
 #import "TractorAppDelegate.h"
 #import "ManagedObjectContext.h"
+#import "AssignTimeWindowController.h"
 
 @interface TractorAppDelegate (PRIVATE)
 
@@ -29,6 +30,14 @@
 {
   NSURL *url = [NSURL URLWithString:@"http://localhost:8000/items"]; // hardcoded for now
   [items uploadJSONToURL:url];
+}
+
+- (IBAction)assignTime:(id)sender
+{
+  AssignTimeWindowController *atwc = [[AssignTimeWindowController alloc] initWithWindowNibName:@"AssignTimeWindowController"];
+  [atwc setItems:items];
+  NSWindow *w = [atwc window];
+  [w makeKeyAndOrderFront:sender];
 }
 
 - (void)createStatusItem
