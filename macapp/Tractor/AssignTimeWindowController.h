@@ -5,7 +5,7 @@
 #import "Items.h"
 #import "ItemDetailViewController.h"
 
-@interface AssignTimeWindowController : NSWindowController {
+@interface AssignTimeWindowController : NSWindowController <NSTableViewDelegate, NSTableViewDataSource> {
   IBOutlet NSTableView *itemsTable;
   IBOutlet NSDatePickerCell *datePicker;
   IBOutlet ItemDetailViewController *itemDetailViewController;

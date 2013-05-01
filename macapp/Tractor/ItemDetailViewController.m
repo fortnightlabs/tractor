@@ -7,6 +7,7 @@
 //
 
 #import "ItemDetailViewController.h"
+#import "Item.h"
 
 @interface ItemDetailViewController ()
 
@@ -22,15 +23,23 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Initialization code here.
+      currentItem = nil;
     }
     
     return self;
 }
 
+- (void)dealloc
+{
+
+  [currentItem release];
+  currentItem = nil;
+  [super dealloc];
+}
+
 #pragma mark - Accessors
 
-- (void)setCurrentItem:(Item *)item
+- (void)setCurrentItem:(ItemGroup *)item
 {
   [currentItem autorelease];
   currentItem = [item retain];
@@ -62,14 +71,28 @@
 
 - (NSUInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-  return [currentItem fileName] ? 1 : 0;
+  return [[currentItem items] count];
 }
 
 - (id)              tableView:(NSTableView *)tableView
     objectValueForTableColumn:(NSTableColumn *)tableColumn
                           row:(NSInteger)row
 {
-  return [currentItem fileName];
+  NSString *columnId = [tableColumn identifier];
+  NSString *value = @"";
+  
+  NSArray *reversedItems = [[[currentItem items] reverseObjectEnumerator] allObjects];
+  
+  Item *item = [reversedItems objectAtIndex:row];
+  if ([columnId isEqualToString:@"time"]) {
+    value = [item startString];
+  } else if ([columnId isEqualToString:@"file"]) {
+    value = [item fileName];
+  } else if ([columnId isEqualToString:@"duration"]) {
+    value = [item durationDescription];
+  }
+
+  return value;
 }
 
 

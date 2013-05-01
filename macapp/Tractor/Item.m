@@ -1,4 +1,5 @@
 #import "Item.h"
+#import "NSTimeIntervalDescription.h"
 #import <time.h>
 #import <xlocale.h>
 #import <math.h>
@@ -53,20 +54,7 @@ static NSString *JSONDate(NSDate *date);
 
 - (NSString *)durationDescription
 {
-  NSTimeInterval duration = [self duration];
-  NSString *desc = nil;
-
-  if (duration < 0) {
-    desc = @"0s";
-  } else if (duration < 60) {
-    desc = [NSString stringWithFormat:@"%.0fs", duration];
-  } else if (duration < 3600) {
-    desc = [NSString stringWithFormat:@"%.0fm", duration / 60];
-  } else {
-    desc = [NSString stringWithFormat:@"%.1fh", duration / 3600];
-  }
-
-  return desc;
+  return NSTimeIntervalDescription([self duration]);
 }
 
 - (NSString *)startString
@@ -121,17 +109,22 @@ static NSString *JSONDate(NSDate *date);
   if (info && (val = [info objectForKey:@"path"]) && ([val length] > 0)) {
     fileName = [val lastPathComponent];
   }
-  
-  // url
-//  if (!fileName && info && !val && (val = [info objectForKey:@"url"]) && ([val length] > 0)) {
-//    summary = [summary stringByAppendingFormat:@"\nURL: %@", val];
-//  }
 
   // title
   if (!fileName && info && (val = [info objectForKey:@"title"]) && ([val length] > 0)) {
     fileName = val;
   }
-  
+
+  // url
+  if (info && (val = [info objectForKey:@"url"]) && ([val length] > 0)) {
+    NSURL *url = [NSURL URLWithString:val];
+    if (!fileName) {
+      fileName = [url lastPathComponent];
+    }
+
+    fileName = [fileName stringByAppendingFormat:@" | %@", [url host]];
+  }
+
   return fileName;
 }
 

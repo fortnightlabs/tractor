@@ -7,11 +7,11 @@
 //
 
 #import "AssignTimeWindowController.h"
-#import "Item.h"
+#import "ItemGroup.h"
 
 @interface AssignTimeWindowController (PRIVATE)
 
-- (void)setCurrentItem:(Item *)item;
+- (void)setCurrentItem:(ItemGroup *)item;
 
 @end
 
@@ -32,13 +32,6 @@
   return self;
 }
 
-- (void)windowDidLoad
-{
-  [super windowDidLoad];
-  [self setCurrentItem:nil];
-  [datePicker setDateValue:[NSDate date]];
-}
-
 - (void)dealloc
 {
   [tableItems release];
@@ -48,6 +41,13 @@
   [super dealloc];
 }
 
+- (void)windowDidLoad
+{
+  [self setCurrentItem:nil];
+  [datePicker setDateValue:currentDate];
+  [super windowDidLoad];
+}
+
 #pragma mark - datePicker
 
 -      (void)datePickerCell:(NSDatePickerCell *)aDatePickerCell
@@ -55,7 +55,7 @@
                timeInterval:(NSTimeInterval *)proposedTimeInterval
 {
   if (*proposedDateValue) {
-    [currentDate release];
+    [currentDate autorelease];
     currentDate = [*proposedDateValue retain];
     [tableItems release];
     tableItems = nil;
@@ -70,14 +70,14 @@
 - (NSArray *)tableItems
 {
   if (!tableItems) {
-    tableItems = [[items itemsForDay:currentDate] retain];
+    tableItems = [[items itemGroupsForDay:currentDate] retain];
   }
   return tableItems;
 }
 
 #pragma mark - textField
 
-- (void)setCurrentItem:(Item *)item
+- (void)setCurrentItem:(ItemGroup *)item
 {
   [itemDetailViewController setCurrentItem:item];
 }
@@ -87,7 +87,7 @@
 - (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
   NSInteger row = [itemsTable selectedRow];
-  Item *item = nil;
+  ItemGroup *item = nil;
 
   if (row >= 0) {
     item = [[self tableItems] objectAtIndex:row];
@@ -105,13 +105,12 @@
     objectValueForTableColumn:(NSTableColumn *)tableColumn
                           row:(NSInteger)row
 {
-  Item *item = [[self tableItems] objectAtIndex:row];
+  ItemGroup *item = [[self tableItems] objectAtIndex:row];
   NSString *columnId = [tableColumn identifier];
   NSString *value = @"";
   
   if ([columnId isEqualToString:@"time"]) {
     value = [item startString];
-
   } else if ([columnId isEqualToString:@"app"]) {
     value = [item app];
   } else if ([columnId isEqualToString:@"duration"]) {
@@ -120,5 +119,11 @@
 
   return value;
 }
+
+- (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
+{
+  return NO;
+}
+
 
 @end

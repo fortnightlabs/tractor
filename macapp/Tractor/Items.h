@@ -13,6 +13,7 @@
 - (Item *)latestItem;
 
 - (NSArray *)itemsForDay:(NSDate *)date;
+- (NSArray *)itemGroupsForDay:(NSDate *)date;
 
 - (ItemsRequest *)request;
 

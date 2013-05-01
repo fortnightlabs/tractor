@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Item.h"
+#import "ItemGroup.h"
 
 @interface ItemDetailViewController : NSViewController {
   IBOutlet NSTextField *timeLabel;
@@ -15,7 +15,7 @@
   IBOutlet NSTableView *fileTable;
 }
 
-@property (nonatomic, retain) Item *currentItem;
+@property (nonatomic, retain) ItemGroup *currentItem;
 
 
 #pragma mark - filesTable

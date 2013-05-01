@@ -1,5 +1,6 @@
 #import <Cocoa/Cocoa.h>
 #import "TractorController.h"
+#import "AssignTimeWindowController.h"
 
 @interface TractorAppDelegate : NSObject <NSApplicationDelegate> {
   NSStatusItem *statusItem;
@@ -7,6 +8,7 @@
 
   Items *items;
   TractorController *controller;
+  AssignTimeWindowController *assignTimeWindowController;
 }
 
 - (IBAction)dumpItems:(id)sender;

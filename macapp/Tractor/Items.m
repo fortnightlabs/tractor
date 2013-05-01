@@ -1,4 +1,6 @@
 #import "Items.h"
+#import "ItemGroup.h"
+#import "Item.h"
 #import "NSDate+DayExtensions.h"
 
 @implementation Items
@@ -48,6 +50,44 @@
   [request filter:@"start > %@ AND start <= %@", start, end];
   [request sortBy:@"start" ascending:NO];
   return [request all];
+}
+
+- (NSArray *)itemGroupsForDay:(NSDate *)date
+{
+  NSArray *items = [self itemsForDay:date];
+  NSMutableArray *groups = [NSMutableArray array];
+  NSRange range = { .location = 0, .length = 0 };
+
+  Item *lastItem = nil;
+  for (Item *item in items) {
+    range.length++;
+
+    NSString *lastApp = [lastItem app];
+    NSString *currApp = [item app];
+    BOOL sameApp = (lastApp && currApp && [lastApp isEqualToString:currApp]) || (!lastApp && !currApp);
+    
+    // group by app name
+    if (lastItem && !sameApp) {
+      range.length--;
+  
+      ItemGroup *group = [[ItemGroup alloc] initWithItems:[items subarrayWithRange:range]];
+      [groups addObject:group];
+      [group release];
+
+      range.location += range.length;
+      range.length = 1;
+    }
+    
+    lastItem = item;
+  }
+  
+  if (range.length > 0) {
+    ItemGroup *group = [[ItemGroup alloc] initWithItems:[items subarrayWithRange:range]];
+    [groups addObject:group];
+    [group release];    
+  }
+  
+  return groups;
 }
 
 - (ItemsRequest *)request

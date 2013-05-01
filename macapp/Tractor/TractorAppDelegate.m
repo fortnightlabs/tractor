@@ -16,6 +16,9 @@
   [self createStatusItem];
   items = [[Items alloc] initWithManagedObjectContext:[self managedObjectContext]];
   controller = [[TractorController alloc] initWithItems:items];
+  
+  assignTimeWindowController = [[[AssignTimeWindowController alloc] initWithWindowNibName:@"AssignTimeWindow"] retain];
+  [assignTimeWindowController setItems:items];
 }
 
 - (IBAction)dumpItems:(id)sender
@@ -34,10 +37,8 @@
 
 - (IBAction)assignTime:(id)sender
 {
-  AssignTimeWindowController *atwc = [[AssignTimeWindowController alloc] initWithWindowNibName:@"AssignTimeWindow"];
-  [atwc setItems:items];
-  NSWindow *w = [atwc window];
-  [w makeKeyAndOrderFront:sender];
+  [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+  [[assignTimeWindowController window] makeKeyAndOrderFront:sender];
 }
 
 - (void)createStatusItem
@@ -106,6 +107,7 @@
 {
   [controller release];
   [items release];
+  [assignTimeWindowController release];
   [super dealloc];
 }
 

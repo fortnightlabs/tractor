@@ -13,6 +13,8 @@
 		F2037312142CD8D20053C4A5 /* ItemsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F2037311142CD8D20053C4A5 /* ItemsRequest.m */; };
 		F237D21D1729FC0D005C1296 /* NSDate+DayExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F237D21C1729FC0D005C1296 /* NSDate+DayExtensions.m */; };
 		F237D220172B3498005C1296 /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F237D21F172B3498005C1296 /* ItemDetailViewController.m */; };
+		F26CF31117306961007E92F5 /* ItemGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = F26CF31017306961007E92F5 /* ItemGroup.m */; };
+		F26CF31317306FF9007E92F5 /* NSTimeIntervalDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = F26CF31217306FF9007E92F5 /* NSTimeIntervalDescription.m */; };
 		F29409DE168744FF00A80E04 /* ManagedObjectContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F29409DD168744FF00A80E04 /* ManagedObjectContext.m */; };
 		F2A0B49C14207CA000F07F32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A0B49B14207CA000F07F32 /* Cocoa.framework */; };
 		F2A0B4A614207CA000F07F32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4A414207CA000F07F32 /* InfoPlist.strings */; };
@@ -58,6 +60,10 @@
 		F237D21C1729FC0D005C1296 /* NSDate+DayExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DayExtensions.m"; sourceTree = "<group>"; };
 		F237D21E172B3498005C1296 /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailViewController.h; sourceTree = "<group>"; };
 		F237D21F172B3498005C1296 /* ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDetailViewController.m; sourceTree = "<group>"; };
+		F26CF30F17306961007E92F5 /* ItemGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemGroup.h; sourceTree = "<group>"; };
+		F26CF31017306961007E92F5 /* ItemGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemGroup.m; sourceTree = "<group>"; };
+		F26CF31217306FF9007E92F5 /* NSTimeIntervalDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSTimeIntervalDescription.m; sourceTree = "<group>"; };
+		F26CF31417307075007E92F5 /* NSTimeIntervalDescription.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSTimeIntervalDescription.h; sourceTree = "<group>"; };
 		F29409DC168744FF00A80E04 /* ManagedObjectContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjectContext.h; sourceTree = "<group>"; };
 		F29409DD168744FF00A80E04 /* ManagedObjectContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedObjectContext.m; sourceTree = "<group>"; };
 		F2A0B49714207CA000F07F32 /* Tractor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tractor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -127,6 +133,8 @@
 				F2EF60B1142AA4A0009FC44C /* Item.m */,
 				F203730D142CCC730053C4A5 /* Items.h */,
 				F203730E142CCC730053C4A5 /* Items.m */,
+				F26CF30F17306961007E92F5 /* ItemGroup.h */,
+				F26CF31017306961007E92F5 /* ItemGroup.m */,
 				F2037310142CD8D20053C4A5 /* ItemsRequest.h */,
 				F2037311142CD8D20053C4A5 /* ItemsRequest.m */,
 			);
@@ -197,6 +205,8 @@
 				F237D21E172B3498005C1296 /* ItemDetailViewController.h */,
 				F237D21F172B3498005C1296 /* ItemDetailViewController.m */,
 				F2A0B4B314207CA000F07F32 /* Tractor.xcdatamodeld */,
+				F26CF31417307075007E92F5 /* NSTimeIntervalDescription.h */,
+				F26CF31217306FF9007E92F5 /* NSTimeIntervalDescription.m */,
 				F2037313142CDDBA0053C4A5 /* Items */,
 				F2A0B4A214207CA000F07F32 /* Supporting Files */,
 			);
@@ -283,7 +293,7 @@
 		F2A0B48E14207CA000F07F32 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0460;
 			};
 			buildConfigurationList = F2A0B49114207CA000F07F32 /* Build configuration list for PBXProject "Tractor" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -362,6 +372,8 @@
 				F2E654481728AE5F00FC7AFF /* AssignTimeWindowController.m in Sources */,
 				F237D21D1729FC0D005C1296 /* NSDate+DayExtensions.m in Sources */,
 				F237D220172B3498005C1296 /* ItemDetailViewController.m in Sources */,
+				F26CF31117306961007E92F5 /* ItemGroup.m in Sources */,
+				F26CF31317306FF9007E92F5 /* NSTimeIntervalDescription.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,6 +436,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -438,6 +454,7 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
@@ -450,6 +467,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -458,6 +479,7 @@
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
@@ -467,6 +489,7 @@
 		F2A0B4CE14207CA000F07F32 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tractor/Tractor-Prefix.pch";
 				INFOPLIST_FILE = "Tractor/Tractor-Info.plist";
@@ -479,6 +502,7 @@
 		F2A0B4CF14207CA000F07F32 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tractor/Tractor-Prefix.pch";
 				INFOPLIST_FILE = "Tractor/Tractor-Info.plist";
@@ -492,6 +516,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Tractor.app/Contents/MacOS/Tractor";
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tractor/Tractor-Prefix.pch";
@@ -506,6 +531,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Tractor.app/Contents/MacOS/Tractor";
+				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Tractor/Tractor-Prefix.pch";
