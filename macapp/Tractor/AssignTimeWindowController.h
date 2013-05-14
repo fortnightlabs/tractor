@@ -2,7 +2,7 @@
 //  AssignTimeWindowController.h
 //  Tractor
 #import <Cocoa/Cocoa.h>
-#import "Items.h"
+#import "ManagedObjectContext.h"
 #import "ItemDetailViewController.h"
 
 @interface AssignTimeWindowController : NSWindowController <NSTableViewDelegate, NSTableViewDataSource> {
@@ -14,7 +14,7 @@
   NSDate *currentDate;
 }
 
-@property (nonatomic, retain) Items *items;
+@property (nonatomic, retain) ManagedObjectContext *context;
 
 #pragma mark - datePicker
 

@@ -8,24 +8,74 @@
 
 #import "ManagedObjectContext.h"
 
-static NSManagedObjectContext *sharedManagedObjectContext = nil;
+static ManagedObjectContext *sharedManagedObjectContext = nil;
 
 @implementation ManagedObjectContext
 
-+ (NSManagedObjectContext *)context {
+#pragma mark - Singleton
+
++ (ManagedObjectContext *)context {
   if (!sharedManagedObjectContext) {
-    ManagedObjectContext *context = [[self alloc] init];
-    sharedManagedObjectContext = [[context managedObjectContext] retain];
-    [context release];
+    sharedManagedObjectContext = [[self alloc] init];
   }
   return sharedManagedObjectContext;
 }
+
+#pragma mark - Lifecycle
+
+- (void)dealloc
+{
+  [__managedObjectContext release];
+  [__persistentStoreCoordinator release];
+  [__managedObjectModel release];
+  [super dealloc];
+}
+
+#pragma mark - Accessors
+
+- (Items *)items
+{
+  if (!__items) {
+    __items = [[Items alloc] initWithManagedObjectContext:[self managedObjectContext]];
+  }
+  
+  return __items;
+}
+
+
+- (Projects *)projects
+{
+  if (!__projects) {
+    __projects = [[Projects alloc] initWithManagedObjectContext:[self managedObjectContext]];
+  }
+  
+  return __projects;
+}
+
+#pragma mark - Methods
+
+- (BOOL)save
+{
+  BOOL couldSave = NO;
+  NSError *error = nil;
+
+  if (![__managedObjectContext save:&error]) {
+    NSLog(@"Couldn't save: %@", [error localizedDescription]);
+  } else {
+    couldSave = YES;
+  }
+
+  return couldSave;
+}
+
+
+
+#pragma mark - NSManagedObjectContext helpers
 
 /**
  Returns the directory the application uses to store the Core Data store file. This code uses a directory named "Tractor" in the user's Library directory.
  */
 - (NSURL *)applicationFilesDirectory {
-  
   NSFileManager *fileManager = [NSFileManager defaultManager];
   NSURL *libraryURL = [[fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject];
   return [libraryURL URLByAppendingPathComponent:@"Tractor"];
@@ -90,7 +140,10 @@ static NSManagedObjectContext *sharedManagedObjectContext = nil;
   
   NSURL *url = [applicationFilesDirectory URLByAppendingPathComponent:@"Tractor.storedata"];
   __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-  if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]) {
+  NSDictionary *options = @{
+                            NSMigratePersistentStoresAutomaticallyOption: @YES,
+                            NSInferMappingModelAutomaticallyOption: @YES };
+  if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:options error:&error]) {
     [[NSApplication sharedApplication] presentError:error];
     [__persistentStoreCoordinator release], __persistentStoreCoordinator = nil;
     return nil;
@@ -121,14 +174,6 @@ static NSManagedObjectContext *sharedManagedObjectContext = nil;
   [__managedObjectContext setPersistentStoreCoordinator:coordinator];
   
   return __managedObjectContext;
-}
-
--(void)dealloc
-{
-  [__managedObjectContext release];
-  [__persistentStoreCoordinator release];
-  [__managedObjectModel release];
-  [super dealloc];
 }
 
 @end

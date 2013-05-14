@@ -9,15 +9,9 @@
 #import "AssignTimeWindowController.h"
 #import "ItemGroup.h"
 
-@interface AssignTimeWindowController (PRIVATE)
-
-- (void)setCurrentItem:(ItemGroup *)item;
-
-@end
-
 @implementation AssignTimeWindowController
 
-@synthesize items;
+@synthesize context;
 
 #pragma mark - Lifecycle
 
@@ -34,10 +28,8 @@
 
 - (void)dealloc
 {
-  [tableItems release];
-  tableItems = nil;
-  [currentDate release];
-  currentDate = nil;
+  [tableItems release], tableItems = nil;
+  [currentDate release], currentDate = nil;
   [super dealloc];
 }
 
@@ -46,6 +38,16 @@
   [self setCurrentItem:nil];
   [datePicker setDateValue:currentDate];
   [super windowDidLoad];
+  [itemDetailViewController setContext:[self context]];
+}
+
+#pragma mark - Properties
+
+- (void)setContext:(ManagedObjectContext *)newContext
+{
+  [context autorelease];
+  context = [newContext retain];
+  [itemDetailViewController setContext:context];
 }
 
 #pragma mark - datePicker
@@ -70,7 +72,7 @@
 - (NSArray *)tableItems
 {
   if (!tableItems) {
-    tableItems = [[items itemGroupsForDay:currentDate] retain];
+    tableItems = [[[context items] itemGroupsForDay:currentDate] retain];
   }
   return tableItems;
 }

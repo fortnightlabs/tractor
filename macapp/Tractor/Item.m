@@ -3,6 +3,7 @@
 #import <time.h>
 #import <xlocale.h>
 #import <math.h>
+
 static NSString *JSONDate(NSDate *date);
 
 @interface Item (PRIVATE)
@@ -17,6 +18,7 @@ static NSString *JSONDate(NSDate *date);
 @dynamic app;
 @dynamic info;
 @dynamic uploaded;
+@dynamic project;
 
 - (BOOL)matchesApp:(NSString *)app andInfoData:(NSData *)infoData;
 {

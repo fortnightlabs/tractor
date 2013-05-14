@@ -1,20 +1,21 @@
-#import "ItemsRequest.h"
+#import "FetchRequest.h"
 
-@implementation ItemsRequest
+@implementation FetchRequest
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
+- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext
+                        entityName:(NSString *)entityName
 {
   self = [super init];
   if (self) {
     context = [managedObjectContext retain];
-    [self setEntity:[NSEntityDescription entityForName:@"Item"
+    [self setEntity:[NSEntityDescription entityForName:entityName
                                 inManagedObjectContext:context]];
     
   }
   return self;
 }
 
-- (Item *)first
+- (id)first
 {
   Item *ret = nil;
   
@@ -39,11 +40,6 @@
   }
   
   return items;
-}
-
-- (NSArray *)JSONArray
-{
-  return [[self class] JSONArray:[self all]];
 }
 
 - (void)sortBy:(NSString *)key ascending:(BOOL)yn
@@ -71,13 +67,6 @@
   [super dealloc];
 }
 
-+ (NSArray *)JSONArray:(NSArray *)array
-{  
-  NSMutableArray *json = [NSMutableArray arrayWithCapacity:[array count]];
-  for (Item *item in array) {
-    [json addObject:[item JSONDictionary]];
-  }
-  return json;
-}
+
 
 @end

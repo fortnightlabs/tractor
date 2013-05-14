@@ -6,7 +6,6 @@
   NSStatusItem *statusItem;
   IBOutlet NSMenu *statusMenu;
 
-  Items *items;
   TractorController *controller;
   AssignTimeWindowController *assignTimeWindowController;
 }

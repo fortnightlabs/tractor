@@ -1,5 +1,4 @@
 #import "TractorController.h"
-
 #include <IOKit/IOKitLib.h>
 static int64_t SystemIdleSeconds(void);
 
@@ -24,13 +23,15 @@ static int64_t SystemIdleSeconds(void);
 
 @implementation TractorController
 
-- (id)initWithItems:(Items *)items_;
+#pragma mark - Lifecycle
+
+- (id)initWithManagedObjectContext:(ManagedObjectContext *)managedObjectContext;
 {
   self = [super init];
   if (self) {
-    items = [items_ retain];
+    context = [managedObjectContext retain];
     informer = [[CurrentApplicationInformer alloc] init];
-    latestItem = [items latestItem];
+    latestItem = [[context items] latestItem];
 
     [self observeWillSleepNotification];
     
@@ -39,6 +40,16 @@ static int64_t SystemIdleSeconds(void);
   
   return self;
 }
+
+- (void)dealloc
+{
+  [context release], context = nil;
+  [informer release], informer = nil;
+  [latestItem release], latestItem = nil;
+  [super dealloc];
+}
+
+#pragma mark - Methods
 
 - (void)checkCurrentState:(NSTimer *)timer
 {
@@ -93,7 +104,7 @@ static int64_t SystemIdleSeconds(void);
     
     // insert a new item
     [latestItem release];
-    latestItem = [items addItem];
+    latestItem = [[context items] addItem];
     [latestItem retain];
 
     [latestItem setStart:start];
@@ -104,7 +115,7 @@ static int64_t SystemIdleSeconds(void);
     // NSLog(@"Started %@", latestItem);
   }
 
-  [items save];
+  [context save];
 }
 
 // returns the time when the computer became idle, nil if not idle
@@ -164,14 +175,6 @@ static int64_t SystemIdleSeconds(void);
                                           repeats:NO];
   
   [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
-}
-
-- (void)dealloc
-{
-  [items release];
-  [informer release];
-  [latestItem release];
-  [super dealloc];
 }
 
 @end

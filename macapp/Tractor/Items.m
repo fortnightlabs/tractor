@@ -5,33 +5,23 @@
 
 @implementation Items
 
-- (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
-{
-  self = [super init];
-  if (self) {
-    context = [managedObjectContext retain];
-  }
+#pragma mark - abstract method implementation
 
-  return self;
+- (NSString *)entityName
+{
+  return @"Item";
 }
 
-- (void)save
-{
-  NSError *error = nil;
-  if (![context save:&error]) {
-    NSLog(@"Couldn't save: %@", [error localizedDescription]);
-  }
-}
+#pragma mark - item methods
 
 - (Item *)addItem
 {
-  return [NSEntityDescription insertNewObjectForEntityForName:@"Item"
-                                       inManagedObjectContext:context];
+  return [self insertNewObject];
 }
 
 - (Item *)latestItem
 {
-  ItemsRequest *request = [self request];
+  FetchRequest *request = [self request];
    
   // handle cases where things were added to the db in the future
   // because of manually changing the system clock around
@@ -46,7 +36,7 @@
   NSDate *start = [date beginningOfDay];
   NSDate *end = [date endOfDay];
 
-  ItemsRequest *request = [self request];
+  FetchRequest *request = [self request];
   [request filter:@"start > %@ AND start <= %@", start, end];
   [request sortBy:@"start" ascending:NO];
   return [request all];
@@ -81,31 +71,29 @@
     lastItem = item;
   }
   
-  if (range.length > 0) {
-    ItemGroup *group = [[ItemGroup alloc] initWithItems:[items subarrayWithRange:range]];
-    [groups addObject:group];
-    [group release];    
-  }
+  ItemGroup *group = [[ItemGroup alloc] initWithItems:[items subarrayWithRange:range]];
+  [groups addObject:group];
+  [group release];    
   
   return groups;
 }
 
-- (ItemsRequest *)request
-{
-  return [[[ItemsRequest alloc] initWithManagedObjectContext:context] autorelease];
-}
+
+# pragma mark - JSON methods
 
 - (void)dumpJSONToFileURL:(NSURL *)url
 {
-  ItemsRequest *request = [self request];
+  FetchRequest *request = [self request];
   
   // filter out items in the future (which can be created from
   // system clock changes)
   [request filter:@"start <= %@", [NSDate date]];
   [request sortBy:@"start" ascending:YES];
+  
+  NSArray *items = [request all];
 
   NSError *error = nil;
-  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[request JSONArray] options:0 error:&error];
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:[self JSONArray:items] options:0 error:&error];
   if (!error) {
     [jsonData writeToURL:url atomically:NO];
   }
@@ -121,13 +109,13 @@
   NSError *error = nil;
   NSArray *items = nil;
 
-  ItemsRequest *itemsRequest = [self request];
+  FetchRequest *itemsRequest = [self request];
   [itemsRequest sortBy:@"start" ascending:YES];
   // exclude the last item (it's still in progress), and anything already uploaded
   [itemsRequest filter:@"start < %@ AND uploaded = nil", [[self latestItem] start]];
   items = [itemsRequest all];
 
-  NSArray *jsonArray = [ItemsRequest JSONArray:items];
+  NSArray *jsonArray = [self JSONArray:items];
   NSData *jsonData = [NSJSONSerialization dataWithJSONObject:jsonArray options:0 error:&error];
   if (error) {
     NSLog(@"Could not serialize JSON data %@", error);
@@ -154,6 +142,15 @@
       [item setUploaded:[NSNumber numberWithBool:YES]];
     }
   }
+}
+
+- (NSArray *)JSONArray:(NSArray *)array
+{
+  NSMutableArray *json = [NSMutableArray arrayWithCapacity:[array count]];
+  for (Item *item in array) {
+    [json addObject:[item JSONDictionary]];
+  }
+  return json;
 }
 
 - (void)dealloc

@@ -1,14 +1,14 @@
 #import <Foundation/Foundation.h>
 #import "CurrentApplicationInformer.h"
-#import "Items.h"
+#import "ManagedObjectContext.h"
 #import "Item.h"
 
 @interface TractorController : NSObject {
   CurrentApplicationInformer *informer;
-  Items *items;
+  ManagedObjectContext *context;
   Item *latestItem;
 }
 
-- (id)initWithItems:(Items *)items_;
+- (id)initWithManagedObjectContext:(ManagedObjectContext *)managedObjectContext;
 
 @end

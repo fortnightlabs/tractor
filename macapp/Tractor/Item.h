@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class Project;
 
 @interface Item : NSManagedObject {
 @private
@@ -10,6 +11,7 @@
 @property (nonatomic, retain) NSString * app;
 @property (nonatomic, retain) NSData * info;
 @property (nonatomic, retain) NSNumber * uploaded;
+@property (nonatomic, retain) Project *project;
 
 - (BOOL)matchesApp:(NSString *)app andInfoData:(NSData *)infoData;
 - (NSDictionary *)JSONDictionary;
