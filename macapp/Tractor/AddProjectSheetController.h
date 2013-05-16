@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "ManagedObjectContext.h"
+#import "Projects.h"
 
 @interface AddProjectSheetController : NSWindowController {
   IBOutlet NSButton *addButton;
@@ -16,7 +16,7 @@
 }
 
 @property (nonatomic, retain) Project *currentProject;
-@property (nonatomic, retain) ManagedObjectContext *context;
+@property (nonatomic, retain) Projects *projects;
 
 - (IBAction)cancel:(id)sender;
 - (IBAction)addProject:(id)sender;

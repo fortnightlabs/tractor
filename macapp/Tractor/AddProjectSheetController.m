@@ -3,6 +3,7 @@
 @implementation AddProjectSheetController
 
 @synthesize currentProject;
+@synthesize projects;
 
 #pragma mark - Lifecycle
 
@@ -11,7 +12,7 @@
   self = [super initWithWindow:window];
   if (self) {
     currentProject = nil;
-    _context = nil;
+    projects = nil;
   }
   
   return self;
@@ -19,7 +20,7 @@
 
 - (void)dealloc {
   [currentProject release], currentProject = nil;
-  [_context release], _context = nil;
+  [projects release], projects = nil;
   [super dealloc];
 }
 
@@ -54,7 +55,6 @@
 
 - (Project *)projectWithName:(NSString *)name
 {
-  Projects *projects = [[self context] projects];
   return [projects findOrAddProjectWithName:name];
 }
 

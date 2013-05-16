@@ -10,15 +10,19 @@
 {
   [self createStatusItem];
   controller = [[TractorController alloc] initWithManagedObjectContext:[self managedObjectContext]];
-  
+
   assignTimeWindowController = [[[AssignTimeWindowController alloc] initWithWindowNibName:@"AssignTimeWindow"] retain];
   [assignTimeWindowController setContext:[self managedObjectContext]];
+
+  preferencesWindowController = [[[PreferencesWindowController alloc] initWithWindowNibName:@"PreferencesWindow"] retain];
+  [preferencesWindowController setContext:[self managedObjectContext]];
 }
 
 - (void)dealloc
 {
   [controller release];
   [assignTimeWindowController release];
+  [preferencesWindowController release];
   [super dealloc];
 }
 
@@ -48,6 +52,12 @@
 {
   [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
   [[assignTimeWindowController window] makeKeyAndOrderFront:sender];
+}
+
+- (IBAction)showPreferences:(id)sender
+{
+  [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
+  [[preferencesWindowController window] makeKeyAndOrderFront:sender];
 }
 
 #pragma mark - Methods

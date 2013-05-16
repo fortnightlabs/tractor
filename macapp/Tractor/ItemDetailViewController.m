@@ -156,7 +156,7 @@
 {
   if (!addProjectSheetController) {
     addProjectSheetController = [[AddProjectSheetController alloc] initWithWindowNibName:@"AddProjectSheet"];
-    [addProjectSheetController setContext:[self context]];
+    [addProjectSheetController setProjects:[[self context] projects]];
   }
   
   return addProjectSheetController;

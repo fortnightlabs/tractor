@@ -2,6 +2,8 @@
 
 @implementation ManagedObjectCollection
 
+@synthesize context;
+
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 {
   self = [super init];

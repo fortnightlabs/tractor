@@ -5,6 +5,8 @@
   NSManagedObjectContext *context;
 }
 
+@property (atomic, readonly) NSManagedObjectContext *context;
+
 - (id)initWithManagedObjectContext:(NSManagedObjectContext *)managedObjectContext;
 
 - (FetchRequest *)request;

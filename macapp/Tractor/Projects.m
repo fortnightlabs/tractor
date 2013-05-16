@@ -20,16 +20,28 @@
 {
   Project *ret = nil;
   
-  FetchRequest *request = [self request];
-  [request filter:@"name = %@", name];
-  ret = [request first];
-  
+  ret = [self findProjectWithName:name];
   if (!ret) {
     ret = [self addProject];
     [ret setName:name];
   }
 
   return ret;
+}
+
+- (Project *)findProjectWithName:(NSString *)name
+{
+  FetchRequest *request = [self request];
+  [request filter:@"name = %@", name];
+  return [request first];
+}
+
+- (void)removeProjectWithName:(NSString *)name
+{
+  Project *project = [self findProjectWithName:name];
+  if (project) {
+    [context deleteObject:project];
+  }
 }
 
 - (NSArray *)all

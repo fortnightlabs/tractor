@@ -15,8 +15,13 @@
 		F212A5FD17384BFE000220A5 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = F212A5FC17384BFE000220A5 /* Project.m */; };
 		F212A600173B11C4000220A5 /* ManagedObjectCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = F212A5FF173B11C4000220A5 /* ManagedObjectCollection.m */; };
 		F212A603173B172C000220A5 /* Projects.m in Sources */ = {isa = PBXBuildFile; fileRef = F212A602173B172C000220A5 /* Projects.m */; };
+		F226B3441741BBA80091DB62 /* data-management-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F226B3431741BBA80091DB62 /* data-management-icon.png */; };
+		F226B3481741D1210091DB62 /* ProjectPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F226B3461741D1210091DB62 /* ProjectPreferencesViewController.m */; };
+		F226B3491741D1210091DB62 /* ProjectPreferencesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F226B3471741D1210091DB62 /* ProjectPreferencesView.xib */; };
 		F237D21D1729FC0D005C1296 /* NSDate+DayExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F237D21C1729FC0D005C1296 /* NSDate+DayExtensions.m */; };
 		F237D220172B3498005C1296 /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F237D21F172B3498005C1296 /* ItemDetailViewController.m */; };
+		F25410221741B9A900ACF5A3 /* PreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F25410201741B9A800ACF5A3 /* PreferencesWindowController.m */; };
+		F25410231741B9A900ACF5A3 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F25410211741B9A800ACF5A3 /* PreferencesWindow.xib */; };
 		F26CF31117306961007E92F5 /* ItemGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = F26CF31017306961007E92F5 /* ItemGroup.m */; };
 		F26CF31317306FF9007E92F5 /* NSTimeIntervalDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = F26CF31217306FF9007E92F5 /* NSTimeIntervalDescription.m */; };
 		F29409DE168744FF00A80E04 /* ManagedObjectContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F29409DD168744FF00A80E04 /* ManagedObjectContext.m */; };
@@ -63,7 +68,7 @@
 		F2037311142CD8D20053C4A5 /* FetchRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchRequest.m; sourceTree = "<group>"; };
 		F212A5F717383270000220A5 /* SheetWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SheetWindow.h; sourceTree = "<group>"; };
 		F212A5F817383270000220A5 /* SheetWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SheetWindow.m; sourceTree = "<group>"; };
-		F212A5FA17384907000220A5 /* TractorV2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = TractorV2.xcdatamodel; sourceTree = "<group>"; };
+		F212A5FA17384907000220A5 /* TractorV2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TractorV2.xcdatamodel; sourceTree = "<group>"; };
 		F212A5FB17384BFE000220A5 /* Project.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Project.h; sourceTree = "<group>"; };
 		F212A5FC17384BFE000220A5 /* Project.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Project.m; sourceTree = "<group>"; };
 		F212A5FE173B11C3000220A5 /* ManagedObjectCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjectCollection.h; sourceTree = "<group>"; };
@@ -71,10 +76,17 @@
 		F212A601173B172C000220A5 /* Projects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Projects.h; sourceTree = "<group>"; };
 		F212A602173B172C000220A5 /* Projects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Projects.m; sourceTree = "<group>"; };
 		F212B089143E2982001414F8 /* Skype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skype.h; sourceTree = "<group>"; };
+		F226B3431741BBA80091DB62 /* data-management-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "data-management-icon.png"; sourceTree = "<group>"; };
+		F226B3451741D1210091DB62 /* ProjectPreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProjectPreferencesViewController.h; sourceTree = "<group>"; };
+		F226B3461741D1210091DB62 /* ProjectPreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProjectPreferencesViewController.m; sourceTree = "<group>"; };
+		F226B3471741D1210091DB62 /* ProjectPreferencesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectPreferencesView.xib; sourceTree = "<group>"; };
 		F237D21B1729FC0D005C1296 /* NSDate+DayExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DayExtensions.h"; sourceTree = "<group>"; };
 		F237D21C1729FC0D005C1296 /* NSDate+DayExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DayExtensions.m"; sourceTree = "<group>"; };
 		F237D21E172B3498005C1296 /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailViewController.h; sourceTree = "<group>"; };
 		F237D21F172B3498005C1296 /* ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDetailViewController.m; sourceTree = "<group>"; };
+		F254101F1741B9A800ACF5A3 /* PreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowController.h; sourceTree = "<group>"; };
+		F25410201741B9A800ACF5A3 /* PreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindowController.m; sourceTree = "<group>"; };
+		F25410211741B9A800ACF5A3 /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
 		F26CF30F17306961007E92F5 /* ItemGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemGroup.h; sourceTree = "<group>"; };
 		F26CF31017306961007E92F5 /* ItemGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemGroup.m; sourceTree = "<group>"; };
 		F26CF31217306FF9007E92F5 /* NSTimeIntervalDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSTimeIntervalDescription.m; sourceTree = "<group>"; };
@@ -232,6 +244,19 @@
 			name = CurrentApplicationInformer;
 			sourceTree = "<group>";
 		};
+		F25410241741B9C800ACF5A3 /* PreferencesWindow */ = {
+			isa = PBXGroup;
+			children = (
+				F254101F1741B9A800ACF5A3 /* PreferencesWindowController.h */,
+				F25410201741B9A800ACF5A3 /* PreferencesWindowController.m */,
+				F25410211741B9A800ACF5A3 /* PreferencesWindow.xib */,
+				F226B3451741D1210091DB62 /* ProjectPreferencesViewController.h */,
+				F226B3461741D1210091DB62 /* ProjectPreferencesViewController.m */,
+				F226B3471741D1210091DB62 /* ProjectPreferencesView.xib */,
+			);
+			name = PreferencesWindow;
+			sourceTree = "<group>";
+		};
 		F2A0B48C14207CA000F07F32 = {
 			isa = PBXGroup;
 			children = (
@@ -276,6 +301,7 @@
 		F2A0B4A114207CA000F07F32 /* Tractor */ = {
 			isa = PBXGroup;
 			children = (
+				F25410241741B9C800ACF5A3 /* PreferencesWindow */,
 				F2A0B4AD14207CA000F07F32 /* TractorAppDelegate.h */,
 				F2A0B4AE14207CA000F07F32 /* TractorAppDelegate.m */,
 				F2EF60BE142BEE97009FC44C /* TractorController.h */,
@@ -294,6 +320,7 @@
 		F2A0B4A214207CA000F07F32 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				F226B3431741BBA80091DB62 /* data-management-icon.png */,
 				853AD03A143FDDA000416E54 /* TimeMachine Timmy.icns */,
 				F2A0B4D31420845200F07F32 /* tractor.tiff */,
 				853AD03D143FE30100416E54 /* tractor-white.tiff */,
@@ -403,6 +430,9 @@
 				853AD03E143FE30100416E54 /* tractor-white.tiff in Resources */,
 				F2E654491728AE5F00FC7AFF /* AssignTimeWindow.xib in Resources */,
 				F2E1A6191731E88400C3E5B8 /* AddProjectSheet.xib in Resources */,
+				F25410231741B9A900ACF5A3 /* PreferencesWindow.xib in Resources */,
+				F226B3441741BBA80091DB62 /* data-management-icon.png in Resources */,
+				F226B3491741D1210091DB62 /* ProjectPreferencesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,6 +487,8 @@
 				F212A5FD17384BFE000220A5 /* Project.m in Sources */,
 				F212A600173B11C4000220A5 /* ManagedObjectCollection.m in Sources */,
 				F212A603173B172C000220A5 /* Projects.m in Sources */,
+				F25410221741B9A900ACF5A3 /* PreferencesWindowController.m in Sources */,
+				F226B3481741D1210091DB62 /* ProjectPreferencesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
