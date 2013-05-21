@@ -12,7 +12,9 @@
 {
   self = [super initWithWindow:window];
   if (self) {
+    context = nil;
     projectPreferencesViewController = nil;
+    rulePreferencesViewController = nil;
   }
 
   return self;
@@ -20,18 +22,20 @@
 
 - (void)windowDidLoad
 {
+  [self showProjects:self];
   [toolbar setSelectedItemIdentifier:@"Projects"];
-  [self showProjectPreferences:self];
   [super windowDidLoad];
 }
 
 - (void)dealloc
 {
+  [context release], context = nil;
   [projectPreferencesViewController release], projectPreferencesViewController = nil;
+  [rulePreferencesViewController release], rulePreferencesViewController = nil;
   [super dealloc];
 }
 
-#pragma mark - Actions
+#pragma mark - ProjectPreferencesViewController actions
 
 - (ProjectPreferencesViewController *)projectPreferencesViewController
 {
@@ -43,10 +47,29 @@
   return projectPreferencesViewController;
 }
 
-- (IBAction)showProjectPreferences:(id)sender
+- (IBAction)showProjects:(id)sender
 {
   NSView *projectView = [[self projectPreferencesViewController] view];
   [[self window] setContentView:projectView];
 }
+
+#pragma mark - RulePreferencesViewController actions
+
+- (RulePreferencesViewController *)rulePreferencesViewController
+{
+  if (!rulePreferencesViewController) {
+    rulePreferencesViewController = [[RulePreferencesViewController alloc] initWithNibName:@"RulePreferencesView" bundle:nil];
+    [rulePreferencesViewController setContext:context];
+  }
+
+  return rulePreferencesViewController;
+}
+
+- (IBAction)showRules:(id)sender
+{
+  NSView *ruleView = [[self rulePreferencesViewController] view];
+  [[self window] setContentView:ruleView];
+}
+
 
 @end

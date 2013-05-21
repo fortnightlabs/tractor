@@ -86,6 +86,8 @@
   for (Item *item in [currentItem items]) {
     [item setProject:project];
   }
+
+  [context save];
 }
 
 #pragma mark - fileTable
@@ -180,7 +182,7 @@
                   contextInfo:(void *)contextInfo
 {
   Project *addedProject = [[self addProjectSheetController] currentProject];
-  if(addedProject) {
+  if (addedProject) {
     NSString *projectName = [addedProject name];
 
     // make the added project the last item before the "Other…" index at the end

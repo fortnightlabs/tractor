@@ -7,5 +7,6 @@
 - (Project *)findOrAddProjectWithName:(NSString *)name;
 - (void)removeProjectWithName:(NSString *)name;
 - (NSArray *)all;
+- (Project *)first;
 
 @end

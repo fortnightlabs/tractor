@@ -1,6 +1,7 @@
 #import "TractorAppDelegate.h"
 #import "ManagedObjectContext.h"
 #import "AssignTimeWindowController.h"
+#import "AddRuleSheetController.h"
 
 @implementation TractorAppDelegate
 
@@ -16,20 +17,23 @@
 
   preferencesWindowController = [[[PreferencesWindowController alloc] initWithWindowNibName:@"PreferencesWindow"] retain];
   [preferencesWindowController setContext:[self managedObjectContext]];
+
+  NSTimeInterval fiveMinutes = 60 * 5;
+  autosaveTimer = [[NSTimer scheduledTimerWithTimeInterval:fiveMinutes target:self selector:@selector(autosave) userInfo:nil repeats:YES] retain];
 }
 
 - (void)dealloc
 {
+  [autosaveTimer invalidate], [autosaveTimer release], autosaveTimer = nil;
   [controller release];
   [assignTimeWindowController release];
   [preferencesWindowController release];
   [super dealloc];
 }
 
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+- (void)applicationWillTerminate:(NSNotification *)notification {
   // Save changes in the application's managed object context before the application terminates.
   [[self managedObjectContext] save];
-  return NSTerminateNow;
 }
 
 #pragma mark - IBActions
@@ -79,6 +83,14 @@
 - (Items *)items
 {
   return [[self managedObjectContext] items];
+}
+
+- (void)autosave
+{
+  NSResponder *responder = [[NSApp keyWindow] firstResponder];
+  if (!responder) {
+    [[self managedObjectContext] save];
+  }
 }
 
 @end

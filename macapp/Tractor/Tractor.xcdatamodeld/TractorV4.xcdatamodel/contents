@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model name="" userDefinedModelVersionIdentifier="v2" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Item" representedClassName="Item">
+        <attribute name="app" optional="YES" attributeType="String">
+            <userInfo/>
+        </attribute>
+        <attribute name="end" optional="YES" attributeType="Date">
+            <userInfo/>
+        </attribute>
+        <attribute name="info" optional="YES" attributeType="Binary">
+            <userInfo/>
+        </attribute>
+        <attribute name="start" optional="YES" attributeType="Date">
+            <userInfo/>
+        </attribute>
+        <attribute name="uploaded" optional="YES" attributeType="Boolean">
+            <userInfo/>
+        </attribute>
+        <relationship name="project" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Project" inverseName="items" inverseEntity="Project" syncable="YES"/>
+        <userInfo/>
+    </entity>
+    <entity name="Project" representedClassName="Project" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Item" inverseName="project" inverseEntity="Item" syncable="YES"/>
+        <relationship name="rules" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Rule" inverseName="project" inverseEntity="Rule" syncable="YES"/>
+    </entity>
+    <entity name="Rule" representedClassName="Rule" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="predicateData" optional="YES" attributeType="Binary" syncable="YES"/>
+        <relationship name="project" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Project" inverseName="rules" inverseEntity="Project" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Item" positionX="160" positionY="192" width="128" height="135"/>
+        <element name="Project" positionX="430" positionY="204" width="128" height="90"/>
+        <element name="Rule" positionX="160" positionY="192" width="128" height="105"/>
+    </elements>
+</model>

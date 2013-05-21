@@ -1,5 +1,7 @@
 #import "TractorController.h"
 #include <IOKit/IOKitLib.h>
+#include "Rule.h"
+
 static int64_t SystemIdleSeconds(void);
 
 @interface TractorController (PRIVATE)
@@ -115,7 +117,7 @@ static int64_t SystemIdleSeconds(void);
     // NSLog(@"Started %@", latestItem);
   }
 
-  [context save];
+  [latestItem applyRules:[[context rules] all]];
 }
 
 // returns the time when the computer became idle, nil if not idle

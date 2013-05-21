@@ -12,6 +12,8 @@ static ManagedObjectContext *sharedManagedObjectContext = nil;
 
 @implementation ManagedObjectContext
 
+@synthesize context=__managedObjectContext;
+
 #pragma mark - Singleton
 
 + (ManagedObjectContext *)context {
@@ -23,11 +25,31 @@ static ManagedObjectContext *sharedManagedObjectContext = nil;
 
 #pragma mark - Lifecycle
 
+- (id)init
+{
+  self = [super init];
+  if (self) {
+    __projects = nil;
+    __items = nil;
+    __rules = nil;
+
+    __managedObjectContext = nil;
+    __persistentStoreCoordinator = nil;
+    __managedObjectModel = nil;
+  }
+
+  return self;
+}
+
 - (void)dealloc
 {
-  [__managedObjectContext release];
-  [__persistentStoreCoordinator release];
-  [__managedObjectModel release];
+  [__projects release], __projects = nil;
+  [__items release], __items = nil;
+  [__rules release], __rules = nil;
+
+  [__managedObjectContext release], __managedObjectContext = nil;
+  [__persistentStoreCoordinator release], __persistentStoreCoordinator = nil;
+  [__managedObjectModel release], __managedObjectModel = nil;
   [super dealloc];
 }
 
@@ -51,6 +73,16 @@ static ManagedObjectContext *sharedManagedObjectContext = nil;
   
   return __projects;
 }
+
+- (Rules *)rules
+{
+  if (!__rules) {
+    __rules = [[Rules alloc] initWithManagedObjectContext:[self managedObjectContext]];
+  }
+
+  return __rules;
+}
+
 
 #pragma mark - Methods
 

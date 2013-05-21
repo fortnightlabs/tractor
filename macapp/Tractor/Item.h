@@ -21,4 +21,6 @@
 - (NSString *)startString;
 - (NSString *)fileName;
 
+- (void)applyRules:(NSArray *)rules;
+
 @end

@@ -51,4 +51,11 @@
   return [request all];
 }
 
+- (Project *)first
+{
+  FetchRequest *request = [self request];
+  [request sortBy:@"name" ascending:YES];
+  return [request first];
+}
+
 @end

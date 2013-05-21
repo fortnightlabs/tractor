@@ -10,6 +10,8 @@
   TractorController *controller;
   AssignTimeWindowController *assignTimeWindowController;
   PreferencesWindowController *preferencesWindowController;
+
+  NSTimer *autosaveTimer;
 }
 
 - (IBAction)dumpItems:(id)sender;

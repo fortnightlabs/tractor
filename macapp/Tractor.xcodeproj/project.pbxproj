@@ -11,6 +11,11 @@
 		853AD03E143FE30100416E54 /* tractor-white.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 853AD03D143FE30100416E54 /* tractor-white.tiff */; };
 		F203730F142CCC740053C4A5 /* Items.m in Sources */ = {isa = PBXBuildFile; fileRef = F203730E142CCC730053C4A5 /* Items.m */; };
 		F2037312142CD8D20053C4A5 /* FetchRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F2037311142CD8D20053C4A5 /* FetchRequest.m */; };
+		F20B42B517459209006110C8 /* AddRuleSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20B42B317459209006110C8 /* AddRuleSheetController.m */; };
+		F20B42B617459209006110C8 /* AddRuleSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = F20B42B417459209006110C8 /* AddRuleSheet.xib */; };
+		F20B42B81745A292006110C8 /* pinion-gear-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F20B42B71745A292006110C8 /* pinion-gear-icon.png */; };
+		F20B42BC1745A3B7006110C8 /* RulePreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20B42BA1745A3B7006110C8 /* RulePreferencesViewController.m */; };
+		F20B42BD1745A3B7006110C8 /* RulePreferencesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F20B42BB1745A3B7006110C8 /* RulePreferencesView.xib */; };
 		F212A5F917383270000220A5 /* SheetWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F212A5F817383270000220A5 /* SheetWindow.m */; };
 		F212A5FD17384BFE000220A5 /* Project.m in Sources */ = {isa = PBXBuildFile; fileRef = F212A5FC17384BFE000220A5 /* Project.m */; };
 		F212A600173B11C4000220A5 /* ManagedObjectCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = F212A5FF173B11C4000220A5 /* ManagedObjectCollection.m */; };
@@ -38,6 +43,8 @@
 		F2A0B4C814207CA000F07F32 /* TractorTests.h in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4C714207CA000F07F32 /* TractorTests.h */; };
 		F2A0B4CA14207CA000F07F32 /* TractorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0B4C914207CA000F07F32 /* TractorTests.m */; };
 		F2A0B4D41420845200F07F32 /* tractor.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4D31420845200F07F32 /* tractor.tiff */; };
+		F2AC053F1749760D0028CD7F /* Rule.m in Sources */ = {isa = PBXBuildFile; fileRef = F2AC053E1749760D0028CD7F /* Rule.m */; };
+		F2AC0543174A84850028CD7F /* Rules.m in Sources */ = {isa = PBXBuildFile; fileRef = F2AC0542174A84850028CD7F /* Rules.m */; };
 		F2E1A6181731E88400C3E5B8 /* AddProjectSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2E1A6161731E88300C3E5B8 /* AddProjectSheetController.m */; };
 		F2E1A6191731E88400C3E5B8 /* AddProjectSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2E1A6171731E88400C3E5B8 /* AddProjectSheet.xib */; };
 		F2E654481728AE5F00FC7AFF /* AssignTimeWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2E654461728AE5F00FC7AFF /* AssignTimeWindowController.m */; };
@@ -66,6 +73,13 @@
 		F203730E142CCC730053C4A5 /* Items.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Items.m; sourceTree = "<group>"; };
 		F2037310142CD8D20053C4A5 /* FetchRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FetchRequest.h; sourceTree = "<group>"; };
 		F2037311142CD8D20053C4A5 /* FetchRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FetchRequest.m; sourceTree = "<group>"; };
+		F20B42B217459209006110C8 /* AddRuleSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddRuleSheetController.h; sourceTree = "<group>"; };
+		F20B42B317459209006110C8 /* AddRuleSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddRuleSheetController.m; sourceTree = "<group>"; };
+		F20B42B417459209006110C8 /* AddRuleSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddRuleSheet.xib; sourceTree = "<group>"; };
+		F20B42B71745A292006110C8 /* pinion-gear-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinion-gear-icon.png"; sourceTree = "<group>"; };
+		F20B42B91745A3B7006110C8 /* RulePreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RulePreferencesViewController.h; sourceTree = "<group>"; };
+		F20B42BA1745A3B7006110C8 /* RulePreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RulePreferencesViewController.m; sourceTree = "<group>"; };
+		F20B42BB1745A3B7006110C8 /* RulePreferencesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RulePreferencesView.xib; sourceTree = "<group>"; };
 		F212A5F717383270000220A5 /* SheetWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SheetWindow.h; sourceTree = "<group>"; };
 		F212A5F817383270000220A5 /* SheetWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SheetWindow.m; sourceTree = "<group>"; };
 		F212A5FA17384907000220A5 /* TractorV2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TractorV2.xcdatamodel; sourceTree = "<group>"; };
@@ -114,6 +128,12 @@
 		F2A0B4C714207CA000F07F32 /* TractorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TractorTests.h; sourceTree = "<group>"; };
 		F2A0B4C914207CA000F07F32 /* TractorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TractorTests.m; sourceTree = "<group>"; };
 		F2A0B4D31420845200F07F32 /* tractor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = tractor.tiff; sourceTree = "<group>"; };
+		F2AC053C1749717C0028CD7F /* TractorV3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = TractorV3.xcdatamodel; sourceTree = "<group>"; };
+		F2AC053D1749760D0028CD7F /* Rule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rule.h; path = Tractor/Rule.h; sourceTree = "<group>"; };
+		F2AC053E1749760D0028CD7F /* Rule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rule.m; path = Tractor/Rule.m; sourceTree = "<group>"; };
+		F2AC0541174A84850028CD7F /* Rules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rules.h; path = Tractor/Rules.h; sourceTree = "<group>"; };
+		F2AC0542174A84850028CD7F /* Rules.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rules.m; path = Tractor/Rules.m; sourceTree = "<group>"; };
+		F2AC0544174A88320028CD7F /* TractorV4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = TractorV4.xcdatamodel; sourceTree = "<group>"; };
 		F2E1A6151731E88300C3E5B8 /* AddProjectSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddProjectSheetController.h; sourceTree = "<group>"; };
 		F2E1A6161731E88300C3E5B8 /* AddProjectSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddProjectSheetController.m; sourceTree = "<group>"; };
 		F2E1A6171731E88400C3E5B8 /* AddProjectSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProjectSheet.xib; sourceTree = "<group>"; };
@@ -186,6 +206,7 @@
 				F2A0B4B314207CA000F07F32 /* Tractor.xcdatamodeld */,
 				F2037313142CDDBA0053C4A5 /* Items */,
 				F212A604173B1D76000220A5 /* Projects */,
+				F2AC0540174976180028CD7F /* Rules */,
 				F29409DC168744FF00A80E04 /* ManagedObjectContext.h */,
 				F29409DD168744FF00A80E04 /* ManagedObjectContext.m */,
 				F212A5FE173B11C3000220A5 /* ManagedObjectCollection.h */,
@@ -253,6 +274,12 @@
 				F226B3451741D1210091DB62 /* ProjectPreferencesViewController.h */,
 				F226B3461741D1210091DB62 /* ProjectPreferencesViewController.m */,
 				F226B3471741D1210091DB62 /* ProjectPreferencesView.xib */,
+				F20B42B91745A3B7006110C8 /* RulePreferencesViewController.h */,
+				F20B42BA1745A3B7006110C8 /* RulePreferencesViewController.m */,
+				F20B42BB1745A3B7006110C8 /* RulePreferencesView.xib */,
+				F20B42B217459209006110C8 /* AddRuleSheetController.h */,
+				F20B42B317459209006110C8 /* AddRuleSheetController.m */,
+				F20B42B417459209006110C8 /* AddRuleSheet.xib */,
 			);
 			name = PreferencesWindow;
 			sourceTree = "<group>";
@@ -321,6 +348,7 @@
 			isa = PBXGroup;
 			children = (
 				F226B3431741BBA80091DB62 /* data-management-icon.png */,
+				F20B42B71745A292006110C8 /* pinion-gear-icon.png */,
 				853AD03A143FDDA000416E54 /* TimeMachine Timmy.icns */,
 				F2A0B4D31420845200F07F32 /* tractor.tiff */,
 				853AD03D143FE30100416E54 /* tractor-white.tiff */,
@@ -350,6 +378,18 @@
 				F2A0B4C414207CA000F07F32 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F2AC0540174976180028CD7F /* Rules */ = {
+			isa = PBXGroup;
+			children = (
+				F2AC053D1749760D0028CD7F /* Rule.h */,
+				F2AC053E1749760D0028CD7F /* Rule.m */,
+				F2AC0541174A84850028CD7F /* Rules.h */,
+				F2AC0542174A84850028CD7F /* Rules.m */,
+			);
+			name = Rules;
+			path = ..;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -433,6 +473,9 @@
 				F25410231741B9A900ACF5A3 /* PreferencesWindow.xib in Resources */,
 				F226B3441741BBA80091DB62 /* data-management-icon.png in Resources */,
 				F226B3491741D1210091DB62 /* ProjectPreferencesView.xib in Resources */,
+				F20B42B617459209006110C8 /* AddRuleSheet.xib in Resources */,
+				F20B42B81745A292006110C8 /* pinion-gear-icon.png in Resources */,
+				F20B42BD1745A3B7006110C8 /* RulePreferencesView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,6 +532,10 @@
 				F212A603173B172C000220A5 /* Projects.m in Sources */,
 				F25410221741B9A900ACF5A3 /* PreferencesWindowController.m in Sources */,
 				F226B3481741D1210091DB62 /* ProjectPreferencesViewController.m in Sources */,
+				F20B42B517459209006110C8 /* AddRuleSheetController.m in Sources */,
+				F20B42BC1745A3B7006110C8 /* RulePreferencesViewController.m in Sources */,
+				F2AC053F1749760D0028CD7F /* Rule.m in Sources */,
+				F2AC0543174A84850028CD7F /* Rules.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -693,10 +740,12 @@
 		F2A0B4B314207CA000F07F32 /* Tractor.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				F2AC0544174A88320028CD7F /* TractorV4.xcdatamodel */,
+				F2AC053C1749717C0028CD7F /* TractorV3.xcdatamodel */,
 				F212A5FA17384907000220A5 /* TractorV2.xcdatamodel */,
 				F2A0B4B414207CA000F07F32 /* Tractor.xcdatamodel */,
 			);
-			currentVersion = F212A5FA17384907000220A5 /* TractorV2.xcdatamodel */;
+			currentVersion = F2AC0544174A88320028CD7F /* TractorV4.xcdatamodel */;
 			path = Tractor.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -3,6 +3,7 @@
 #import <time.h>
 #import <xlocale.h>
 #import <math.h>
+#import "Rule.h"
 
 static NSString *JSONDate(NSDate *date);
 
@@ -42,6 +43,26 @@ static NSString *JSONDate(NSDate *date);
     NULLNIL(info), @"info",
     nil];
   return dict;
+}
+
+- (void)applyRules:(NSArray *)rules
+{
+  Project *ruleProject = nil;
+  NSDictionary *matchDictionary = [NSMutableDictionary dictionaryWithDictionary:[self infoDictionary]];
+  [matchDictionary setValue:NULLNIL([self app]) forKey:@"app"];
+  NSArray *keyPaths = [matchDictionary allKeys];
+
+  for (Rule *rule in rules) {
+    NSPredicate *predicate = [rule expandedPredicate:keyPaths]; //[NSPredicate predicateWithFormat:@"app CONTAINS %@", @"o"];
+    if ([predicate evaluateWithObject:matchDictionary]) {
+      ruleProject = [rule project];
+      break;
+    }
+  }
+
+  if (ruleProject) {
+    [self setProject:ruleProject];
+  }
 }
 
 - (NSString *)description
