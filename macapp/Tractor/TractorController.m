@@ -115,9 +115,10 @@ static int64_t SystemIdleSeconds(void);
     if (name) { [latestItem setApp:name]; }
     if (info) { [latestItem setInfo:infoData]; }
     // NSLog(@"Started %@", latestItem);
+
+    [latestItem applyRules:[[context rules] all]];
   }
 
-  [latestItem applyRules:[[context rules] all]];
 }
 
 // returns the time when the computer became idle, nil if not idle

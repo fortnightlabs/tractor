@@ -18,8 +18,8 @@
   preferencesWindowController = [[[PreferencesWindowController alloc] initWithWindowNibName:@"PreferencesWindow"] retain];
   [preferencesWindowController setContext:[self managedObjectContext]];
 
-  NSTimeInterval fiveMinutes = 60 * 5;
-  autosaveTimer = [[NSTimer scheduledTimerWithTimeInterval:fiveMinutes target:self selector:@selector(autosave) userInfo:nil repeats:YES] retain];
+  NSTimeInterval oneMinute = 60 * 1;
+  autosaveTimer = [[NSTimer scheduledTimerWithTimeInterval:oneMinute target:self selector:@selector(autosave) userInfo:nil repeats:YES] retain];
 }
 
 - (void)dealloc

@@ -112,6 +112,7 @@ static NSString *RulesTableDropType = @"RulesTableDropType";
 - (IBAction)removeSelectedRules:(id)sender
 {
   [[context rules] removeRules:[rulesArrayController selectedObjects]];
+  [context save];
 }
 
 #pragma mark - Rule Sheet
