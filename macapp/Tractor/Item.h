@@ -12,10 +12,12 @@
 @property (nonatomic, retain) NSData * info;
 @property (nonatomic, retain) NSNumber * uploaded;
 @property (nonatomic, retain) Project *project;
+@property (nonatomic, readonly) NSTimeInterval duration;
+@property (nonatomic, readonly) NSArray *items;
+@property (nonatomic, readonly) NSString *title;
 
 - (BOOL)matchesApp:(NSString *)app andInfoData:(NSData *)infoData;
 - (NSDictionary *)JSONDictionary;
-- (NSTimeInterval)duration;
 - (NSString *)durationDescription;
 - (NSString *)summary;
 - (NSString *)startString;

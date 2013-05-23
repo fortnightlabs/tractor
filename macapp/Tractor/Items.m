@@ -1,5 +1,5 @@
 #import "Items.h"
-#import "ItemGroup.h"
+#import "AppGroup.h"
 #import "Item.h"
 #import "NSDate+DayExtensions.h"
 
@@ -42,40 +42,10 @@
   return [request all];
 }
 
-- (NSArray *)itemGroupsForDay:(NSDate *)date
+- (NSArray *)appGroupsForDay:(NSDate *)date
 {
   NSArray *items = [self itemsForDay:date];
-  NSMutableArray *groups = [NSMutableArray array];
-  NSRange range = { .location = 0, .length = 0 };
-
-  Item *lastItem = nil;
-  for (Item *item in items) {
-    range.length++;
-
-    NSString *lastApp = [lastItem app];
-    NSString *currApp = [item app];
-    BOOL sameApp = (lastApp && currApp && [lastApp isEqualToString:currApp]) || (!lastApp && !currApp);
-    
-    // group by app name
-    if (lastItem && !sameApp) {
-      range.length--;
-  
-      ItemGroup *group = [[ItemGroup alloc] initWithItems:[items subarrayWithRange:range]];
-      [groups addObject:group];
-      [group release];
-
-      range.location += range.length;
-      range.length = 1;
-    }
-    
-    lastItem = item;
-  }
-  
-  ItemGroup *group = [[ItemGroup alloc] initWithItems:[items subarrayWithRange:range]];
-  [groups addObject:group];
-  [group release];    
-  
-  return groups;
+  return [AppGroup appGroupsFromItems:items];
 }
 
 

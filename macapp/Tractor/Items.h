@@ -7,7 +7,7 @@
 - (Item *)latestItem;
 
 - (NSArray *)itemsForDay:(NSDate *)date;
-- (NSArray *)itemGroupsForDay:(NSDate *)date;
+- (NSArray *)appGroupsForDay:(NSDate *)date;
 
 - (void)dumpJSONToFileURL:(NSURL *)url;
 - (void)uploadJSONToURL:(NSURL *)url;

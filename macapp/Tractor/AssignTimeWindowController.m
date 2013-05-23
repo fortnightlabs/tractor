@@ -7,7 +7,7 @@
 //
 
 #import "AssignTimeWindowController.h"
-#import "ItemGroup.h"
+#import "AppGroup.h"
 
 @implementation AssignTimeWindowController
 
@@ -19,113 +19,55 @@
 {
   self = [super initWithWindow:window];
   if (self) {
-    tableItems = nil;
-    currentDate = [[NSDate date] retain];
+    // initializers
   }
-  
+
   return self;
 }
 
 - (void)dealloc
 {
-  [tableItems release], tableItems = nil;
-  [currentDate release], currentDate = nil;
+  [self setCurrentDate:nil];
   [super dealloc];
 }
 
-- (void)windowDidLoad
+- (void)awakeFromNib
 {
-  [self setCurrentItem:nil];
-  [datePicker setDateValue:currentDate];
-  [super windowDidLoad];
-  [itemDetailViewController setContext:[self context]];
+  [self setCurrentDate:[NSDate date]];
+  [datePicker setDateValue:[self currentDate]];
+  [self updateItemsTreeControllerContent];
 }
 
-#pragma mark - Properties
-
-- (void)setContext:(ManagedObjectContext *)newContext
-{
-  [context autorelease];
-  context = [newContext retain];
-  [itemDetailViewController setContext:context];
-}
-
-#pragma mark - datePicker
+#pragma mark - NSDatePickerCellDelegate
 
 -      (void)datePickerCell:(NSDatePickerCell *)aDatePickerCell
   validateProposedDateValue:(NSDate **)proposedDateValue
                timeInterval:(NSTimeInterval *)proposedTimeInterval
 {
   if (*proposedDateValue) {
-    [currentDate autorelease];
-    currentDate = [*proposedDateValue retain];
-    [tableItems release];
-    tableItems = nil;
-    [itemsTable reloadData];
+    [self setCurrentDate:*proposedDateValue];
+    [self updateItemsTreeControllerContent];
   } else {
-    *proposedDateValue = currentDate;
+    *proposedDateValue = [self currentDate];
   }
 }
 
-#pragma mark - tableItems
+#pragma mark - NSOutlineViewDelegate
 
-- (NSArray *)tableItems
+//- (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
+//{
+//  NSString *viewIdentifier = [NSString stringWithFormat:@"%@Cell", [tableColumn identifier]];
+//  NSView *view = [outlineView makeViewWithIdentifier:viewIdentifier owner:self];
+//  NSLog(@"%@: %@", viewIdentifier, view);
+//  return view;
+//}
+
+#pragma mark - itemsTreeController
+
+- (void)updateItemsTreeControllerContent
 {
-  if (!tableItems) {
-    tableItems = [[[context items] itemGroupsForDay:currentDate] retain];
-  }
-  return tableItems;
+  NSArray *items = [[context items] appGroupsForDay:[self currentDate]];
+  [itemsTreeController setContent:items];
 }
-
-#pragma mark - textField
-
-- (void)setCurrentItem:(ItemGroup *)item
-{
-  [itemDetailViewController setCurrentItem:item];
-}
-
-#pragma mark - itemsTable
-
-- (void)tableViewSelectionDidChange:(NSNotification *)notification
-{
-  NSInteger row = [itemsTable selectedRow];
-  ItemGroup *item = nil;
-
-  if (row >= 0) {
-    item = [[self tableItems] objectAtIndex:row];
-  }
-
-  [self setCurrentItem:item];
-}
-
-- (NSUInteger)numberOfRowsInTableView:(NSTableView *)tableView
-{
-  return [[self tableItems] count];
-}
-
-- (id)              tableView:(NSTableView *)tableView
-    objectValueForTableColumn:(NSTableColumn *)tableColumn
-                          row:(NSInteger)row
-{
-  ItemGroup *item = [[self tableItems] objectAtIndex:row];
-  NSString *columnId = [tableColumn identifier];
-  NSString *value = @"";
-  
-  if ([columnId isEqualToString:@"time"]) {
-    value = [item startString];
-  } else if ([columnId isEqualToString:@"app"]) {
-    value = [item app];
-  } else if ([columnId isEqualToString:@"duration"]) {
-    value = [item durationDescription];
-  }
-
-  return value;
-}
-
-- (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
-{
-  return NO;
-}
-
 
 @end

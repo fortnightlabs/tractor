@@ -24,10 +24,9 @@
 		F226B3481741D1210091DB62 /* ProjectPreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F226B3461741D1210091DB62 /* ProjectPreferencesViewController.m */; };
 		F226B3491741D1210091DB62 /* ProjectPreferencesView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F226B3471741D1210091DB62 /* ProjectPreferencesView.xib */; };
 		F237D21D1729FC0D005C1296 /* NSDate+DayExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = F237D21C1729FC0D005C1296 /* NSDate+DayExtensions.m */; };
-		F237D220172B3498005C1296 /* ItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F237D21F172B3498005C1296 /* ItemDetailViewController.m */; };
 		F25410221741B9A900ACF5A3 /* PreferencesWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F25410201741B9A800ACF5A3 /* PreferencesWindowController.m */; };
 		F25410231741B9A900ACF5A3 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F25410211741B9A800ACF5A3 /* PreferencesWindow.xib */; };
-		F26CF31117306961007E92F5 /* ItemGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = F26CF31017306961007E92F5 /* ItemGroup.m */; };
+		F26CF31117306961007E92F5 /* AppGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = F26CF31017306961007E92F5 /* AppGroup.m */; };
 		F26CF31317306FF9007E92F5 /* NSTimeIntervalDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = F26CF31217306FF9007E92F5 /* NSTimeIntervalDescription.m */; };
 		F29409DE168744FF00A80E04 /* ManagedObjectContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F29409DD168744FF00A80E04 /* ManagedObjectContext.m */; };
 		F2A0B49C14207CA000F07F32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A0B49B14207CA000F07F32 /* Cocoa.framework */; };
@@ -45,6 +44,7 @@
 		F2A0B4D41420845200F07F32 /* tractor.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4D31420845200F07F32 /* tractor.tiff */; };
 		F2AC053F1749760D0028CD7F /* Rule.m in Sources */ = {isa = PBXBuildFile; fileRef = F2AC053E1749760D0028CD7F /* Rule.m */; };
 		F2AC0543174A84850028CD7F /* Rules.m in Sources */ = {isa = PBXBuildFile; fileRef = F2AC0542174A84850028CD7F /* Rules.m */; };
+		F2BD8AA4174E9D9500B10731 /* ItemFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BD8AA3174E9D9500B10731 /* ItemFormatter.m */; };
 		F2E1A6181731E88400C3E5B8 /* AddProjectSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2E1A6161731E88300C3E5B8 /* AddProjectSheetController.m */; };
 		F2E1A6191731E88400C3E5B8 /* AddProjectSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2E1A6171731E88400C3E5B8 /* AddProjectSheet.xib */; };
 		F2E654481728AE5F00FC7AFF /* AssignTimeWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2E654461728AE5F00FC7AFF /* AssignTimeWindowController.m */; };
@@ -54,6 +54,7 @@
 		F2EF60B4142ABCA1009FC44C /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EF60B3142ABCA1009FC44C /* ScriptingBridge.framework */; };
 		F2EF60C0142BEE97009FC44C /* TractorController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2EF60BF142BEE97009FC44C /* TractorController.m */; };
 		F2EF60C2142BFBDD009FC44C /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2EF60C1142BFBDD009FC44C /* IOKit.framework */; };
+		F2FD6319174D6F8800DB290D /* DurationFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F2FD6318174D6F8800DB290D /* DurationFormatter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -96,13 +97,11 @@
 		F226B3471741D1210091DB62 /* ProjectPreferencesView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectPreferencesView.xib; sourceTree = "<group>"; };
 		F237D21B1729FC0D005C1296 /* NSDate+DayExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+DayExtensions.h"; sourceTree = "<group>"; };
 		F237D21C1729FC0D005C1296 /* NSDate+DayExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+DayExtensions.m"; sourceTree = "<group>"; };
-		F237D21E172B3498005C1296 /* ItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemDetailViewController.h; sourceTree = "<group>"; };
-		F237D21F172B3498005C1296 /* ItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemDetailViewController.m; sourceTree = "<group>"; };
 		F254101F1741B9A800ACF5A3 /* PreferencesWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesWindowController.h; sourceTree = "<group>"; };
 		F25410201741B9A800ACF5A3 /* PreferencesWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindowController.m; sourceTree = "<group>"; };
 		F25410211741B9A800ACF5A3 /* PreferencesWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
-		F26CF30F17306961007E92F5 /* ItemGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemGroup.h; sourceTree = "<group>"; };
-		F26CF31017306961007E92F5 /* ItemGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemGroup.m; sourceTree = "<group>"; };
+		F26CF30F17306961007E92F5 /* AppGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppGroup.h; sourceTree = "<group>"; };
+		F26CF31017306961007E92F5 /* AppGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppGroup.m; sourceTree = "<group>"; };
 		F26CF31217306FF9007E92F5 /* NSTimeIntervalDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSTimeIntervalDescription.m; sourceTree = "<group>"; };
 		F26CF31417307075007E92F5 /* NSTimeIntervalDescription.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSTimeIntervalDescription.h; sourceTree = "<group>"; };
 		F29409DC168744FF00A80E04 /* ManagedObjectContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjectContext.h; sourceTree = "<group>"; };
@@ -128,12 +127,14 @@
 		F2A0B4C714207CA000F07F32 /* TractorTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TractorTests.h; sourceTree = "<group>"; };
 		F2A0B4C914207CA000F07F32 /* TractorTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TractorTests.m; sourceTree = "<group>"; };
 		F2A0B4D31420845200F07F32 /* tractor.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = tractor.tiff; sourceTree = "<group>"; };
-		F2AC053C1749717C0028CD7F /* TractorV3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = TractorV3.xcdatamodel; sourceTree = "<group>"; };
+		F2AC053C1749717C0028CD7F /* TractorV3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TractorV3.xcdatamodel; sourceTree = "<group>"; };
 		F2AC053D1749760D0028CD7F /* Rule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rule.h; path = Tractor/Rule.h; sourceTree = "<group>"; };
 		F2AC053E1749760D0028CD7F /* Rule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rule.m; path = Tractor/Rule.m; sourceTree = "<group>"; };
 		F2AC0541174A84850028CD7F /* Rules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Rules.h; path = Tractor/Rules.h; sourceTree = "<group>"; };
 		F2AC0542174A84850028CD7F /* Rules.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Rules.m; path = Tractor/Rules.m; sourceTree = "<group>"; };
-		F2AC0544174A88320028CD7F /* TractorV4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = TractorV4.xcdatamodel; sourceTree = "<group>"; };
+		F2AC0544174A88320028CD7F /* TractorV4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TractorV4.xcdatamodel; sourceTree = "<group>"; };
+		F2BD8AA2174E9D9500B10731 /* ItemFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemFormatter.h; sourceTree = "<group>"; };
+		F2BD8AA3174E9D9500B10731 /* ItemFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemFormatter.m; sourceTree = "<group>"; };
 		F2E1A6151731E88300C3E5B8 /* AddProjectSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddProjectSheetController.h; sourceTree = "<group>"; };
 		F2E1A6161731E88300C3E5B8 /* AddProjectSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddProjectSheetController.m; sourceTree = "<group>"; };
 		F2E1A6171731E88400C3E5B8 /* AddProjectSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProjectSheet.xib; sourceTree = "<group>"; };
@@ -151,6 +152,8 @@
 		F2EF60BE142BEE97009FC44C /* TractorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TractorController.h; sourceTree = "<group>"; };
 		F2EF60BF142BEE97009FC44C /* TractorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TractorController.m; sourceTree = "<group>"; };
 		F2EF60C1142BFBDD009FC44C /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		F2FD6317174D6F8800DB290D /* DurationFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DurationFormatter.h; sourceTree = "<group>"; };
+		F2FD6318174D6F8800DB290D /* DurationFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DurationFormatter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,8 +186,8 @@
 				F2EF60B1142AA4A0009FC44C /* Item.m */,
 				F203730D142CCC730053C4A5 /* Items.h */,
 				F203730E142CCC730053C4A5 /* Items.m */,
-				F26CF30F17306961007E92F5 /* ItemGroup.h */,
-				F26CF31017306961007E92F5 /* ItemGroup.m */,
+				F26CF30F17306961007E92F5 /* AppGroup.h */,
+				F26CF31017306961007E92F5 /* AppGroup.m */,
 			);
 			name = Items;
 			sourceTree = "<group>";
@@ -234,10 +237,12 @@
 			isa = PBXGroup;
 			children = (
 				F2E654471728AE5F00FC7AFF /* AssignTimeWindow.xib */,
+				F2BD8AA2174E9D9500B10731 /* ItemFormatter.h */,
+				F2BD8AA3174E9D9500B10731 /* ItemFormatter.m */,
+				F2FD6317174D6F8800DB290D /* DurationFormatter.h */,
+				F2FD6318174D6F8800DB290D /* DurationFormatter.m */,
 				F2E654451728AE5F00FC7AFF /* AssignTimeWindowController.h */,
 				F2E654461728AE5F00FC7AFF /* AssignTimeWindowController.m */,
-				F237D21E172B3498005C1296 /* ItemDetailViewController.h */,
-				F237D21F172B3498005C1296 /* ItemDetailViewController.m */,
 			);
 			name = AssignTimeWindow;
 			sourceTree = "<group>";
@@ -522,8 +527,7 @@
 				F29409DE168744FF00A80E04 /* ManagedObjectContext.m in Sources */,
 				F2E654481728AE5F00FC7AFF /* AssignTimeWindowController.m in Sources */,
 				F237D21D1729FC0D005C1296 /* NSDate+DayExtensions.m in Sources */,
-				F237D220172B3498005C1296 /* ItemDetailViewController.m in Sources */,
-				F26CF31117306961007E92F5 /* ItemGroup.m in Sources */,
+				F26CF31117306961007E92F5 /* AppGroup.m in Sources */,
 				F26CF31317306FF9007E92F5 /* NSTimeIntervalDescription.m in Sources */,
 				F2E1A6181731E88400C3E5B8 /* AddProjectSheetController.m in Sources */,
 				F212A5F917383270000220A5 /* SheetWindow.m in Sources */,
@@ -536,6 +540,8 @@
 				F20B42BC1745A3B7006110C8 /* RulePreferencesViewController.m in Sources */,
 				F2AC053F1749760D0028CD7F /* Rule.m in Sources */,
 				F2AC0543174A84850028CD7F /* Rules.m in Sources */,
+				F2FD6319174D6F8800DB290D /* DurationFormatter.m in Sources */,
+				F2BD8AA4174E9D9500B10731 /* ItemFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

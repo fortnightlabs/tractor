@@ -122,6 +122,11 @@ static NSString *JSONDate(NSDate *date);
   return summary;
 }
 
+- (NSString *)title
+{
+  return [[self infoDictionary] objectForKey:@"title"];
+}
+
 - (NSString *)fileName
 {
   NSDictionary *info = [self infoDictionary];
@@ -165,6 +170,11 @@ static NSString *JSONDate(NSDate *date);
   }
 
   return info;
+}
+
+- (NSArray *)items
+{
+  return @[];
 }
 
 @end
