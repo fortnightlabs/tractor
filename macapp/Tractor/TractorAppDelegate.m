@@ -56,7 +56,6 @@
 {
   [[NSApplication sharedApplication] activateIgnoringOtherApps:YES];
   [[assignTimeWindowController window] makeKeyAndOrderFront:sender];
-  [assignTimeWindowController updateItemsTreeControllerContent];
 }
 
 - (IBAction)showPreferences:(id)sender

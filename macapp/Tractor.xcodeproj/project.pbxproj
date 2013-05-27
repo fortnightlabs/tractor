@@ -28,6 +28,7 @@
 		F25410231741B9A900ACF5A3 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F25410211741B9A800ACF5A3 /* PreferencesWindow.xib */; };
 		F26CF31117306961007E92F5 /* AppGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = F26CF31017306961007E92F5 /* AppGroup.m */; };
 		F26CF31317306FF9007E92F5 /* NSTimeIntervalDescription.m in Sources */ = {isa = PBXBuildFile; fileRef = F26CF31217306FF9007E92F5 /* NSTimeIntervalDescription.m */; };
+		F29184471753C0AD00C61AF5 /* ItemTableRowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F29184461753C0AD00C61AF5 /* ItemTableRowViewController.m */; };
 		F29409DE168744FF00A80E04 /* ManagedObjectContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F29409DD168744FF00A80E04 /* ManagedObjectContext.m */; };
 		F2A0B49C14207CA000F07F32 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A0B49B14207CA000F07F32 /* Cocoa.framework */; };
 		F2A0B4A614207CA000F07F32 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2A0B4A414207CA000F07F32 /* InfoPlist.strings */; };
@@ -104,6 +105,9 @@
 		F26CF31017306961007E92F5 /* AppGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppGroup.m; sourceTree = "<group>"; };
 		F26CF31217306FF9007E92F5 /* NSTimeIntervalDescription.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSTimeIntervalDescription.m; sourceTree = "<group>"; };
 		F26CF31417307075007E92F5 /* NSTimeIntervalDescription.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSTimeIntervalDescription.h; sourceTree = "<group>"; };
+		F29184441750222400C61AF5 /* AddProjectSheetControllerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddProjectSheetControllerDelegate.h; sourceTree = "<group>"; };
+		F29184451753C0AD00C61AF5 /* ItemTableRowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemTableRowViewController.h; sourceTree = "<group>"; };
+		F29184461753C0AD00C61AF5 /* ItemTableRowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemTableRowViewController.m; sourceTree = "<group>"; };
 		F29409DC168744FF00A80E04 /* ManagedObjectContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManagedObjectContext.h; sourceTree = "<group>"; };
 		F29409DD168744FF00A80E04 /* ManagedObjectContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManagedObjectContext.m; sourceTree = "<group>"; };
 		F2A0B49714207CA000F07F32 /* Tractor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tractor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -243,6 +247,8 @@
 				F2FD6318174D6F8800DB290D /* DurationFormatter.m */,
 				F2E654451728AE5F00FC7AFF /* AssignTimeWindowController.h */,
 				F2E654461728AE5F00FC7AFF /* AssignTimeWindowController.m */,
+				F29184451753C0AD00C61AF5 /* ItemTableRowViewController.h */,
+				F29184461753C0AD00C61AF5 /* ItemTableRowViewController.m */,
 			);
 			name = AssignTimeWindow;
 			sourceTree = "<group>";
@@ -252,6 +258,7 @@
 			children = (
 				F2E1A6151731E88300C3E5B8 /* AddProjectSheetController.h */,
 				F2E1A6161731E88300C3E5B8 /* AddProjectSheetController.m */,
+				F29184441750222400C61AF5 /* AddProjectSheetControllerDelegate.h */,
 				F2E1A6171731E88400C3E5B8 /* AddProjectSheet.xib */,
 			);
 			name = AddProjectSheet;
@@ -542,6 +549,7 @@
 				F2AC0543174A84850028CD7F /* Rules.m in Sources */,
 				F2FD6319174D6F8800DB290D /* DurationFormatter.m in Sources */,
 				F2BD8AA4174E9D9500B10731 /* ItemFormatter.m in Sources */,
+				F29184471753C0AD00C61AF5 /* ItemTableRowViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

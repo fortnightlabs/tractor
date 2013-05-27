@@ -76,6 +76,18 @@
   return nil;
 }
 
+- (void)setProject:(Project *)project
+{
+  for (Item *item in [self items]) {
+    [item setProject:project];
+  }
+}
+
+- (Project *)project
+{
+  return nil;
+}
+
 #pragma mark - Item methods
 
 - (void)addItem:(Item *)item

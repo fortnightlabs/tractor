@@ -2,25 +2,21 @@
 
 @implementation AddProjectSheetController
 
-@synthesize currentProject;
-@synthesize projects;
-
 #pragma mark - Lifecycle
 
 - (id)initWithWindow:(NSWindow *)window
 {
   self = [super initWithWindow:window];
   if (self) {
-    currentProject = nil;
-    projects = nil;
+    // initialization code goes here
   }
   
   return self;
 }
 
 - (void)dealloc {
-  [currentProject release], currentProject = nil;
-  [projects release], projects = nil;
+  [self setCurrentProject:nil];
+  [self setProjects:nil];
   [super dealloc];
 }
 
@@ -47,15 +43,39 @@
 - (IBAction)addProject:(id)sender
 {
   NSString *name = [projectName stringValue];
-  [self setCurrentProject:[self projectWithName:name]];
+  Project *project = [self projectWithName:name];
+  [self setCurrentProject:project];
+
+  if ([[self delegate] respondsToSelector:@selector(projectWasAdded:)]) {
+    [[self delegate] projectWasAdded:project];
+  }
+
   [self endSheet];
 }
 
 #pragma mark - Methods
 
+- (void)showSheetForWindow:(NSWindow *)currentWindow
+{
+  NSWindow *sheet = [self window];
+
+  [NSApp beginSheet:sheet
+     modalForWindow:currentWindow
+      modalDelegate:self
+     didEndSelector:@selector(addProjectSheetDidEnd:returnCode:contextInfo:)
+        contextInfo:nil];
+}
+
+- (void)addProjectSheetDidEnd:(NSWindow *)sheet
+                   returnCode:(NSInteger)returnCode
+                  contextInfo:(void *)contextInfo
+{
+  [sheet orderOut:self];
+}
+
 - (Project *)projectWithName:(NSString *)name
 {
-  return [projects findOrAddProjectWithName:name];
+  return [[self projects] findOrAddProjectWithName:name];
 }
 
 @end

@@ -26,13 +26,7 @@
   [super dealloc];
 }
 
-- (void)loadView
-{
-  [super loadView];
-  [self viewDidLoad];
-}
-
-- (void)viewDidLoad
+- (void)awakeFromNib
 {
   [self loadProjectsTable];
 }
@@ -41,7 +35,7 @@
 
 - (IBAction)addProject:(id)sender
 {
-  [self showAddProjectSheet];
+  [[self addProjectSheetController] showSheetForWindow:[[self view] window]];
 }
 
 - (IBAction)removeProject:(id)sender
@@ -76,26 +70,6 @@
   }
 
   return addProjectSheetController;
-}
-
-- (void)showAddProjectSheet
-{
-
-  NSWindow *currentWindow = [[self view] window];
-  NSWindow *sheet = [[self addProjectSheetController] window];
-
-  [NSApp beginSheet:sheet
-     modalForWindow:currentWindow
-      modalDelegate:self
-     didEndSelector:@selector(addProjectSheetDidEnd:returnCode:contextInfo:)
-        contextInfo:nil];
-}
-
-- (void)addProjectSheetDidEnd:(NSWindow *)sheet
-                   returnCode:(NSInteger)returnCode
-                  contextInfo:(void *)contextInfo
-{
-  [sheet orderOut:self];
 }
 
 
