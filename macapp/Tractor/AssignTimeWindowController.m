@@ -1,6 +1,8 @@
 #import "AssignTimeWindowController.h"
 #import "AppGroup.h"
-#import "ItemTableRowViewController.h"
+#import "ItemsOutlineRowViewController.h"
+#import "ItemViewController.h"
+#import "AppGroupViewController.h"
 
 @implementation AssignTimeWindowController
 
@@ -124,16 +126,24 @@
   return [self rowViewControllerForItem:item];
 }
 
-- (ItemTableRowViewController *)rowViewControllerForItem:(id)item
+- (ItemsOutlineRowViewController *)rowViewControllerForItem:(id)item
 {
-  return [[[ItemTableRowViewController alloc] initWithItem:item] autorelease];
+  ItemsOutlineRowViewController *ret = nil;
+
+  if ([item isKindOfClass:[AppGroup class]]) {
+    ret = [[[AppGroupViewController alloc] initWithItem:item] autorelease];
+  } else {
+    ret = [[[ItemViewController alloc] initWithItem:item] autorelease];
+  }
+
+  return ret;
 }
 
 #pragma mark - NSOutlineViewDelegate
 
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-  ItemTableRowViewController *rowViewController = [self rowViewControllerForItem:item];
+  ItemsOutlineRowViewController *rowViewController = [self rowViewControllerForItem:item];
   NSString *identifier = [rowViewController viewIdentifierForTableColumn:tableColumn];
   return [outlineView makeViewWithIdentifier:identifier owner:self];
 }

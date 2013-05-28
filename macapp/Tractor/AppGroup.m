@@ -85,7 +85,7 @@
 
 - (Project *)project
 {
-  return nil;
+  return [[[self items] objectAtIndex:0] project];
 }
 
 #pragma mark - Item methods
