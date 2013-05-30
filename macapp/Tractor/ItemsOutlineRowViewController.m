@@ -16,13 +16,19 @@
   [super dealloc];
 }
 
-- (NSString *)viewIdentifierForTableColumn:(NSTableColumn *)tableColumn
+- (NSString *)viewIdentifierForNameColumn
 {
-  return [tableColumn identifier];
+  return @"Name";
 }
 
-+ (NSSet *)keyPathsForValuesAffectingProject {
-  return [NSSet setWithObjects:@"item.project", nil];
+- (void)changeProjectTo:(Project *)project;
+{
+  // subclasses should implement this
+}
+
++ (NSSet *)keyPathsForValuesAffectingProject
+{
+  return [NSSet setWithObject:@"item.project"];
 }
 
 @end

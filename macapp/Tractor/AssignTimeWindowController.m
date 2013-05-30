@@ -42,7 +42,8 @@
 
   [selectedRowIndexes enumerateIndexesUsingBlock:^(NSUInteger row, BOOL *stop) {
     id item = [itemsOutlineView itemAtRow:row];
-    [item setProject:project];
+    ItemsOutlineRowViewController *controller = [item representedObject];
+    [controller changeProjectTo:project];
   }];
 }
 
@@ -52,6 +53,11 @@
   [noProjectMenuItem retain];
   [separatorMenuItem retain];
   [newProjectMenuItem retain];
+
+  NSString *unassignTitle = [noProjectMenuItem title];
+  NSFont *italicFont = [NSFont fontWithName:@"Helvetica Oblique" size:9.0];
+  NSAttributedString *italicUnassignTitle = [[[NSMutableAttributedString alloc] initWithString: unassignTitle attributes:@{NSFontAttributeName: italicFont }] autorelease];
+  [noProjectMenuItem setAttributedTitle:italicUnassignTitle];
 
   [projectsMenu removeAllItems];
 
@@ -86,7 +92,6 @@
   if (![self currentDate]) {
     [self setCurrentDate:[NSDate date]];
     [datePicker setDateValue:[self currentDate]];
-    // [self updateItemsTreeControllerContent]; <- automatically called when the datePicker changes
   } else {
     [self updateItemsTreeControllerContent];
   }
@@ -106,45 +111,17 @@
   }
 }
 
-#pragma mark - NSOutlineViewDataSource
-
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-  NSArray *items = item ? [item items] : [self items];
-  return [items count];
-}
-
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
-  return [[item items] count] > 0;
-}
-
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
-  NSArray *items = item ? [item items] : [self items];
-  return items[index];
-}
-
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item {
-  return [self rowViewControllerForItem:item];
-}
-
-- (ItemsOutlineRowViewController *)rowViewControllerForItem:(id)item
-{
-  ItemsOutlineRowViewController *ret = nil;
-
-  if ([item isKindOfClass:[AppGroup class]]) {
-    ret = [[[AppGroupViewController alloc] initWithItem:item] autorelease];
-  } else {
-    ret = [[[ItemViewController alloc] initWithItem:item] autorelease];
-  }
-
-  return ret;
-}
-
 #pragma mark - NSOutlineViewDelegate
 
 - (NSView *)outlineView:(NSOutlineView *)outlineView viewForTableColumn:(NSTableColumn *)tableColumn item:(id)item
 {
-  ItemsOutlineRowViewController *rowViewController = [self rowViewControllerForItem:item];
-  NSString *identifier = [rowViewController viewIdentifierForTableColumn:tableColumn];
+  NSString *identifier = [tableColumn identifier];
+
+  if ([identifier isEqualToString:@"Name"]) {
+    ItemsOutlineRowViewController *rowViewController = [item representedObject];
+    identifier = [rowViewController viewIdentifierForNameColumn];
+  }
+
   return [outlineView makeViewWithIdentifier:identifier owner:self];
 }
 
@@ -152,8 +129,16 @@
 
 - (void)updateItemsTreeControllerContent
 {
-  [self setItems:[[context items] appGroupsForDay:[self currentDate]]];
-  [itemsOutlineView reloadData];
+  NSArray *appGroups = [[context items] appGroupsForDay:[self currentDate]];
+
+  NSMutableArray *controllers = [NSMutableArray arrayWithCapacity:[appGroups count]];
+  for (AppGroup *appGroup in appGroups) {
+    AppGroupViewController *controller = [[AppGroupViewController alloc] initWithItem:appGroup];
+    [controllers addObject:controller];
+    [controller release];
+  }
+
+  [self setItems:controllers];
 }
 
 #pragma mark - addProjectSheetController

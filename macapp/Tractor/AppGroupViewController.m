@@ -1,28 +1,47 @@
 #import "AppGroupViewController.h"
 #import "AppGroup.h"
+#import "ItemViewController.h"
 
 @implementation AppGroupViewController
 
-- (NSString *)viewIdentifierForTableColumn:(NSTableColumn *)tableColumn
+- (NSString *)viewIdentifierForNameColumn
 {
-  NSString *identifier = [super viewIdentifierForTableColumn:tableColumn];
+  return [self isUntracked] ? @"ItalicCell" : @"ApplicationCell";
+}
 
-  if ([identifier isEqualToString:@"Name"]) {
-    AppGroup *appGroup = [self item];
-    if ([appGroup untracked]) {
-      identifier = @"ItalicCell";
-    } else {
-      identifier = @"ApplicationCell";
-    }
-  }
-
-  return identifier;
+- (void)dealloc
+{
+  [_children release];
+  [super dealloc];
 }
 
 - (NSString *)name
 {
   AppGroup *appGroup = [self item];
-  return [appGroup untracked] ? @"Away" : [appGroup app];
+  return [self isUntracked] ? @"Away" : [appGroup app];
+}
+
+- (NSArray *)children
+{
+  if (!_children) {
+    AppGroup *appGroup = [self item];
+    NSArray *items = [appGroup items];
+
+    _children = [[NSMutableArray alloc] initWithCapacity:[items count]];
+    for (Item *item in items) {
+      ItemViewController *controller = [[ItemViewController alloc] initWithItem:item];
+      [_children addObject:controller];
+      [controller release];
+    }
+
+  }
+  return _children;
+}
+
+- (NSUInteger)childCount
+{
+  AppGroup *appGroup = [self item];
+  return [[appGroup items] count];
 }
 
 - (NSImage *)icon
@@ -55,10 +74,16 @@
   return [appGroup project];
 }
 
-- (void)setProject:(Project *)project
+- (void)changeProjectTo:(Project *)project
 {
   AppGroup *appGroup = [self item];
-  [appGroup setProject:project];
+  [appGroup setItemsProject:project];
+}
+
+- (BOOL)isUntracked
+{
+  AppGroup *appGroup = [self item];
+  return [appGroup untracked];
 }
 
 

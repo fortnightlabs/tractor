@@ -6,10 +6,11 @@
   NSMutableArray *_items;
   NSTimeInterval _duration;
   NSDate *_start;
+  BOOL _settingItemsProject;
 }
 
 @property (nonatomic, retain) NSString *app;
-@property (nonatomic, assign) Project *project;
+@property (nonatomic, retain) Project *project;
 @property (nonatomic, readonly) NSString *title;
 @property (nonatomic, readonly) NSArray *items;
 @property (nonatomic, readonly) NSDate *start;
@@ -20,5 +21,6 @@
 
 - (id)initWithAppName:(NSString *)app;
 - (void)addItem:(Item *)item;
+- (void)setItemsProject:(Project *)project;
 
 @end

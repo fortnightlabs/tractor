@@ -3,19 +3,14 @@
 
 @implementation ItemViewController
 
-- (NSString *)viewIdentifierForTableColumn:(NSTableColumn *)tableColumn
+- (NSString *)viewIdentifierForNameColumn
 {
-  NSString *identifier = [super viewIdentifierForTableColumn:tableColumn];
+  return [self isUntitled] ? @"ItalicCell" : @"NormalCell";
+}
 
-  if ([identifier isEqualToString:@"Name"]) {
-    if ([self isUntitled]) {
-      identifier = @"ItalicCell";
-    } else {
-      identifier = @"NormalCell";
-    }
-  }
-
-  return identifier;
+- (BOOL)isLeaf
+{
+  return YES;
 }
 
 - (NSString *)name
@@ -66,7 +61,7 @@
   return [item project];
 }
 
-- (void)setProject:(Project *)project
+- (void)changeProjectTo:(Project *)project
 {
   Item *item = [self item];
   [item setProject:project];

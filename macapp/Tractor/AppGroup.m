@@ -60,6 +60,12 @@
 - (void)dealloc
 {
   [self setApp:nil];
+  [self setProject:nil];
+
+  for (Item *item in [self items]) {
+    [item removeObserver:self forKeyPath:@"project"];
+  }
+
   [_items release], _items = nil;
   [super dealloc];
 }
@@ -76,16 +82,14 @@
   return nil;
 }
 
-- (void)setProject:(Project *)project
+- (void)setItemsProject:(Project *)project
 {
+  _settingItemsProject = YES;
   for (Item *item in [self items]) {
     [item setProject:project];
   }
-}
-
-- (Project *)project
-{
-  return [[[self items] objectAtIndex:0] project];
+  _settingItemsProject = NO;
+  [self setProject:project];
 }
 
 #pragma mark - Item methods
@@ -94,14 +98,66 @@
 {
   [_items addObject:item];
 
-  // update duration
-  _duration += [item duration];
+  [self updateDuration:[item duration]];
+  [self updateStart:[item start]];
+  [self updateProject:[item project]];
+  [self observeProjectChangeForItem:item];
+}
 
-  // update start
-  NSDate *itemStart = [item start];
-  if (!_start || ([itemStart compare:_start] == NSOrderedAscending)) {
+- (void)updateDuration:(NSTimeInterval)duration;
+{
+  _duration += duration;
+}
+
+- (void)updateStart:(NSDate *)start
+{
+  if (!_start || ([start compare:_start] == NSOrderedAscending)) {
     [_start release];
-    _start = [itemStart retain];
+    _start = [start retain];
+  }
+}
+
+- (void)updateProject:(Project *)project
+{
+  if ([[self items] count] == 1) {
+    [self setProject:project];
+  } else if (project != [self project]) {
+    [self setProject:nil];
+  }
+}
+
+- (void)recaclulateProject
+{
+  Project *project = [[[self items] objectAtIndex:0] project];
+
+  for (Item *item in [self items]) {
+    if ([item project] != project) {
+      project = nil;
+      break;
+    }
+  }
+
+  [self setProject:project];
+}
+
+- (void)observeProjectChangeForItem:(Item *)item
+{
+  [item addObserver:self
+         forKeyPath:@"project"
+            options:(NSKeyValueObservingOptionNew |
+                        NSKeyValueObservingOptionOld)
+            context:NULL];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+  if ([keyPath isEqual:@"project"]) {
+    if (!_settingItemsProject) {
+      [self recaclulateProject];
+    }
   }
 }
 

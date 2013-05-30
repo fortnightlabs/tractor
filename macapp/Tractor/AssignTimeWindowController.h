@@ -2,7 +2,7 @@
 #import "ManagedObjectContext.h"
 #import "AddProjectSheetController.h"
 
-@interface AssignTimeWindowController : NSWindowController<NSDatePickerCellDelegate, NSOutlineViewDelegate, NSOutlineViewDataSource, NSWindowDelegate, AddProjectSheetControllerDelegate> {
+@interface AssignTimeWindowController : NSWindowController<NSDatePickerCellDelegate, NSOutlineViewDelegate, NSWindowDelegate, AddProjectSheetControllerDelegate> {
   IBOutlet NSDatePickerCell *datePicker;
   IBOutlet NSOutlineView *itemsOutlineView;
 
@@ -20,7 +20,5 @@
 @property (nonatomic, retain) NSArray *items;
 
 - (IBAction)showNewProjectSheet:(id)sender;
-
-- (void)updateItemsTreeControllerContent;
 
 @end
